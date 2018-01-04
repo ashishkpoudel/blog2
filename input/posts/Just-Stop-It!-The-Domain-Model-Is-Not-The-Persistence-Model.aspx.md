@@ -7,7 +7,7 @@ I think 90% of times I see a DDD question on StackOverflow, it's something like 
 
  **NO!** This is WRONG (99% of times anyway)!
 
- I've said it [before](http://www.sapiensworks.com/blog/post/2012/02/08/Understanding-the-Model-in-MVC.aspx) and I repeat it:
+ I've said it before and I repeat it:
 
 
   * The **Domain Model** models real-life problems and solutions, it models BEHAVIOR.
