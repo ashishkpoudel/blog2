@@ -19,12 +19,9 @@ install:
   - 7z x ..\Wyam\Wyam.zip -o..\Wyam -r
 
 build_script:
-- ps: >-
-	Copy-Item config.wyam ..\Wyam
-
-	Copy-Item Wyam.PrevNext.dll ..\Wyam
-
-	..\Wyam\wyam -i .\input --output ..\output
+ - ps: Copy-Item config.wyam ..\Wyam
+ - ps: Copy-Item Wyam.PrevNext.dll ..\Wyam
+ - ..\Wyam\wyam -i .\input --output ..\output
 	
 on_success:
   # Switch branches to gh-pages, clean the folder, copy everything in from the Wyam output, and commit/push
