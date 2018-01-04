@@ -2,10 +2,10 @@ branches:
   only:
     - master
     
-environment:
+#environment:
   #access_token:
     # EDIT the encrypted version of your GitHub access token
-    #secure: ABCDEFG...
+    #secure: ABCDEFG
 
 install:
   - git submodule update --init --recursive
