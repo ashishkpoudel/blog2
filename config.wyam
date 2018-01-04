@@ -63,7 +63,7 @@ Index(),
     ),
 	Razor(),  // Compile and render the page template
 	
-	WriteFiles((d,ctx)=>new FilePath("home.html")) 
+	WriteFiles((d,ctx)=>new FilePath("index.html")) 
 	
 );
 Pipelines.Add("Pages",
