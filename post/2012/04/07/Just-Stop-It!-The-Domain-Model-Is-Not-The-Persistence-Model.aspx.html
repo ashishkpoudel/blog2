@@ -87,7 +87,7 @@
  
 <p>I think 90% of times I see a DDD question on StackOverflow, it's something like this: 'I have this domain object' and the code shows an EF (Entity Framework) or NH (NHibernate) entity.</p>
 <p><strong>NO!</strong> This is WRONG (99% of times anyway)!</p>
-<p>I've said it <a href="http://www.sapiensworks.com/blog/post/2012/02/08/Understanding-the-Model-in-MVC.aspx">before</a> and I repeat it:</p>
+<p>I've said it before and I repeat it:</p>
 <ul>
 <li>The <strong>Domain Model</strong> models real-life problems and solutions, it models BEHAVIOR.</li>
 <li>The <strong>Persistence Model</strong> models what and how data is stored, it models STORAGE STRUCTURE.  See? They have pretty different  purposes. The domain is the reason the application exists and everything gravitates around it. The domain should not depend on anything,especially not on a persistence IMPLEMENTATION DETAIL like EF or NH. When you design the Domain Entities, they don't know anything about persistence. Persistence, database, doesn't exist.</li>
