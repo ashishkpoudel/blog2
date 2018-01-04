@@ -1,0 +1,132 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Don&#x27;t Use ORM Entities To Model The Domain</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Don&#x27;t Use ORM Entities To Model The Domain"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Don&#x27;t Use ORM Entities To Model The Domain</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>20 April 2012</b></span> in <a href="/tags.html#Best practices">Best practices</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>Initially I wanted to include this in the Entities and Value Objects explained post, but I think this matter deserves its own post.</p>
+<p>When you model the Domain, for your own good FORGET about databases, ORMs etc! Because the design of the model must be dictated by the domain. If you put an id in a domain object, then it better have its use within the Domain. Keeping that code clean, will make the code much easier to understand and to modify.</p>
+<p>If it happens that a type will be persisted with an Id because that's what the ORM wants, you should NOT change the Domain model. Put the id in the Persistence Model and leave the Domain Model as it was.  If you change the Domain object just for the sake of another layer, in fact just for the sake of a different BC, that model becomes inconsistent within its BC. Yes an Id doesn't change much or making a property virtual (because that's what the ORM requires), but it tells to a future maintainer that it's ok to subclass the type and override a property, because well... that's why is virtual in the first place, right?</p>
+<p>What do you do, you put in the comments : &quot;this is in fact a Value Object but we need the Id for NHibernate, DO NOT change!&quot; or &quot;This property is virtual because EF requires it&quot;? Come on, you want to do DDD and have a robust code, or you just want to throw buzzwords around, while continuing to do the things 'the old way' ? If that app, switches to use Redis or MongoDb, an ORM becomes useless, but hey, your 'domain' objects are tied to the ORM requirements so you just keep them. Of course, now any (new) developer will the comments then asks himself: &quot;Huh, we don't use NHibernate... Wtf is this?!&quot;</p>
+<p>The objects , entities that you define for ORM use are for ORM use ONLY. Those objects must evolve according to the storage needs. If you used them for the domain, you'll have an abomination, the entity will serve two masters and none of them well. Any time you'll change one because one master needs it, you have to account for the effects from the other master. You know not to mix the UI with calling the db, why do you think is ok to use a Persistence implementation detail as the base for your Domain?</p>
+<p>&quot;It's about DRY&quot; you might say. I like DRY, but here you just invoke it as an excuse for mixing responsibilities.  You don't have identical code in two layers, they might 'share' 90% but they are different and those differences matter. Those will give you the headaches. Even if at one point they are 100% identical: each code was written with <strong>DIFFERENT INTENTION</strong> in mind. It just happened to be identical. If you keep them separate, then one can change without messing the other.</p>
+<p>What about maintainability, you ask? This is maintainable code. The code you can understand in a second and you can modify in a minute. If you are worried about writing the same properties, there is an old technique which usually is abused but here it's very appropriate: it's called copy/paste and it will solve this specific problem in a second.</p>
+<p> What's more difficult: to copy/paste in 2 seconds every time it makes sense or to keep one code base and then praying that modifying something didn't break the functionality in another layer?</p>
+<p>That's why I'm a firm <a href="http://www.sapiensworks.com/blog/post/2012/04/07/Just-Stop-It!-The-Domain-Model-Is-Not-The-Persistence-Model.aspx">supporter of the separation</a> of the Domain Model from the Persistence Model when using an ORM. The ORM docs might say that you model the domain entities, but in fact you'll be always modelling the Persistence Model because this the ORM's purpose: to handle the persistence of objects in a relational database. It's not its purpose to model domain behavior.</p>
+<p>Model the Domain entities for the Domain needs, model the Persistence entities for the Persistence needs. Don't forget that an ORM is ALWAYS <a href="http://www.sapiensworks.com/blog/post/2012/04/15/The-Repository-Pattern-Vs-ORM.aspx">an implementation detail of the Persistence</a>.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2012/04/19/invoking-a-private-method-on-a-subclass.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2012/04/20/ddd-entities-and-value-objects-explained.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

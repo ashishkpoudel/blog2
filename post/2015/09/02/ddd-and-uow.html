@@ -1,0 +1,136 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | The Unit of Work and Transactions In Domain Driven Design</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  The Unit of Work and Transactions In Domain Driven Design"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>The Unit of Work and Transactions In Domain Driven Design</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>02 September 2015</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>As a principle, the Unit of Work (UoW) pattern is about ensuring consistency by <strong>persisting</strong> a group of changes as a unit (all at once). Basically, it's an all or nothing operation and the point of this is we don't want to end up with inconsistencies. This is the main idea and it's implemented by a db transaction or the ORM's DbCOntext, ISession etc which themselves in the end will use a db transaction.</p>
+<p>As you can see, the UoW is very useful and very persistence related. The problem is many devs trying to do DDD, end up needing something that surely looks like a UOW. However, its not.</p>
+<p>Let's take a very simple example, the old 'I want to move an amount from one account to other' which from the Domain point of view is a domain transaction, which involves 2 instances of the same aggregate (the Account). It doesn't matter if the aggregates are different, what's important is that for the transaction to complete, we need to change 2 aggregates. This looks very similar to the Db's <code>BeginTransaction -&gt; Commit</code> usage and naturally, devs consider this should be a UoW and try to implement it.</p>
+<p>And that's how we end up with abominations like the UoW interface which 'holds' all the repositories that would be involved in the transaction. Too bad those devs are trying to implement a <strong>domain use case</strong> with a <strong>persistence related design pattern</strong>.</p>
+<p>Here's the thing, first of all, in a real world business process (a sequence of chained business use cases) there's very little of the 'all changes or nothing' mindset. Further more, a business process can involve different bounded contexts (BC) and can run for days until it  completes. Using the UoW pattern is a very naive solution and worse, from a technical point of view, it complicates things a lot when you're dealing with different db types or a distributed app.</p>
+<p>Obviously, we need consistency in our process and at the end things will be consistent, but not immediately. As I've said above, a business process can be a series of use cases. Consistency is achieved when <em>all</em> use cases involved in the process are completed. One at the time. Because, in the end, it's all about manipulating aggregates, and the only thing we need to care about is maintaining the involved aggregates consistency.</p>
+<p>If you look at the real world, you'll see that very few things are immediate consistent, and 'thing' is the proper term, because <strong>all real world processes</strong> are <em>eventual consistent</em>, meaning they achieve consistency one operation at the time. Only whole objects are immediately consistent, because otherwise they wouldn't exist. Picture a chair (with 4 legs), if we remove a leg then it's not consistent anymore and it becomes a broken (not valid/usable) chair. The chair <em>needs immediate consistency</em> for it to exist as a valid object.</p>
+<p>In DDD, the concepts are implemented as aggregates,  therefore only aggregates need to be immediate consistent. But any <em>use case</em> regardless of how many operations it has is basically a smaller process which is naturally eventual consistent.</p>
+<p>Btw, when dealing with a  business  process involving more than one BC i.e involves aggregates that are in different BCs, first of all, it means that we have at least one use case per bounded context. Each use case will publish domain events that will be used by the interested BC to 'trigger' their use cases. If at the end, we need to publish a notification that the process ended, then you're dealing with a saga i.e a long running process.</p>
+<p>From a strategical DDD point of view, a domain use case encapsulates one <strong>BC specific</strong> business operation. This means that a domain use case is limited only to the model of the containing BC. If your use case needs to use an aggregate which is a part of another BC, then the modelling is wrong (either the use case or the BC).</p>
+<p>So, a domain use case implementation is responsible to keep each involved aggregate consistent, but one at the time and this can be a problem from a technical point of view if the app goes down from whatever reason. That's why we need to ensure that a started use case/process needs to complete and we can use a durable service bus for that purpose (which will re-execute the use case). And we also need <em>every</em> use case to be <a href="http://blog.sapiensworks.com/post/2015/08/26/How-To-Ensure-Idempotency">idempotent</a> in order to prevent duplicate operations and this means that every contained aggregate change needs to be idempotent as well. The basic principle here is that we achieve idempotency by making every component idempotent.</p>
+<p>In conclusion, a domain process or a domain use case should be considered as being eventual consistent and thus the UoW doesn't apply here. But aggregates need to be immediately consistent and thus, the UoW is usable as a repository implementation detail. But only for one aggregate (one consistency group) at the time.</p>
+<p>P.S: The &quot;transferring money from one account to another&quot; example gives the impression that somehow this is a 'all or nothing' type of operation and we need to change both accounts in the same time to keep things consistent. Not really. It's still an eventual consistent operation (actually there are 2, one for each aggregate) and if the use case is interrupted midway because of a technical reason, it's not a problem, because the aggregates themselves are always in consistent state. What is 'inconsistent' is the use case itself, because it hasn't completed yet, but this is a non issue because a use case is technically a service, so it doesn't have its own persisted state therefore there's no consistency to care about. Other use cases depending on our case completion will wait for the 'TransferCompleted' event in order to start.</p>
+<p>P.P.S.: The above example is very often used in coding tutorials, although it's the wrong way to model such operation. It's good enough for an example to show other things, but a bad model to implement in a real app.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2015/09/01/in-depth-cqrs.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2015/11/23/ddd-is-not-programming.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

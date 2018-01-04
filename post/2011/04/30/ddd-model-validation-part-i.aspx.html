@@ -1,0 +1,191 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | DDD Model Validation (Part I)</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  DDD Model Validation (Part I)"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>DDD Model Validation (Part I)</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>30 April 2011</b></span> in <a href="/tags.html#.net">.net</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>In my <a href="http://www.sapiensworks.com/blog/post/2011/04/16/Whats-Wrong-With-Model-Validation-In-AspNet-Mvc.aspx">previous post</a> I wrote about the shortcoming of the default validation of Asp.Net MVC. That doesn't mean though, that a Asp.Net MVC aplication can't use a different validation approach. Phil Haack and his team implemented this way as a helper to cut down some of the boring repetitive tasks. But when dealing with a complex application there are simply better ways to do it in order to mantain better code quality and in this post I'll show you one.</p>
+<p>Keep in mind that I'm using a simple example and this approach might seem overengineered but the purpose is to illustrate some concepts.</p>
+<p>Let's say we want to make a blog (yes, the standard demo nowadays) and of course we need to model the posts. Usually you will have a Post entity , but let's think a bit. What do I need to show on a post? Something like that:</p>
+<ul>
+<li>PostId</li>
+<li>Publishing Date</li>
+<li>Title</li>
+<li>Content</li>
+<li>Tags</li>
+<li>Author Name</li>
+<li>Author Id</li>
+<li>List of categories names and id</li>
+<li>Number of comments</li>
+<li>List of comments</li>
+<li>Number of views</li>
+</ul>
+<p>I can create a Post entity that will contain all those properties, but when I'm creating or editing a post, what do I need? First some properties:</p>
+<ul>
+<li>PostId (null if creating)</li>
+<li>Title</li>
+<li>Content</li>
+<li>Tags</li>
+<li>Categories Id</li>
+<li>AuthorId</li>
+<li>PublishingDate</li>
+<li>Is Published</li>
+</ul>
+<p>and I also need to have validation and further processing behaviour. It's obvious that while we have most of the same properties, there are differences between what I need when creating/updating the post and what I need to display it.</p>
+<p>So here is the <strong>first principle</strong>: we have different models for either create/update (command) and select (query). Each model has common properties but that's about it. If we try to have only 1 model then you'll either have a weak model (simple structure) for write or more complex that it's needed  for read. It's cumbersome to force a single model for different purposes so the first step is to separate them. We'll have a rich model for create/update and a lightweight model (simple POCO) for displaying.</p>
+<p>Since we're dealing with the validation topic the focus is on the rich model, the PostEntity might look like this</p>
+<pre><code class="language-csharp">public class PostEntity
+{
+    public int Id {get;set;}
+
+    [Required]
+[StringLength(100)]
+public string Title {get; private set;}
+
+[Required]
+public string Content {get; private set;}
+
+public DateTime PublishedDate {get; set;}
+
+public bool IsPublished {get;set;}
+
+private PostEntity() {}
+
+public PostEntity CreateFrom(CreatePostData data, IValidationDictionary errors)
+{
+   if (data.Validate&lt;PostEntity&gt;(errors)) 
+{
+   var post= new PostEntity(){Title=data.Title, Content=data.Content, IsPublished=data.IsPublished};
+ return post;
+} 
+return null;
+}
+ 
+}
+public class CreatePostData
+{
+public string Title {get;set;}
+public string Content {get;set;}
+public bool IsPublished {get;set;}
+}
+</code></pre>
+<p>I'm keeping it at a minimum so that it's easier to follow. The model looks pretty ordinary, but you can see that you annotated the entity instead of the viewmodel (as you would have done normally). The CreatePostData (the view model)  is simply a DTO which will be used to create the PostEntity. The entity knows how to validate itself with the same DataAnnotations (i'm using my <a href="http://cavemantools.codeplex.com/">CavemanTools</a> validator helper for that).</p>
+<p>However you can see something unusual: the constructor is private and we have a static factory method to create the entity. Why is that? The purpose is to ensure that the enitity is always in a valid state and we also want to return error messages to the user. The factory method validates the data according to validation attributes and then it returns a new PostEntity if everything is ok or null if there are errors.</p>
+<p>And that's the <strong>second principle</strong>: an object should be always in a valid state or it shouldn't exist at all. This principle ensures that we don't have to ask ourselves if we validated the object nor we need a <em>IsValid</em> property to check and that alone  helps us avoid potential bugs. It also means that you don't have to rely on an external service to validate. For example, the Post Entity can be used without change with asp.net web forms or a web service.</p>
+<p>But that's not all, in the next post we'll see how we can refactor the entity to give our model more flexibility.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+
+ <a class="next" href="/post/2012/02/09/the-essence-of-domain-driven-design.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

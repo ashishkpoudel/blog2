@@ -1,0 +1,256 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Confirmation Modal With Aurelia And Bootstrap</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Confirmation Modal With Aurelia And Bootstrap"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Confirmation Modal With Aurelia And Bootstrap</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>16 December 2015</b></span> in <a href="/tags.html#Frontend">Frontend</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>I have lots of (different) items in my view that can be deleted. And I want a confirmation dialog to pop up when I press the delete button. In this post I'll show you how to implement this functionality in <a href="http://aurelia.io/">Aurelia</a> using Bootstrap for styling.</p>
+<p>One thing that I like about Aurelia is how easy it is to write maintainable components. So, I will create a <code>delete</code> custom element that will trigger our confirmation dialog. Because it's a generic element, I want it to be easily &quot;attached&quot; to any item that needs to be deleted. And I want to set the confirmation text and the action to be execute on &quot;yes&quot; .</p>
+<h2>The Confirmation Dialog</h2>
+<p>But first things first. We need to create the modal that will be invoked by Delete. Luckily, there is a plugin for Aurelia that does that. Let's install it.</p>
+<pre><code>jspm install aurelia-dialog
+</code></pre>
+<p>In order to let aurelia know about it, we need to add this bit in the configuration function</p>
+<pre><code class="language-javascript">
+export function configure(aurelia) {
+  aurelia.use
+    .standardConfiguration()
+    .developmentLogging()
+	.plugin(&quot;aurelia-dialog&quot;)
+	;
+
+  aurelia.start().then(() =&gt; aurelia.setRoot());
+}
+
+</code></pre>
+<p>Now we need to create the modal element itself. The plugin comes with a 'Prompt' example, but we won't be using it. So let's create the confirmation modal. First the view model (I'm using Typescript)</p>
+<pre><code class="language-javascript">
+import {autoinject} from &quot;aurelia-framework&quot;;
+import {DialogController} from 'aurelia-dialog';
+
+&#64;autoinject
+export class Confirm {
+
+    constructor(public controller: DialogController) {
+      
+    }
+    message =&quot;&quot;;
+    activate(data) {
+        this.message = data;
+    }
+}
+
+</code></pre>
+<p>Now, the view. We can use most of the Bootstrap styling without the js functionality.</p>
+<pre><code class="language-html">
+&lt;template&gt;
+    &lt;div tabindex=&quot;-1&quot; role=&quot;dialog&quot;&gt;
+        &lt;div class=&quot;modal-dialog&quot;&gt;
+            &lt;div class=&quot;modal-content&quot;&gt;
+                &lt;div class=&quot;modal-header&quot;&gt;
+                    &lt;button type=&quot;button&quot; click.trigger=&quot;controller.cancel()&quot; class=&quot;close&quot; aria-label=&quot;Close&quot;&gt;&lt;span aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;/span&gt;&lt;/button&gt;
+                    &lt;h4 class=&quot;modal-title&quot;&gt;Confirmation&lt;/h4&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;modal-body&quot;&gt;
+                   ${message}?
+                &lt;/div&gt;
+                &lt;div class=&quot;modal-footer&quot;&gt;
+                    &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; click.trigger=&quot;controller.cancel()&quot;&gt;No!&lt;/button&gt;
+                    &lt;button type=&quot;button&quot; class=&quot;btn btn-danger&quot; click.trigger=&quot;controller.ok()&quot;&gt;Yes&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;&lt;!-- /.modal-content  --&gt;
+        &lt;/div&gt;&lt;!-- /.modal-dialog --&gt;
+    &lt;/div&gt;&lt;!-- /.modal --&gt;
+
+&lt;/template&gt;
+
+
+</code></pre>
+<p>Note how the dialog div is missing the usual &quot;modal fade&quot; classes. It's because aurelia will take care of creating, displaying and hiding the modal. The rest of the code is pretty much self explaining. We control the outcome of the dialog invoking the controller (DialogController) <code>ok()</code> or <code>cancel()</code> methods. Both will trigger the closing of the dialog and will set up the result that we can use further.</p>
+<p>One thing worth mentioning is you can pass a model to the <code>ok</code> method. For example, if the dialog was for a form, whose fields were bound to a model, I could pass that model to be returned like <code>controller.ok(myModel)</code> . You can read more about this on the <a href="https://github.com/aurelia/dialog#using-the-plugin">plugin page</a> .</p>
+<p>Now, we won't be using this element directly, we'll be opening the dialog through <code>DialogService</code>. Or more precisely the <code>Delete</code> element will do that.</p>
+<h2>The Delete element</h2>
+<p>This is what will be actually using in our templates. Let's see its definition:</p>
+<pre><code class="language-javascript">
+import {autoinject, bindable} from &quot;aurelia-framework&quot;;
+import {DialogService} from &quot;aurelia-dialog&quot;;
+import {Confirm} from &quot;./confirm&quot;;
+
+&#64;autoinject
+export class Delete {
+   
+    &#64;bindable
+    action=()=&gt;{};
+
+    &#64;bindable
+    msg = &quot;Are you sure&quot;;
+
+    constructor(public dlg:DialogService) {
+  
+    }
+
+    do() {
+        this.dlg.open({
+            viewModel: Confirm
+            , model: this.msg
+        }).then(result =&gt; {
+            if (result.wasCancelled) return;
+            this.action();
+        });
+    }
+}
+
+</code></pre>
+<pre><code class="language-html">&lt;template&gt;
+    &lt;button class=&quot;btn btn-danger&quot; click.trigger=&quot;do()&quot;&gt;Delete&lt;/button&gt;
+&lt;/template&gt;
+
+</code></pre>
+<p>Nothing complex here. The element will accept the values of the message and of the action to be taken on &quot;Yes&quot;. Then when the button is clicked, the <code>do()</code> method invokes the DialogService's <code>open()</code> method, passing the type of the confirmation's view model and the model (in this case a simple string) used by it. The method returns a Promise where we can set up what happens after the dialog is closed.</p>
+<p>The 'result' argument has 2 fields: <code>wasCancelled</code> which is obvious what it does and <code>output</code> which is the modified model that is returned by the dialog (if any). In this scenario we don't need it.</p>
+<h2>Actual usage</h2>
+<p>Now we can use our <code>Delete</code> element where we need it. As an example, let's say I have a list of names</p>
+<pre><code class="language-javascript">
+    data=['John','Mary','David'];
+    
+    delete(name:string){
+       
+       this.data.splice(this.data.indexOf(name), 1);            
+        
+    }
+
+    deleteOther(){
+        console.log(&quot;something deleted&quot;);
+    }
+
+</code></pre>
+<pre><code class="language-html">&lt;require from=&quot;./delete&quot;&gt;&lt;/require&gt;
+
+&lt;delete msg=&quot;Are you sure&quot; action.call=&quot;deleteOther()&quot;&gt;&lt;/delete&gt;
+
+&lt;ul&gt;
+ &lt;li repeat.for=&quot;item of data&quot;&gt;
+     ${item}
+       &lt;delete msg=&quot;Are you sure you want to delete ${item}&quot; action.call=&quot;$parent.delete(item)&quot;&gt;&lt;/delete&gt;   
+ &lt;/li&gt;
+&lt;/ul&gt;
+   
+</code></pre>
+<p>Note the binding to a function syntax <code>action.call</code> . This tells Aurelia to execute the specified expression every time <code>action()</code> is invoked.</p>
+<p>And this is it! As you've seen, it's quite simple to create your own custom dialog with Aurelia while using Bootstrap CSS. Before I knew about the dialog plugin, I had my own custom element which used Bootstrap js and jQuery and while it's not complicated, it's not as clean and smooth as it is with 'aurelia-dialog'. This means that even if there is no plugin to offer the functionality you need, it's still trivial to use existing Boostrap or JQuery plugins.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2015/11/23/ddd-is-not-programming.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2015/12/17/ddd-rich-domain.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

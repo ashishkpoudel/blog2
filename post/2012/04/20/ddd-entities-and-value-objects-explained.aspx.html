@@ -1,0 +1,138 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | DDD - Entities And Value Objects Explained</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  DDD - Entities And Value Objects Explained"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>DDD - Entities And Value Objects Explained</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>20 April 2012</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>There's no DDD if there are no entities or value objects lying around, eh? Before we continue, let me clear up a thing: Entities and Value Objects (VO) are concepts. Depending on the context, an object can be both and its implementation can be slightly different.</p>
+<p>The point is you don't start with: let's find the Entities and each entity will be a subclass of an abstract Entity class. You try to model a problem or a solution using objects. The fact that in a context one will be used as an Entity will simply emerge when you design the model. Very little matters for the app that an object is an Entity, however it might matter when you communicate with other developers.</p>
+<h3>The Entity</h3>
+<p>An object with an id is an entity. That was simple, wasn't it? You put an id in a class, when you still want to refer to a certain object even if all the other variants have changed. That's why you put an id, the id never changes and you know that you will always get the same object when you ask for the User with Id = 8. The user object can change the name or email properties, in fact it can change all the properties it will still be the same User with id 8.</p>
+<h3>The Value Object</h3>
+<p>This is an object without id. If any of its variants changes, the object is considered to be another object. Most of the time a Tag is a VO. Change the tag name and suddenly you have another tag. That's because the object's identity is its value (hence the name Value Object).  One thing to note is that is good practice to make the VO immutable, that is once it's created it can never be changed. That doesn't mean it can't have behavior. But that behavior can't change state, it will just return another object.</p>
+<p>You may wonder why you should use VOs. The Value Objects are ideal to encapsulate bits of domain. If something is a VO, I know that something is valid and immutable. An Entity might change state at any time but the VO is always 'stable'.</p>
+<h3>Is it my object an Entity or a Value Object?</h3>
+<p>That's the most tricky part and here is where everyone has problems. But here's a tip that will save you lots of headache: a concept from the domain can be an entity or a VO depending on  the context. This means that before you decide that object X is an entity, first you have to identify the BC where object X will be used . You'd be surprised how often you'd be using Value Objects.</p>
+<p>You have a car, which among other things has 4 wheels and a engine. Is it the engine an entity ? Well, let's suppose the car works with the engine type ENG-3. When the engine breaks, can you replace it with another engine of type ENG-3? Pretty much yes. In this case an engine is a VO. That's because you don't care about that specific engine, you care only about an engine (any engine) that is compatible with your car.</p>
+<p>But, if you're a car engine manufacturer, you want to keep track of each engine produced. In that case, the engine is an entity as the company cares about each specific engine. If you built your own engine for your car, then the engine is an entity because even if it's broken, you won't replace it. You'll repair it and change its components but it will still be the same engine.</p>
+<p>You buy a book form the library. If you lose that book and buy another one and you don't care which is which, then the book is a VO. But if the first book you buy is signed by the author (a very limited edition), then it's very hard to replace it. You care about that specific book, another simple copy won't replace it. That book is an entity.</p>
+<p>You have a heart. You do care about your heart but you can replace it with a compatible heart and your body can function further. The heart is a Value Object. You, as a person, are you an entity? Well that depends too. For your friends and family you are, no matter what you change about yourself is still you.</p>
+<p>However, for your employer you might be just a VO. If your employer just need someone with C# skills, anyone who knows C# can qualify. Today is you, tomorrow will be another person (perhaps with a lower wage). In this case, the developer is a VO. But if you're John the star developer, you are an entity. John can't be replaced with another developer. John matters for the company because he is John. The big boss knows about John, not about a C# developer.</p>
+<p>As you can see, everything matters according to context, that's why it doesn't make sense to start modelling by saying: I have this  entity. You have an object and the domain context will reveal if it will be treated like an Entity or like VO. A very BIG confusion happens because of mixing layers. Especially when using an ORM, there you can have Entities which are a detail of the ORM. In other cases you might want to store some objects using an id. But that id makes sense only when dealing with the db (a different context). The Tag is a VO for the Domain, but it's an entity for the Persistence.</p>
+<p>So design your objects to form a valid model only for a specific context. Just inheriting from an abstract Entity class doesn't mean that object <strong>IS</strong> a real Domain entity and if that base class doesn't have some common behavior useful for ALL entities, <strong>don't do it</strong>.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2012/04/20/dont-use-orm-entities-to-model-the-domain.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2012/06/28/why-domain-driven-design-is-hard.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

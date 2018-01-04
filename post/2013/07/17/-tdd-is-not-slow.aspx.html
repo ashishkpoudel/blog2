@@ -1,0 +1,134 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | TDD Is Not Slow</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  TDD Is Not Slow"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>TDD Is Not Slow</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>17 July 2013</b></span> in <a href="/tags.html#Best practices">Best practices</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>I think the 'slowness' of TDD is the most frequently used argument for not using TDD. But I don't agree with it and I see it more of a reason to continue the 'old ways', a resistance to change. Here is why.</p>
+<p>Writing code without checking if it works (does what it should do, not just compiles) is very poor practice. I understand that in some cases you just modify something small and because of the time constraints you just ship it but this is just a reason to have automated tests. The point is you should always make sure that the code works properly.</p>
+<p>In the old days, the most common method was to write the code and then manually test it (enter data, click, view results etc). Guess what, it takes time. And lots of it. Nevermind the fact that when you find a bug you have to spend TIME hunting it down. The fix it, then test again manually. I think this is the most time consuming and cumbersome way to do it. And the sad part is that for many (young) developers this is the only way to test.</p>
+<p>Because doing things manually takes time, someone thought about having automated tests. Click once, the tests run and after a few seconds (minutes if there are thousands of tests) you ca see the result. Of course, this means someone has to write those tests. Have you written unit tests after you wrote the code? I bet you did and so did I. It's boring as hell with the added 'benefit' that knowing how the code is implemented allows you to come up with some well 'optimized' tests exactly for that implementation. Oh, and hope the code is easily testable in the first place, or else you'd waste even more time to refactor it.</p>
+<p>See? Testing without TDD is already slow. Yes, the only way to be fast is to not test at all, but then we're talking about delivering a poor product. If I am the client, I want a good product. I'm not paying you to deliver shoddy work, that will break as soon as an user touch it or every time a feature needs to be added. Poor product means a lot of time wasted fixing bugs and very slow changes. Your 'fast' delivery turns out to be a very SLOW maintenance and progress. And angry stakeholders.</p>
+<p>Back to testing, automated testing doesn't mean TDD. You have to write tests first before coding to be come TDD. And here's an interesting fact about it: you have to actually think what you expect from a piece of code BEFORE you write it! Madness! Instead of just writing code, you have to think before you code! And if you can't formulate properly an expectation, HOW do you write the code in the first place?!</p>
+<p>If the automated tests are slow, that's because your code might have unwanted coupling to slow dependencies such as the db or a remote service. But they are still faster than testing manually.</p>
+<p>Writing tests first doesn't slow you down. It makes you think properly about what functionality you need to implement. It also ensures the code is working properly. When you finished coding, you KNOW the code can be trusted and you have the prove (tests) for that. And I can bet that the code developed with TDD looks quite different than the code developed without it.</p>
+<p>Writing tests before or after coding will take some time. But you'll have to do it anyway, if you want to deliver a proper product that is. Instead of assuming that it works or getting bored writing tests after, be efficient and <strong>combine designing and testing into one action</strong>. TDD SAVES time while ensuring quality. I don't know many people who love spending their time hunting down bugs with their boss (or client) heavy breathing over their necks, so TDD helps you keep the bug hunting at very low levels. It's a win-win for both the developer and the client.</p>
+<p>The problem with adopting TDD is that is a 'weird' way of doing things. And you have to change the way you're doing things. But you know, everybody looks for tools and methods that helps them do things faster and better. You're using a (micro)ORM because it makes it easier to work with a db. You can use the TDD tool as way to develop good code faster.</p>
+<p>As a client, I'm not paying you to deliver me thousands of lines of code, I couldn't care less about that. I care about YOU delivering me a product that works properly and it's not bug ridden and it's easier to implement changes. I will promptly forget that you delivered version one in 2 weeks if I have to waste another 2 weeks to fix (some of) the bugs, then you need more and more time to implement changes. I'm not paying you to fix bugs and I want my software to evolve fast so I can keep up with the competition.</p>
+<p>TDD makes you faster in developing and maintaining the product for its whole life span. In the realities of today, you have more and more software that needs to adapt and evolve in real time, as opposed to 'next version'. In the age of web apps, PaaS, SaaS etc next version means tomorrow.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2013/07/05/startitup-120-released.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2013/08/07/developer-vs-programmer-take-2.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | DDD - The Bounded Context Explained</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  DDD - The Bounded Context Explained"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>DDD - The Bounded Context Explained</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>17 April 2012</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>What is a Bounded Context (BC) you ask? Well let's see the definition<br />
+&quot;The delimited applicability of a particular model. BOUNDING CONTEXTS gives team members a clear and shared understanding of what has to be consistent and what can develop independently.&quot;<br />
+All clear now? Yeah.. thought so.</p>
+<p>BC  is one of the hardest DDD principle to explain, but it is probably the most important , because you can't do DDD without a BC.  So, you have to understand how to identify a BC before actually getting to Aggregate Roots, Aggregates, Entities and Value Objects. So let's try again: A context means a <strong>specific responsibility</strong>. A bounded context means that responsibility is enforced with <strong>explicit boundaries</strong>.</p>
+<p>Meet John, a developer at the company X. Meet Rita, she's an accountant at the same company. John works in the IT department. Rita works in the Accounting department. The IT department is a <strong>bounded context</strong>. It has the responsibility to handle everything IT related in the company. The Accounting department handles everything accounting related, including payrolls. Both have very precise responsibilities and their boundaries are pretty explicit.</p>
+<p>I'm not talking about the fact they're in different offices. They have their <strong>own internal organization</strong>, their own internal rules, employees etc. John doesn't go into Rita's office and modifies the payroll and Rita doesn't go to John's and modifies his code. They could but it would be such a scandal, because if they do that they would be <strong>overstepping their boundaries</strong>. If Rita finds a bug in the accounting software (developed in-house) she calls the IT department to handle it. She doesn't fire up Visual Studio and starts messing with the code. It isn't her responsibility and she doesn't know how to do it anyway, even if she knows that VS is the program used by John to write code. In fact, VS would be a very strange software on an accountant's computer. Like wise, the payroll files or invoices have no place in the IT department.</p>
+<p>Of course, when John has a problem involving payroll he asks Rita to look into it. Both are respecting each others boundaries and act according to their responsibility. But the IT department is itself organized in 2 groups:  the software development group and the administration group. The first group implements features and fixes bugs. The second group handles servers. Each group is a bounded context as well. They have their own responsibility and explicit boundaries. The DBA doesn't write C# code and John doesn't mess with server configs. Everyone acts according to their responsibility and within their boundaries.</p>
+<p>So, the IT department is a BC. John is part of its model. In fact everything which makes sense (developers, servers etc) is part of the BC and it should be consistent inside it (the developers should write software and not be asked about invoices). This means that Rita has no place in IT and she shouldn't handle anything IT related. Rita is part of the Accounting BC. She might be visiting the IT office but then she's just a visitor passing by, she has no meaning for the department and nobody expects her to write code or act as a developer. John might have a crush on Rita and spends some time in her office, but that doesn't make John an accountant.</p>
+<p>We pretty much see that those BC are kinda autonomous and they don't overlap. Furthermore, if an object from one BC (X) goes to other BC (Y) it doesn't mean it's now part of the latter, it's treated just like a simple object with no meaning for Y. So they are almost independent but how can they work together? I mean the IT and Accounting have to work together from time to time. They do that by talking to the right person :) . When Rita needs a new software feature, she can tell John, but John's manager (meet Andrew) ultimately decides if and what features will be added.</p>
+<p>Andrew is the man to speak to when you want new features or even to fix some bugs. Andrew is the IT manager and he tells John (or anyone else from IT)  what to do next. Rita can't ignore Andrew because this is the rule in the IT department: Andrew decides. You have to present your ideas the way Andrew wants them or else they're refused. It goes without saying that if the demands have no meaning for IT they are automatically refused. Andrew is the <strong>Anti Corruption Layer</strong> of the IT BC. Nothing gets past him and what passes by, it's adapted to fit the IT department's internal organization.</p>
+<p>These examples are simple but what about our code? We do want our BCs to be decoupled so BC1 should not know about BC2. Well, the idea is that one BC should not know about the internals of other BC, those two can use common objects (DTOs) to pass messages directly one to another or a specialized adapter which knows how to talk with both BC. The preferred method though via Domain Events (basically the Observer pattern used at a higher level).</p>
+<p>Wow, long post, but I hope now you have a much clear understanding of what a bounded context is. Here is some examples of common bounded contexts: the application itself, the UI layer, the Domain Layer and perhaps the smallest BC of them all: the object, any object.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2012/04/15/the-repository-pattern-vs-orm.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2012/04/18/ddd-aggregates-and-aggregates-root-explained.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

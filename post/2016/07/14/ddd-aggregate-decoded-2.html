@@ -1,0 +1,139 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | DDD Decoded - The Aggregate and Aggregate Root Explained (Part 2)</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  DDD Decoded - The Aggregate and Aggregate Root Explained (Part 2)"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 2)</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>14 July 2016</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p><a href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-1">Part 1</a> was about the theory, now let's see an actual modelling example.</p>
+<p>To keep things simple, let's say we're building a banking app and we've identified this desired functionality: &quot;A client can transfer money from one account to another&quot;. Let's see... are we changing the business state here? Yes, we do and the result of this operation is that the client's accounts will have different values. So, we need update both accounts: <code>account1.Add(value)</code> and <code>account2.Substract(value)</code> and case closed. Right?</p>
+<p>It's easy to be superficial and to conclude that we need to modify 2 accounts, but let's take things slowly. We know we are in a &quot;change&quot; operation i.e a <em>command</em> business case, so we need to identify the concepts involved, especially the one in charge of changes. The domain expert tells us that we're dealing with a <strong>transfer</strong> between 2 accounts or, to be more precise, with an operation which <strong>credits</strong> one account and <strong>debits</strong> the other account. Actually, our business case is to <em>register a money transfer</em> and we've already identified 3 concepts: <code>Transfer</code>, <code>Debit</code> and <code>Credit</code>, with the mention that the Transfer is actually defined by at least a Debit and a Credit.</p>
+<p>But before we continue, let's <em>identify</em> the <strong>change</strong> itself: a new transfer that will be part of the banking system state, and we express that change as a domain event named &quot;Transfer Registered&quot;. We always express changes as &quot;what happened since the last change&quot; and the past tense is important: it tells us that, from a business point of view, the change is <em>already done</em>. From a technical point of view, we need to persist that change, but that's an implementation detail and the application service's job. Remember that in the real world, changes just happen and they persist, but in the virtual world we need an explicit &quot;save to database&quot;.</p>
+<p>When modelling, the idea is to try to find out the change first i.e the result of the operation and then to identify all the details we need to end up with that change. At this point we have a couple of concepts,but is that all? Well, no... The domain expert tells us that each transfer should be identifiable (hint!) through a unique <strong>number</strong>, generated according a specific formula and that we need to know the date and time of creation. And the Debit and Credit must be of different accounts.</p>
+<p>We have now enough information to determine our <code>Transfer</code> aggregate:</p>
+<ul>
+<li>composition: <code>Transfer number</code>, <code>Credit</code>, <code>Debit</code>, <code>Creation date</code></li>
+<li>rules: All components are required. <code>Credit</code> and <code>Debit</code> target different accounts.</li>
+</ul>
+<p>But this is only the top-level view. We need to dig a bit deeper and to identify what each component means, we want to find out their models. <code>Transfer number</code> is a group of numbers and letters that must be unique and are determined according to a business formula. Basically a <strong>value</strong> respecting some constraints.</p>
+<p><code>Debit</code> is an interesting concept. It's basically a number that needs to be &gt;= 0 but, it needs to be associated with an account or to be more precise, with an <strong>account number</strong>. Aha! We found another concept. <code>Account number</code> is a group of numbers generated by a business formula as well. So, <code>Debit</code> is a composite value of an amount and an <code>Account number</code>.</p>
+<p><code>Credit</code>is similar to <code>Debit</code> only the name is different, but that's enough to be treated as a separated concept which just happens to have the same composition.
+<code>Creation date</code> is just a simple datetime value.</p>
+<p>Now, all these components, are <strong><a href="http://blog.sapiensworks.com/post/2016/07/29/DDD-Entities-Value-Objects-Explained">value objects</a></strong> from DDD point of view, because each represents a value with a business meaning and unlike a <code>Transfer</code> they don't need to have an explicit component that acts as an identifier. Their value is their identity.</p>
+<p>We see here how we've identified the business concepts, rules and constraints required to make the change and how we've organized them into a group of named models. This is our aggregate, the relevant abstraction responsible for controlling the domain state change.</p>
+<p>Onward to <a href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-3">part 3: coding - C#</a></p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2016/07/14/ddd-aggregate-decoded-1.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2016/07/23/ddd-eventual-consistency.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

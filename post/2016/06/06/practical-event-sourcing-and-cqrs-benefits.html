@@ -1,0 +1,141 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Practical Event Sourcing And CQRS Benefits</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Practical Event Sourcing And CQRS Benefits"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Practical Event Sourcing And CQRS Benefits</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>06 June 2016</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>If you're reading this post, you already know Event Sourcing (ES), but I want to look at things from a higher level point of view than usual.</p>
+<h2>We employ a more strategic, domain driven approach</h2>
+<p>We know ES is about Domain Events. But a Domain Event is just a technical a way of saying <strong>business state change</strong>. Instead of being concerned with objects, data structures or db schemas, we're modelling things closer to how the business functionality is. We can't do proper ES if you don't <em>identify</em> the relevant (from the business point of view) domain state changes, <strong>the events</strong> (sic) that are shaping the domain state and activity. Sure, you can design your Domain Events (you shouldn't!) and use the most technically correct ES with a nice Event Store and CQRS and messaging etc, but you'd be throwing away the strategic advantage which allows you to build maintainable apps. It's not about learning and applying a recipe, but adopting a certain mindset.</p>
+<p>While the recipe part (implementation) is simple to learn, the first main benefit of ES is that we look at the domain as an always evolving event-driven system.</p>
+<h2>Business state is just a snapshot of a business process</h2>
+<p>And I'm not talking about EventStore snapshots, that's an implementation detail. When the domain state is <strong>expressed</strong> as a stream of events, we're just <em>recording</em> the relevant bits of the business process. And we can navigate through the 'timeline' from the beginning til the current moment, seeing what the business state is at various points in time. Basically, we have the role of business activity custodians, in charge of enforcing the correct history. It's a little bit more than just storing data structures in a database, isn't it? ;)</p>
+<h2>One source of &quot;truth&quot;, but multiple views</h2>
+<p>And speaking of correctness, the recorded events are the only stored information that we can trust as being valid and consistent. This means that once an event has been recorded (stored), it shouldn't be changed. It's part of the history now, it's <strong>immutable</strong>, set in stone, read-only etc. We don't rewrite history here!</p>
+<p>We can't change the past but we can look at it from different points of view so, we can project that stream of events into specialized read-only models, containing only the relevant data for a certain use case. And we can store those models as a technical convenience.</p>
+<h2>Working with persistence is easier</h2>
+<p>The events don't appear from thin air. They are the outcome of a business use case or process. When we want to change things, we're using a model specifically designed for that purpose. In CQRS it's called a <em>command model</em>, in DDD is called an <em>aggregate</em>. That model contains the relevant business rules, and based on them and the user input it outputs one or more changes, <strong>expressed</strong> as domain events.</p>
+<p>The beautiful thing here is that, regardless of how simple or complex a model is, the result is always a <strong>bunch of events</strong> that are sent to an Event Store. No mapping from objects to tables, no db schema required, no serialization gotchas. Restoring a previous state simply means replaying the recorded events. No memento, manual or automatic mapping involved. Best of all, you don't need to expose anything that a business object doesn't need to expose. In ES a business object rarely has public properties.</p>
+<p>Sure, you might say &quot;it's simple when we deal with the command model, but what about queries? Maintaining a separate read model is added complexity&quot;. Hm... yes and no.
+First of all, a read model can refer to persistence schema and/or an object that represents a read-only view of some concept. In ES we need a queryable persistence model, however that's like having a simple CRUD app where the data has already been validated and where constraints don't really matter. It literally is a matter of updating/querying some tables, things a junior can do easily. 2 simple tasks are always performed faster than 1 complex task.</p>
+<h2>Easier to unit test</h2>
+<p>Initializing a model's state to test a certain behaviour is trivial. Just create the events and feed them to the model. Testing a command model is trivial; invoke the command method then just ask the model for the generated events. 'nuff said.</p>
+<h2>Increased developer productivity and a maintainable and scalable application</h2>
+<p>Not messing around with ORMs, or 'adjusting' objects to fit the persistence tool, means less complications and more value delivered. Properly understanding the domain, (you know, the functionality we need to implement) means we're focusing on the relevant things, writing less code and/or simpler solutions.</p>
+<p>Our models are more granular, therefore easier to understand and to maintain (time saved). We understand and embrace the different nature of changing the business state and reading state and we optimize for each scenario. Recording events in their raw form, instead of storing a limited interpretation, allows us the flexibility of multiple views and the ability to deliver future value. Best of all, the 'hard' part of all this is to pay attention to the domain expert, the technical implementation is simple enough.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2016/05/30/organizing-app-startup-tasks-with-startitup-2.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2016/07/14/ddd-aggregate-decoded-3.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

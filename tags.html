@@ -1,0 +1,552 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | </title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  "/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    
+    $(document).ready(function($) {
+      var h=window.location.hash.substr(1);
+
+      $('#accordion').find('.accordion-toggle').click(function(){
+  
+        //Expand or collapse this panel
+        $(this).next().slideToggle('fast');
+  
+        //Hide the other panels
+        $(".accordion-content").not($(this).next()).slideUp('fast');
+  
+      });
+      
+      var el=$('.accordion-toggle').filter(function(idx,el){
+        return $(el).text()==h;
+      }).first().click().scroll();
+      
+    });
+  </script>
+
+  <div id="accordion">
+    
+  <h4 class="accordion-toggle">Domain driven design (42)</h4>
+  <div class="accordion-content">
+
+    <div>
+		<a href="post/2017/10/30/is-ddd-es-cqrs-changing-domain.html">Using DDD, CQRS, Event Sourcing With A Vague, Fast Changing Domain</a> - 30 October 2017
+    </div>
+     
+    <div>
+		<a href="post/2017/08/23/handling-business-rules-ddd.html">How To Handle Business Rules in Domain Driven Design</a> - 23 August 2017
+    </div>
+     
+    <div>
+		<a href="post/2016/08/24/ddd-relationships.html">DDD Decoded - Domain Relationships Explained</a> - 24 August 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/08/22/ddd-cqs-cqrs.html">DDD Decoded - Modelling with CQS</a> - 22 August 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/08/19/ddd-application-services-explained.html">DDD Decoded - Application Services Explained</a> - 19 August 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/08/16/ddd-domain-services-explained.html">DDD Decoded - Domain Services Explained</a> - 16 August 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/08/12/ddd-bounded-contexts-explained.html">DDD Decoded - Bounded Contexts Explained</a> - 12 August 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/07/29/ddd-entities-value-objects-explained.html">DDD Decoded - Entities and Value Objects Explained</a> - 29 July 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/07/23/ddd-eventual-consistency.html">DDD Decoded - Don&#x27;t Fear Eventual Consistency</a> - 23 July 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/07/14/ddd-aggregate-decoded-2.html">DDD Decoded - The Aggregate and Aggregate Root Explained (Part 2)</a> - 14 July 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/07/14/ddd-aggregate-decoded-1.html">DDD Decoded - The Aggregate and Aggregate Root Explained (Part 1)</a> - 14 July 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/07/14/ddd-aggregate-decoded-3.html">DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</a> - 14 July 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/06/06/practical-event-sourcing-and-cqrs-benefits.html">Practical Event Sourcing And CQRS Benefits</a> - 06 June 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/05/12/ddd-is-expensive-myth.html">DDD Is Expensive Is A Myth</a> - 12 May 2016
+    </div>
+     
+    <div>
+		<a href="post/2015/12/17/ddd-rich-domain.html">Rich Domain Doesn&#x27;t Mean Fat Objects</a> - 17 December 2015
+    </div>
+     
+    <div>
+		<a href="post/2015/11/23/ddd-is-not-programming.html">Domain Driven Design (DDD) Is Not Programming</a> - 23 November 2015
+    </div>
+     
+    <div>
+		<a href="post/2015/09/02/ddd-and-uow.html">The Unit of Work and Transactions In Domain Driven Design</a> - 02 September 2015
+    </div>
+     
+    <div>
+		<a href="post/2015/08/26/how-to-ensure-idempotency.html">How To Ensure Idempotency In An Eventual Consistent DDD/CQRS Application</a> - 26 August 2015
+    </div>
+     
+    <div>
+		<a href="post/2015/05/25/ddd-concepts-as-one-liners.html">DDD Concepts As One Liners</a> - 25 May 2015
+    </div>
+     
+    <div>
+		<a href="post/2014/10/31/ddd-identifying-bounded-contexts-and-aggregates-entities-and-value-objects.aspx.html">DDD - Identifying Bounded Contexts and Aggregates, Entities and Value Objects</a> - 31 October 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/09/04/mixing-the-domain.aspx.html">Mixing the Domain</a> - 04 September 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/06/11/domain-driven-design-modelling-example-brain-and-neurons.aspx.html">Domain Driven Design Modelling Example - Brain and Neurons</a> - 11 June 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/05/22/aggregate-roots-should-look-after-their-own-events.aspx.html">Aggregate Roots Should Look After Their Own Events</a> - 22 May 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/05/20/is-orderline-an-entity-or-a-value-object.aspx.html">Is OrderLine an Entity or A Value Object</a> - 20 May 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/04/29/-modelling-ddd-behaviour-and-use-cases-by-example.aspx.html">Modelling DDD Behaviour And Use Cases By Example</a> - 29 April 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/03/27/domain-event-design-principles.aspx.html">Domain Event Design Principles</a> - 27 March 2014
+    </div>
+     
+    <div>
+		<a href="post/2013/12/16/bulk-actions-with-ddd-and-cqrs.aspx.html">Bulk Actions With DDD And CQRS</a> - 16 December 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/11/19/ef-code-first-is-bad-for-your-domain.aspx.html">EF Code First Is Bad For Your Domain</a> - 19 November 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/11/08/domain-modelling-object-behaviour-and-use-cases.aspx.html">DDD Modelling - Object Behaviour and Use Cases</a> - 08 November 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/10/23/-why-you-should-always-use-cqrs-with-ddd.aspx.html">Why You Should Always Use CQRS with DDD</a> - 23 October 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/10/18/modelling-aggregate-roots-relationships.aspx.html">Modelling Aggregate Roots Relationships</a> - 18 October 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/05/13/7-biggest-pitfalls-when-doing-domain-driven-design.aspx.html">7 Biggest Pitfalls When Doing Domain Driven Design</a> - 13 May 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/05/01/ddd-persisting-aggregate-roots-in-a-unit-of-work.aspx.html">DDD - Persisting Aggregate Roots In A Unit Of Work</a> - 01 May 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/01/15/domain-driven-design-aggregate-root-modelling-fallacy.aspx.html">Domain Driven Design - Aggregate Root Modelling Fallacy</a> - 15 January 2013
+    </div>
+     
+    <div>
+		<a href="post/2012/06/28/why-domain-driven-design-is-hard.aspx.html">Why Domain Driven Design is Hard</a> - 28 June 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/04/20/ddd-entities-and-value-objects-explained.aspx.html">DDD - Entities And Value Objects Explained</a> - 20 April 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/04/18/ddd-aggregates-and-aggregates-root-explained.aspx.html">DDD - The Aggregate And Aggregate Root Explained</a> - 18 April 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/04/17/ddd-the-bounded-context-explained.aspx.html">DDD - The Bounded Context Explained</a> - 17 April 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/04/07/just-stop-it!-the-domain-model-is-not-the-persistence-model.aspx.html">Just Stop It! The Domain Model Is Not The Persistence Model</a> - 07 April 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/04/04/domain-events-toolkit-released-and-my-git-experience.aspx.html">Domain Events Toolkit Released And My Git Experience</a> - 04 April 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/02/10/entities-vs-value-objects-by-example.aspx.html">Entities vs Value Objects by Example</a> - 10 February 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/02/09/the-essence-of-domain-driven-design.aspx.html">The essence of Domain Driven Design</a> - 09 February 2012
+    </div>
+         </div>
+  <h4 class="accordion-toggle">Best practices (30)</h4>
+  <div class="accordion-content">
+
+    <div>
+		<a href="post/2014/06/04/unit-of-work-is-the-new-singleton.aspx.html">Unit Of Work is the new Singleton</a> - 04 June 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/06/02/the-repository-pattern-for-dummies.aspx.html">The Repository Pattern Explained (For Dummies)</a> - 02 June 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/05/27/tips-to-be-more-productive-(netjava-edition).aspx.html">Tips To Be More Productive (.Net/Java Edition)</a> - 27 May 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/05/19/-what-is-the-best-way-to-do-this-what-is-the-best-design-pattern-for-this-problem.aspx.html">What is the best way to do this? What is the best design pattern for this problem?</a> - 19 May 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/05/17/strategies-to-restore-domain-entities-.aspx.html">Strategies To Restore Domain Entities</a> - 17 May 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/05/05/the-di-(ioc)-container-explained.aspx.html">The DI (IoC) Container Explained</a> - 05 May 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/04/22/bending-the-principles-separation-of-concerns.aspx.html">Bending The Principles - Separation of Concerns</a> - 22 April 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/01/15/dry-code-rich-code.aspx.html">DRY Code, Rich Code</a> - 15 January 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/01/13/do-either-ddd-or-ddd-but-not-ddd.aspx.html">Do Either DDD or DDD But Not DDD</a> - 13 January 2014
+    </div>
+     
+    <div>
+		<a href="post/2013/12/09/when-not-to-use-design-patterns.aspx.html">When Not To Use Design Patterns</a> - 09 December 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/10/07/tips-and-tricks-for-the-repository-pattern.aspx.html">Tips And Tricks For The Repository Pattern</a> - 07 October 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/09/16/crud-vs-ddd.aspx.html">CRUD vs DDD</a> - 16 September 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/07/17/-tdd-is-not-slow.aspx.html">TDD Is Not Slow</a> - 17 July 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/06/27/the-fallacy-of-yagni.aspx.html">The Fallacy of YAGNI</a> - 27 June 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/06/20/say-yes-to-the-repository-in-your-dal.aspx.html">Say &quot;Yes&quot; To The Repository In Your DAL</a> - 20 June 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/05/16/how-to-design-easily-testable-aspnet-mvc-action-filters.aspx.html">How To Design Easily Testable Asp.Net Mvc Action Filters</a> - 16 May 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/05/15/you-might-be-misusing-the-orm.aspx.html">You Might Be Misusing The ORM</a> - 15 May 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/04/10/benefits-of-using-a-di-container.aspx.html">Benefits Of Using A DI Container</a> - 10 April 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/03/18/http-module-dependecy-injection-with-autofac-gotcha.aspx.html">Http Module Dependecy Injection with Autofac Gotcha</a> - 18 March 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/01/24/repository-pattern-and-iqueryable.aspx.html">Repository Pattern and IQueryable</a> - 24 January 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/01/18/repository-vs-document-store-vs-everything-else.aspx.html">Repository vs Everything Else</a> - 18 January 2013
+    </div>
+     
+    <div>
+		<a href="post/2012/12/29/how-to-write-loosely-coupled-code.aspx.html">How to Write Loosely Coupled Code</a> - 29 December 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/11/01/repository-vs-dao.aspx.html">Repository vs DAO</a> - 01 November 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/10/10/do-we-need-the-repository-pattern.aspx.html">Do We Need The Repository Pattern?</a> - 10 October 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/04/20/dont-use-orm-entities-to-model-the-domain.aspx.html">Don&#x27;t Use ORM Entities To Model The Domain</a> - 20 April 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/04/15/the-repository-pattern-vs-orm.aspx.html">The Repository Pattern  Vs ORM</a> - 15 April 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/04/06/optimum-ways-to-restore-a-domain-object-in-a-repository.aspx.html">Optimum Ways To Restore A Domain Object From Persistence</a> - 06 April 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/03/05/the-generic-repository-is-an-anti-pattern.aspx.html">The Generic Repository Is An Anti-Pattern</a> - 05 March 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/02/22/the-repository-pattern-explained.aspx.html">The Repository Pattern Explained</a> - 22 February 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/02/16/how-ive-quit-using-the-singleton-pattern.aspx.html">How I&#x27;ve quit using the Singleton Pattern</a> - 16 February 2012
+    </div>
+         </div>
+  <h4 class="accordion-toggle">.net (11)</h4>
+  <div class="accordion-content">
+
+    <div>
+		<a href="post/2016/05/30/organizing-app-startup-tasks-with-startitup-2.html">Organizing App Startup Tasks With StartItUp</a> - 30 May 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/05/14/discriminated-unions-option-csharp.html">Using Discriminated Unions In C#</a> - 14 May 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/03/02/ado-net-manual-mapping.html">The Myth of Manual POCO Mapping Performance</a> - 02 March 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/03/01/password-hashing-dot-net.html">C# (.Net) Password Hashing The Easy Way</a> - 01 March 2016
+    </div>
+     
+    <div>
+		<a href="post/2015/07/18/cqrs-generic-controller.html">Make Your CQRS Web App More Maintainable With a Generic Controller</a> - 18 July 2015
+    </div>
+     
+    <div>
+		<a href="post/2015/06/16/using-razor-with-nancyfx.html">How To Use Razor with NancyFx</a> - 16 June 2015
+    </div>
+     
+    <div>
+		<a href="post/2014/06/20/introducing-make-aka-makesharp.aspx.html">Introducing Make# aka MakeSharp</a> - 20 June 2014
+    </div>
+     
+    <div>
+		<a href="post/2013/07/05/startitup-120-released.aspx.html">StartItUp 1.2.0 Released</a> - 05 July 2013
+    </div>
+     
+    <div>
+		<a href="post/2012/04/19/invoking-a-private-method-on-a-subclass.aspx.html">Invoking A Private Method On A Subclass</a> - 19 April 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/03/02/when-to-use-the-static-keyword-in-net.aspx.html">When To Use The Static Keyword In .Net</a> - 02 March 2012
+    </div>
+     
+    <div>
+		<a href="post/2011/04/30/ddd-model-validation-part-i.aspx.html">DDD Model Validation (Part I)</a> - 30 April 2011
+    </div>
+         </div>
+  <h4 class="accordion-toggle">Business (7)</h4>
+  <div class="accordion-content">
+
+    <div>
+		<a href="post/2016/05/01/how-to-fix-the-hiring-process.html">Let&#x27;s Fix The Broken Hiring Process</a> - 01 May 2016
+    </div>
+     
+    <div>
+		<a href="post/2014/04/05/developing-software-is-a-marathon.aspx.html">Software Development Is A Marathon</a> - 05 April 2014
+    </div>
+     
+    <div>
+		<a href="post/2013/09/13/-the-secret-of-maintainable-code.aspx.html">The Secret Of Maintainable Code</a> - 13 September 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/08/07/developer-vs-programmer-take-2.aspx.html">Developer vs Programmer. Take 2</a> - 07 August 2013
+    </div>
+     
+    <div>
+		<a href="post/2012/11/23/maintainable-code-has-business-value.aspx.html">Maintainable Code Has Business Value</a> - 23 November 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/11/20/coder-vs-software-developer.aspx.html">Coder vs Software Developer</a> - 20 November 2012
+    </div>
+     
+    <div>
+		<a href="post/2012/11/14/testing-has-no-business-value.aspx.html">Testing has no business value</a> - 14 November 2012
+    </div>
+         </div>
+  <h4 class="accordion-toggle">Architecture (5)</h4>
+  <div class="accordion-content">
+
+    <div>
+		<a href="post/2014/04/17/the-most-important-layer-of-them-all.aspx.html">The Most Important Layer Of Them All</a> - 17 April 2014
+    </div>
+     
+    <div>
+		<a href="post/2014/03/26/rich-domain-is-solid-anaemic-domain-is-an-anti-pattern.aspx.html">Rich Domain Is SOLID , Anaemic Domain Is An Anti Pattern</a> - 26 March 2014
+    </div>
+     
+    <div>
+		<a href="post/2013/04/30/message-driven-architecture-explained-eventual-consistency-and-saga.aspx.html">Message Driven Architecture Explained - Eventual Consistency and Saga</a> - 30 April 2013
+    </div>
+     
+    <div>
+		<a href="post/2013/04/19/message-driven-architecture-explained-basics.aspx.html">Message Driven Architecture Explained - Basics</a> - 19 April 2013
+    </div>
+     
+    <div>
+		<a href="post/2012/11/18/the-data-access-layer-(dal)-explained.aspx.html">The Data Access Layer (DAL) Explained</a> - 18 November 2012
+    </div>
+         </div>
+  <h4 class="accordion-toggle">Cqrs (4)</h4>
+  <div class="accordion-content">
+
+    <div>
+		<a href="post/2015/09/01/in-depth-cqrs.html">An In-Depth Look At CQRS</a> - 01 September 2015
+    </div>
+     
+    <div>
+		<a href="post/2015/07/20/cqrs-immediate-feedback-web-app.html">CQ(R)S And Providing Immediate Feedback In A Web App Using A Service Bus</a> - 20 July 2015
+    </div>
+     
+    <div>
+		<a href="post/2014/05/08/a-way-to-provide-immediate-feedback-with-cqrs-commands.aspx.html">A Way To Provide Immediate Feedback In CQRS</a> - 08 May 2014
+    </div>
+     
+    <div>
+		<a href="post/2013/05/04/cqrs-explained.aspx.html">CQRS Explained</a> - 04 May 2013
+    </div>
+         </div>
+  <h4 class="accordion-toggle">Frontend (3)</h4>
+  <div class="accordion-content">
+
+    <div>
+		<a href="post/2016/03/19/cqs-api-client-with-aurelia.html">A CQS Api Client With Aurelia and TypeScript</a> - 19 March 2016
+    </div>
+     
+    <div>
+		<a href="post/2016/01/25/aurelia-submit-on-enter.html">Submit on Enter With Aurelia</a> - 25 January 2016
+    </div>
+     
+    <div>
+		<a href="post/2015/12/16/confirmation-modal-with-aurelia-and-bootstrap.html">Confirmation Modal With Aurelia And Bootstrap</a> - 16 December 2015
+    </div>
+         </div>
+  <h4 class="accordion-toggle">Programming (3)</h4>
+  <div class="accordion-content">
+
+    <div>
+		<a href="post/2015/08/10/to-null-or-not-to-null.html">To Null Or Not TO Null aka Is Null Really Evil?</a> - 10 August 2015
+    </div>
+     
+    <div>
+		<a href="post/2015/07/30/functional-programming-vs-oop.html">Functional Programming vs OOP</a> - 30 July 2015
+    </div>
+     
+    <div>
+		<a href="post/2015/06/19/functional-programming-holy-wars.html">Functional Programming Holy Wars</a> - 19 June 2015
+    </div>
+         </div>
+</div>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

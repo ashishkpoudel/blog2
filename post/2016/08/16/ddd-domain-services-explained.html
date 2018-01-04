@@ -1,0 +1,138 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | DDD Decoded - Domain Services Explained</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  DDD Decoded - Domain Services Explained"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>DDD Decoded - Domain Services Explained</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>16 August 2016</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>Domain services are a bit confusing at first, when you don't know exactly what a an Application Service is. Also, many developers try to cram a lot of business rules in their <a href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-1">Aggregates</a>, when a Domain Service (DS) would be more appropriate. But let's start with the beginning....</p>
+<h1>Why do we need Domain Services?</h1>
+<p>Some business rules don't make sense to be part of an Aggregate. For example, you want to check an account balance before debiting an account. Or you want to see if a certain operation is allowed by the business rules (not to be mistaken for user authorization). Or you want to perform a simple calculation according to domain rules. Basically, any business rule required to move forward a business case, which doesn't belong to an aggregate should be a Domain Service. This is the DDD term for <strong>business behaviour</strong> outside an aggregate or a value object.</p>
+<h1>How to identify a Domain Service (DS)?</h1>
+<p>The easiest way is to simply check if the rules are having to do with business constraints required to maintain an aggregate invariants, including its value objects. If they're not, they're a DS, even if it seems related to that aggregate somehow. Many times you need to generate a value object that will be part of the aggregate. For ex: you need a <code>Tax Calculator</code> behaviour which will generate a <code>Taxes</code> value object which is a part of the <code>Invoice</code> Aggregate.</p>
+<p>In other cases, you might need to allow an operation. Remember the <a href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-2">transfer money example</a>? Wha if we have a rule that says that you can't debit the account id the amount is lower than the balance? In this scenario we're actually dealing with 2 Domain Services: one is used to calculate the <code>AccountBalance</code> Value Object (VO) the other encapsulates the &quot;amount must be greater than the balance&quot; rule.</p>
+<h1>What about the Anaemic Domain anti-pattern?</h1>
+<p>In a business case we can use multiple DS and this might look like the Anaemic Domain. But it's not, the reason being that Aggregates should be as small as possible, not because someone said so, but because they should contain <strong>only the relevant behaviour</strong> for that model. Not <em>every</em> related behaviour. If something is 'outside' an Aggregate, then it's probably is a Domain Service.</p>
+<h1>Implementation tips</h1>
+<p>A DS is just a name signaling business behaviour. It doesn't mean you have to implement it in one way or another. In many cases you can <strong>implement</strong> all the domain services from that <a href="http://blog.sapiensworks.com/post/2016/08/12/DDD-Bounded-Contexts-Explained">Bounded Context</a> as (static) functions in one class, while in other cases you might want one class per DS. As with everything, it depends.</p>
+<p>A DS should be visible and consumed inside that Bounded Context only! Yes, you can define interfaces that can be used by your application service, they're great for testing, however their concrete implementation should be in the same BC as the business cases where it's used.</p>
+<h2>External services</h2>
+<p>Let's say we need to calculate tax but the domain expert says they're using some website to do it (and luckily for you, it provides an API and a client library). We need that functionality, but it's implementation is not part of our Domain. This is what I call an External Service. The easiest way to use it is to define an abstraction (interface part of your BC) that will act as if it's a Domain Service, however its implementation will be part of the Infrastructure and it will act as a wrapper around the client library. This is how we keep things decoupled. If later the calculation will be performed in-house, just implement a new class inside that BC and reconfigure the DI Container. Simple stuff.</p>
+<p>What if we need a service which is part of our app but part of another BC? For a monolith, you can cut corners and use it directly (assuming you weighted in the consequences). For a distributed app, I'd suggest the External Service approach. In the end, for the BC it's something outside its boundaries, it doesn't matter where the actual functionality is implemented as long as it's not inside the boundaries. For the BC's point of view, it's an external service.</p>
+<h1>Conclusion</h1>
+<p>We have Domain Services simply because we want to keep a concept's model relevant, so any behaviour which doesn't <em>naturally</em> fit that model needs to be expressed somehow. Also DS shouldn't care about state, they represent domain behaviour only (their implementation should be stateless).</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2016/08/12/ddd-bounded-contexts-explained.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2016/08/19/ddd-application-services-explained.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

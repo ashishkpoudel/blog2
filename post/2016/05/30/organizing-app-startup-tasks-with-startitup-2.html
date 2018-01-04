@@ -1,0 +1,336 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Organizing App Startup Tasks With StartItUp</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Organizing App Startup Tasks With StartItUp"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Organizing App Startup Tasks With StartItUp</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>30 May 2016</b></span> in <a href="/tags.html#.net">.net</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>Every time I start a new project I go through the same ritual: configure logging, setup DI Container, configure data mapper, service bus, event store etc. Ok, that's not really a problem, 'cause I don't do that every day, but I do need to change some of this stuff often enough to require a more organized approach.</p>
+<p>For some time, I've had a small library that allowed me to organize the startup tasks into classes, but I needed a bit more flexibility: the ability to pass values/context between tasks without much ceremony. And this is how version 2 of <a href="https://github.com/sapiens/StartItUp">StartItUp</a> came to be. But let's see how it makes things easier.</p>
+<p>Well, here's a self explaining screenshot</p>
+<p><img src="http://i.imgur.com/gZl3Lja.png" alt="Imgur" /></p>
+<p>All tasks are classes named according to the &quot;ConfigTask_[order]_[TaskName]&quot; convention.</p>
+<p>`AppSettings' is the ... settings object that in most apps would be a static class, but I prefer an instance that I can register in the DI Container as a singleton if I need to inject it somewhere. It has options like email addresses, logging directory, db connection string etc. It's also used as a state to be shared by the config tasks.</p>
+<pre><code class="language-csharp">
+ public class AppSettings : StartupContext
+    {
+       
+        public AppSettings(IAppBuilder owin)
+        {
+            ContextData[&quot;owin&quot;] = owin;
+            LogDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, &quot;App_Data&quot;) + Path.DirectorySeparatorChar;
+#if DEBUG
+            IsDebug = true;
+#endif
+        }
+
+        public bool IsDebug { get; set; }
+
+        public string DbConnection { get; set; } = LocalDb;
+
+        public string LogDirectory { get; set; }
+
+     
+    }
+
+</code></pre>
+<p>I should have private setters, but meh...  Let's talk about some interesting stuff: the class inherits from <code>StartupContext</code>, defined in <code>StartItUp</code>, this is useful for passing values or using helpers like Autofac extension methods (see below). It also has a dependency on <code>IAppBuilder</code> because we are in an OWIN app and it will be needed to setup the web stuff.</p>
+<p>Let's see a bit of logging configuration (with Serilog)</p>
+<pre><code class="language-csharp"> public class ConfigureLogging
+    {
+        public void Run(AppSettings cfg)
+        {
+            var tpl = &quot;{Timestamp:G} |{Level}|{Message}{NewLine:l}{Exception:l}&quot;;
+
+            var logConfig = new LoggerConfiguration();
+            if (cfg.IsDebug)
+            {
+                logConfig.MinimumLevel.Debug();
+            }
+            else
+            {
+                logConfig.MinimumLevel.Information();
+            }
+
+            logConfig
+                .WriteTo.Trace(outputTemplate: tpl,restrictedToMinimumLevel:LogEventLevel.Debug)
+                .WriteTo.RollingFile(cfg.LogDirectory + &quot;log-{Date}.log&quot;, outputTemplate: tpl, restrictedToMinimumLevel: LogEventLevel.Warning);
+            LogManager.SetWriter(new SerilogAdapter(logConfig.CreateLogger()));
+        }
+    }
+
+</code></pre>
+<p>The interesting part here is that this class is automatically invoked by <code>StartItUp</code> before all other tasks. When the app will be ready to go in production, I'll add integration with a 3rd party logging service like LogEntries.</p>
+<pre><code class="language-csharp"> public class ConfigTask_0_RegisterServices
+    {
+
+        public void Run(AppSettings cfg)
+        {
+            cfg.ConfigureContainer(cb =&gt;
+            {
+                cb.RegisterServices(asm: cfg.AppAssemblies);
+                
+                //AppSettings can be injected now 
+                cb.Register(c =&gt; cfg).AsSelf().SingleInstance();
+            });
+        }
+    }
+
+</code></pre>
+<p>We're configuring Autofac based on conventions: classes ending in &quot;Service&quot;,&quot;Query&quot; or &quot;Manager&quot; are automatically added by the <code>RegisterServices</code> method defined in <code>StartItUp.Autofac</code> and I can easily add other suffixes if I need to.</p>
+<p>Let's set up the data mapper configuration, <a href="https://github.com/sapiens/SqlFu">SqlFu</a> obviously.</p>
+<pre><code class="language-csharp">  public class ConfigTask_0_SqlFu
+    {
+        public void Run(AppSettings cfg)
+        {
+            
+            SqlFuManager.Configure(c =&gt;
+            {
+                c.AddProfile(new SqlServer2012Provider(SqlClientFactory.Instance.CreateConnection), cfg.DbConnection);
+                c.AddNamingConvention(t =&gt; t.Name.EndsWith(&quot;Item&quot;), t =&gt; new TableName(t.Name.SubstringUntil(&quot;Item&quot;)));
+                c.RegisterConverter(o =&gt; o == null ? null : new UserId((Guid)o));
+                c.RegisterConverter(o =&gt; o != DBNull.Value &amp;&amp; ((int)o) &gt; 0);
+                
+                c.OnCommand = cmd =&gt; this.LogDebug(cmd.FormatCommand());
+            });
+
+            
+            cfg.ConfigureContainer(cb=&gt; cb.RegisterInstance(SqlFuManager.GetDbFactory&lt;MainDb&gt;(&quot;default&quot;)).As&lt;IMainDb&gt;().SingleInstance());            
+
+        }
+    }
+
+</code></pre>
+<p>See how I configure the mapper and update the DI Container configuration. We keep related things in the same place.</p>
+<p>Now, the (N)EventStore.</p>
+<pre><code class="language-csharp">
+ public class ConfigTask_2_EventStore
+    {
+
+             
+        public void Run(AppSettings cfg)
+        {
+            
+            var es = Wireup.Init()
+                .UsingSqlPersistence(cfg.Container().Resolve&lt;IMainDb&gt;())
+                .WithDialect(new MsSqlDialect())
+                .InitializeStorageEngine()
+                .UsingJsonSerialization()
+                .HookIntoPipelineUsing( new DispatchMessages(cfg.Container().Resolve&lt;IDomainBus&gt;().GetDispatcher()))
+                .LogTo(t=&gt;new LogAdapter(t))
+                .Build();
+            cfg.ConfigureContainer(cb =&gt;
+            {
+                cb.RegisterInstance(es).As&lt;IStoreEvents&gt;().SingleInstance();
+            });
+
+        }
+       
+      
+
+        class DispatchMessages:IPipelineHook
+        {
+            private readonly IDispatchMessages _bus;
+
+            public DispatchMessages(IDispatchMessages bus)
+            {
+                _bus = bus;
+            }
+
+            public void Dispose()
+            {
+                
+            }
+
+            public ICommit Select(ICommit committed)
+                =&gt; committed;
+
+            public bool PreCommit(CommitAttempt attempt)
+            =&gt;true;
+
+            public void PostCommit(ICommit committed)
+            {
+                var events = committed.Events.Select(d =&gt; d.Body).Cast&lt;DomainEvent&gt;().ToArray();
+#if DEBUG
+                this.LogDebug($&quot;Publishing {events.Length} events: {events.Select(d=&gt;d.GetType().ToString()).StringJoin()}&quot;);                
+#endif
+                _bus.Publish(events);
+            }
+
+            public void OnPurge(string bucketId)
+            {
+              
+            }
+
+            public void OnDeleteStream(string bucketId, string streamId)
+            {
+              
+            }
+        }
+    }
+
+</code></pre>
+<p>As you can see, there is a bit of config here, including the definition of an event store hook that will be automatically invoked by NEventStore to publish the persisted events. Also we're using the DI Container but we update its configuration too. Once again, we keep relevant things in one place.</p>
+<p>My current project is a Nancy app, so besides other stuff I do need to bootstrap it and nancy has its own bootstrapper (ha!). So, I need to configure OWIN but also integrate with Nancy's  bootstrapper. How hard can it be?</p>
+<pre><code class="language-csharp"> public class ConfigTask_6_WebFramework
+    {
+        public void Run(AppSettings cfg)
+        {
+            var owin = cfg.ContextData[&quot;owin&quot;] as IAppBuilder;
+            owin.UseCookieAuthentication(new CookieAuthenticationOptions()
+            {
+                CookieName = &quot;_dfauth&quot;,
+                SlidingExpiration = true,
+                ExpireTimeSpan = TimeSpan.FromDays(7)
+            }, PipelineStage.Authenticate);
+            
+            
+            owin.UseNancy(opt =&gt; opt.Bootstrapper = new NancyBoot(cfg));
+            
+            owin.UseStageMarker(PipelineStage.MapHandler);
+        }
+    }
+    
+ //nancy bootstrapper
+  public class NancyBoot : AutofacNancyBootstrapper
+    {
+        private readonly AppSettings _cfg;
+
+        public NancyBoot(AppSettings cfg)
+        {
+            _cfg = cfg;
+        }
+
+      /* removed other settings */
+
+        protected override ILifetimeScope GetApplicationContainer() =&gt; _cfg.Container();
+       
+    }
+    
+</code></pre>
+<p>When adding Nancy, we specify manually what bootstrapper to use and the bootstrapper will use our configuration object to return the Autofac instance when Nancy needs it. That wasn't that hard, was it? OK, now we have our tasks, we need one more thing</p>
+<pre><code class="language-csharp"> public class Startup
+    {
+        public void Configuration(IAppBuilder app)
+        {
+            StartIt.Up(new AppSettings(app));
+        }
+    }
+</code></pre>
+<p>Yep, you need to invoke <code>StartItUp</code> manually, no automagic involved. This is required in order to pass things to AppSettings. And later, I'd have to add some code to  read the settings from web.config.</p>
+<p>So, you've seen how we can organize the startup tasks in a maintainable manner. Very easy to add/change stuff, easy enough to integrate with other libraries and you can even unit test the tasks. Go on <a href="https://www.nuget.org/packages/StartItUp/2.0.0">Install-Package StartItUp</a>!</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2016/05/14/discriminated-unions-option-csharp.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2016/06/06/practical-event-sourcing-and-cqrs-benefits.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

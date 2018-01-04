@@ -1,0 +1,153 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | The Repository Pattern Explained (For Dummies)</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  The Repository Pattern Explained (For Dummies)"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>The Repository Pattern Explained (For Dummies)</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>02 June 2014</b></span> in <a href="/tags.html#Best practices">Best practices</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>You read a lot of tutorials about the Repository pattern which seem to contradict themselves. You asked the question on StackOverflow and you also got conflicting answers. What can you do? Can anyone explain this pattern in a <em>simple</em> manner without throwing all kinds of code and pretentious buzzwords at you? Yes, I can!</p>
+<p>Hello, I'm the Business Layer. I hold everything related to the application's Domain. I'm using a lot of business objects and I do create a lot of new objects, too. I know that all these objects need to be persisted or retrieved from some storage. So, I have these shelves where I put all the new objects on. And everytime I need to work with an object I just get it from the shelf, do the work then put it back. I don't know how these shelves work and how they're actually storing or retrieving <strong>my</strong> objects. I do know that I just put the <em>business objects</em> there and I get them back <em>exactly</em> how they were. It's like magic or something...</p>
+<p>Technical people (aka people who like to complicate things) are calling these shelves &quot;Repositories&quot; . As a Business Layer, I have no clue how these are implemented. I only know about some interface of a sort, like a user panel, they call it an abstraction, which accepts my new Business Objects and returns saved Business Objects. I really like this magical shelf, because I don't have to do any work myself. I just ask it to &quot;Get object with Id 2&quot;. Or get me all the objects matching a criteria. And it just works!!!</p>
+<p>For you technical people, it looks like this (C# code)</p>
+<pre><code class="language-csharp">public interface IMyRepository
+ {
+	BusinessObject Get(Guid id);
+	void Save(BusinessObject item);
+	IEnumerable&lt;BusinessObject&gt; Find(MyCriteria criteria);
+ }
+
+</code></pre>
+<p>Since I know ONLY about my business objects, my magic shelf (aka repository) will work only with those objects. And you can see that, amazingly enough, the interface-like panel is actually called an &quot;interface&quot; at least in some programming languages. But I don't know anything else about my magic shelf. Only that interface. And it's the only thing I need anyway.</p>
+<p>Now let me tell you a bit about that criteria stuff. You see, in many use cases I do need to use more than one business object, I actually need to use all the objects which for example have the LastUpdate older than an year. So, I'm telling the shelf to get me all objects matching that criteria. In technical terms, I'm creating a criteria object (which make sense for me, the Business Layer) which I'll pass to the Repository. The Repository takes that object and then applies some black magic on it (I really don't know what the Repository does, since it's <strong>not MY concern</strong>) and voila... it returns me exactly the objects I've asked for.</p>
+<pre><code class="language-csharp">public class OlderThan
+ {
+	public DateTime LastUpdate;
+ }
+
+</code></pre>
+<p>Of course, for this simple scenario, it's easier to just have a special method like this</p>
+<pre><code class="language-csharp">public interface IMyRepository
+ {
+	/* other methods */
+	IEnumerable&lt;BusinessObject&gt; GetOlderThan(DateTime lastUpdate);
+ }
+
+</code></pre>
+<p>I'll keep the criteria class for scenarios where I need to pass more than one parameter, but it's not like there's a rule, it depends on what's more easier or semantically suited for that use case. It's also important to say that I decide the shelf's functionality. In tech speak, this means that the <em>repository interface is designed by the business layer's needs</em>. That's why all the repository interfaces reside in the business layer, while their concrete implementation is part of the Persistence Layer (DAL).</p>
+<p>Oh, by the way, these shelves are <strong>ALL MINE</strong>! Only <strong>I</strong> can use them. I don't care about UI, Presentation, Reporting etc these shelves are only serving <strong>me</strong> (myself and I). If UI wants to do some queries, let it define its own shelves. I won't share mine. I've created them ONLY for MY purposes and they have <em>ONLY</em> the functionality <strong>I</strong> need! I say that everyone should have their own shelves. Sharing is not caring, sharing is messing (around).</p>
+<p>A special mention to DDD. When I'm called the Domain (ehe!) my shelves are not working with ANY object, but only with Aggregate Roots (AR). And since these AR are modelling important (sometimes complex) concepts, it's a tremendous help that my shelves can handle them so easily, I mean I can only imagine the work they do in order to retrieve such &quot;interesting&quot; objects. As for my 'work', nothing changes, I still tell the shelf to get me this or that. Business (ha! a pun) as usual.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2014/05/27/tips-to-be-more-productive-(netjava-edition).aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2014/06/04/unit-of-work-is-the-new-singleton.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

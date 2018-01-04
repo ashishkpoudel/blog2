@@ -1,0 +1,147 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | How To Handle Business Rules in Domain Driven Design</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  How To Handle Business Rules in Domain Driven Design"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>How To Handle Business Rules in Domain Driven Design</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>23 August 2017</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>The main point of DDD is to identify relevant domain behaviour, which means getting to know plenty of domain rules. Now, the tricky part is we have domain rules at different levels and all of them are important. Let's start with the simplest ones.</p>
+<h2>Value objects (VO)</h2>
+<p>We're using VOs mainly for their business semantics but a lot of them encapsulate simple business constraints. A VO implementation <strong>guarantees</strong> that value is valid from a business point of view. And there can be many rules involving that value, however, at this level it's more of basic rules like: &quot;quantity &gt; 0&quot;. In some cases you might more complex validation rules and in that case, a Factory even a Domain Service are better suited to encapsulate those rules.</p>
+<p>For example, I might have a <code>TransactionDate</code>that has 2 rules: it can't be a weekend day and it can't be an official holiday. It's easy to enforce the first rule, <code>DateTime</code> has properties for that, but hte second rule clearly is out of the VO scope. And since calculating holidays is not domain behaviour, the best thing is to have a Factory that will always create that VO.</p>
+<p>If you're thinking: &quot;But what about restoring it from the database?&quot;, I'd argue that using a CQRS approach means VO are always created and stored, while a Read Model (of that VO) is restored. At least this is what I consider to be the most maintainable approach.</p>
+<p>To view things in a simple manner a VO = specific data + very close related business constraints.</p>
+<h2>Aggregates (Agg)</h2>
+<p>An aggregate by its definition is a group of 'lower level' concepts that need to always consistent. Technically speaking, an Agg is literally a group of value objects + Agg level domain rules. Note that these are rules that are <strong>required</strong> to maintain the aggregate consistency i.e rules that keep things valid and prevent the Agg entering an invalid state.</p>
+<p>I will digress a bit here, because from the domain rules point of view the Agg contains validity constraints, while from a consistency point of view the Agg defines a consistent area in our business model, which technically speaking is a Unit of Work. From another point of view, the Agg works only with VOs (these are the Agg's 'data') which themselves are a mix of data and business rules.</p>
+<p>So, which rules belong to the Agg? The ones which involve the role and the place of the VOs <em>inside</em> the Agg. Stuff like: &quot;all Agg components are required&quot;. Never rules that involve the Agg itself as part of a bigger operation.</p>
+<p>Actually, the hardest and the most important part of identifying an Agg is to identify the relevant VOs, the Agg rules themselves are quite easy to spot. And if your business rule target the Agg as a whole then it's an 'outside of the Agg' rule that should be part of a Domain Service.</p>
+<h2>Domain Services</h2>
+<p>Most of the obvious business rules which don't validate simple values will fit here. You know that &quot;username must be unique&quot; rule? That's the one! Or &quot;the user can post at most 15 videos&quot; etc. A lot of developers mistakenly put this as part of the Agg which itself is improperly modelled, resulting in a long term mess waiting to happen.</p>
+<p>These should be part of a Domain Service and depending on the rule, it can be technically trivial or not, to implement it.</p>
+<h3>Business Impact</h3>
+<p>Yeah, we have to talk about that 'cuz the rules can have an... impact... on how simple or complex or maintainable your code will be. And that translates into how quickly you will deliver functionality aka productivity, how much technical debt you'll going to acquire and how expensive (in money or work-hours) enforcing a business rule will be.</p>
+<p>Here it's something you have to talk to the Domain Expert and the project owner. In the end everything boils down to what's cheaper for the business: to enforce a rule 100% or to accept occasional violations.</p>
+<p>Let's take the &quot;user can post max 15 videos&quot; rule. The simple implementation is to read your business state (read model for CQRS) and find out how many videos that user has. The only problem is concurrency (and not eventual consistency). What happens if the user presses the button twice fast or something.</p>
+<p>It's a fact of life that everything is (perceived) delayed. Even with the fastest hardware and there's still going to be a delay from the moment you sent that query until you get the results. 1 microsecond before or after someone changes things. It's inevitable.</p>
+<p>And that matters when you're dealing with high concurrency. Because at one point the business rule will be violated. The question is what happens next. Sure, you can come up with some complicated solution to enforce it, but is the Client willing to pay the price? Maybe is cheaper to ignore those edge cases with very little probability to happen and possible 0$ business impact. Or that rule needs to be enforced at all costs, no matter what.</p>
+<p>What if the rule is very important but it's a line of business app used by at most 5 people with close to 0 chances to become a high concurrency app? We can implement a very simple solution which takes advantage of that and we're very aware that won't be scalable past a specific number (that we hope it won't be achieved). As always, it depends, but you have to be aware of both the technical and business context. And there's no single best solution that works for every situation.</p>
+<p>Luckily, very few applications need 100% percent enforced rules and are highly concurrent. And for those cases, you need <em>very specific</em> solutions.</p>
+<p>In implementing rules, we look for the simplest solution and try to evaluate the probability and impact of the edge cases.</p>
+<h2>Conclusion</h2>
+<p>Business rules can be found everywhere in the domain and it's our objective as domain modellers to assign those rules to the relevant patterns. And probably you'll be surprised to find out that most rules are part of VOs and Domain Services. That's why properly understanding all the patterns is the key to success: all are equally important and we should let the Domain tell us what belongs to where, instead of playing favourites (I'm looking at you 'Aggregate' classes full of primitive type properties).</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2016/08/24/ddd-relationships.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2017/10/30/is-ddd-es-cqrs-changing-domain.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

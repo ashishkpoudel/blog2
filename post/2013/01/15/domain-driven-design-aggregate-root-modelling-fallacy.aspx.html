@@ -1,0 +1,135 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Domain Driven Design - Aggregate Root Modelling Fallacy</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Domain Driven Design - Aggregate Root Modelling Fallacy"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Domain Driven Design - Aggregate Root Modelling Fallacy</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>15 January 2013</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>I've just come to realize something about DDD. Most of the time we're doing it wrong. We are so quick to learn it as some recipe and to apply it almost blindly, we don't take the time to understand the subtility of the concepts. We jump right away to consider the first impression, the peek of the iceberg, as the real concept. And in the mean time we're breaking the Single Responsibility Principle (SRP) too.</p>
+<p>Let's take as an example a forum engine. The 'standard' DDD approach we usually do is to have a Board Aggregate Root (AR) modeled more or less like a container of Threads and other Boards. Of course, a Thread is itself an AR. Adding a new thread means something like: get Board from repository, Board.Add(thread) , repository.Save(board). But then the question arises:&quot;What if my forum is so big it has 100k of threads?&quot; Loading all in memory just to add a new one is clearly a performance problem.</p>
+<p>How about if I want to change the name of a board? Populating the entire board object again is a problem.&quot;Don't worry Mike, there is the concept of  lazy loading&quot; you might say. Yeah, about that... while it solves the loading of everything problem, it just introduces another: now your AR depends on at least one repository. Or worse, on the ORM like most people do it. You're doing DDD to have decoupled, maintainable code but you're coupling a domain object to a persistence detail. Great! It's like all that procedural code that uses classes. &quot;Hey I'm using class and private, I'm doing OOP&quot;.</p>
+<p>Ask yourself when the AR needs to hydrate. If it's for querying purposes, you already have a solution: it's called CQRS (Command Query Responsibility Separation) and it works great. Really, you just need to have a separate model for querying (a read model) and keep the domain model to model the representation of the business concepts and processes.</p>
+<p>But if (like in the example above) we need to add a child item to the collection? Are we back to loading 100k threads id just to add another one? Well, let's think a bit. What is the purpose of a Board? Why do we have boards in a forum? To <strong>store</strong> threads in them? Or to <strong>organize</strong> items? I 'm saying items because you can 'put' in a board both threads and other boards.</p>
+<p>The purpose of a board is to organize things. A Board is an organizational unit, providing a criteria to group items together. It's not a container! It's not a storage! It's a <strong>criteria</strong> to group things together. In fact, you don't put threads in a board, you organize threads according to a criteria.</p>
+<p>A members group is a criteria (usually permissions) for grouping members. But when you 'put' a member in a group, in fact you associate permissions with a member. So John can be a moderator for Board A, a simple member for Board B and again moderator for Board C. John isn't actually put in a group, John is associated with a permission based criteria. Another example is a VIP group which simply is the criteria to group members according to their premium subscription.</p>
+<p>For an even more clear real world example. You want to buy bread. You want the bread to be <strong>cheap</strong> and <strong>healthy</strong>. You just created 2 categories to organize bread: based on price and based on nutritional quality. You go to the store and see a bread. You check the price and then you say:&quot;Ok this bread is cheap&quot;. What did you just do? You 'put' the bread in the cheap category. Without even touching the bread. The bread is there on a shelf. But it's also 'in' the cheap category.  Well in fact, it's <strong>associated</strong> with the cheap criteria.</p>
+<p>Next you check the ingredients. Good, the bread seems to match the healthy definition for you. So now it's part of the healthy category too. The bread is still there on the shelf, but it's also in 2 categories. How come!? Magic!</p>
+<p>I think it's obvious now that things that at first sight we considered to be containers, turned out to be something else. You can say that a category has posts or you add a post to a category, but that's just bad choice of words. The category is not a container for posts, is an organizational unit for posts. Its purpose is not to store stuff, its purpose is to organize them.</p>
+<p>Like I've said in the beginning, we need to understand the actually meaning of a domain concept not to hurry up with a trivial approach. Once we understand what a concept really means, we know about its responsibility. Then we apply the SRP by not adding other responsibilities that seem to 'fit naturally' with the object (it's like the object shouting in your face: &quot;Don't you think I should be doing that too?&quot;).</p>
+<p>Next time when you are in front of an AR with children and lots of data, ask yourself what is the meaning of that concept according to the domain context and try to see if the AR respects that and doesn't try to do more things at once.</p>
+<p>It's quite common to say that DDD is hard. I realize that is not hard once you understand the principles, but it's tricky. <strong>VERY</strong> tricky.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2012/12/29/how-to-write-loosely-coupled-code.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2013/01/18/repository-vs-document-store-vs-everything-else.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

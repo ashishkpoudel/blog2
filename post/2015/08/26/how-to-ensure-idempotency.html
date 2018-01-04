@@ -1,0 +1,256 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | How To Ensure Idempotency In An Eventual Consistent DDD/CQRS Application</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  How To Ensure Idempotency In An Eventual Consistent DDD/CQRS Application"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>How To Ensure Idempotency In An Eventual Consistent DDD/CQRS Application</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>26 August 2015</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>If you want a <em>reliable</em>  DDD/CQRS app (distributed or not) you <strong>need</strong> to treat idempotency as a first class concept. And while not all DDD apps use a message driven architecture, most of them do so and, in my opinion, that's the best way to end up with a maintainable codebase. Idempotency is required because of the <em>eventual consistency</em> 'feature' of a message driven system.</p>
+<p>But before we talk about solutions, let's understand the problem. An eventual consistent app treats a business process as a sequence of business cases. An aggregate is changed, one or more events are published, the events handlers trigger other business cases and so on. We have a chain of independent operations each with their own state which together define one process (a domain unit of work), that can be broken at any time, because the app crashes or the server recycles the app or we deploy a newer version etc. We end up with a state where some aggregates were changed, while others never made it.</p>
+<p>It sure looks like the app is in an inconsistent state, however, the use of the durable service bus will make sure that we are in an <em>eventually consistent</em> state i.e things will be consistent very soon (it's just a matter of time). If you're used to the lower level db transaction, where everything is either commited or rolledback, eventual consistency looks quite dangerous and you might feel unsafe. Luckily, it's just the typical &quot;out of the comfort zone&quot; feeling. Eventual consistency might look fragile and complicated to handle but once you get used to it, it will become second nature.</p>
+<p>The main 'ingredient' in dealing with eventual consistency is proper idempotency handling. Considering a process can be interrupted at any time and then executed again from the beginning, we need a way to ensure that a repeated operation changes a model only once. I'm going to show you 2 ways of doing this, but first there are some &quot;rules&quot;:</p>
+<ul>
+<li>Every operation has an unique id (guid);</li>
+<li>The aggregate root  needs the operation id to be set before any changes.</li>
+</ul>
+<h2>Handling Idempotency at the Aggregate Level</h2>
+<p>The easiest scenario is when you're using Event Sourcing. And that's because the entity already has all or at least the latest events. And we can make the operation id part of the event itself. All my events(and commands) have the <code>SourceId</code> property which is the id of the operation that generated the events (by default it's the command id which for commands, in most cases is also the source id). Then it goes like this</p>
+<pre><code class="language-csharp">var foo=_repo.Get(fooId);
+IEnumerable&lt;IEvent&gt; evnts=new IEvent[0];
+
+try
+{
+  foo.SetOperationId(cmd.SourceId);
+  foo.ChangeStuff();
+  evnts=foo.GetGeneratedEvents();
+}
+catch(DuplicateOperationException ex)
+{
+  evnts=foo.GetEventsForOperation(cmd.Id);
+}
+
+_bus.Publish(evnts);
+
+</code></pre>
+<p>So, the aggregate is aware of the most recent (or all) operation Id and if you try to set one that was used before, it throws. Pretty simple.</p>
+<p>But what happens if you're not using event sourcing? Well, we can make the entity keep a history of operations and check it everytime the operation id is set. The problem with that is it will increase the entity size a lot if the object is changed often. However, for objects that rarely change it might be a solution. And here's a base class that may be used for that.</p>
+<pre><code class="language-csharp">public abstract class AIdempotentEntity:IOperationId,IEntityId
+  {
+      protected int MaxHistory = 2;
+
+      private List&lt;Guid&gt; _history = new List&lt;Guid&gt;(10);
+      protected Guid? _operationId;
+
+     // json serialization friendly
+      protected List&lt;Guid&gt; History
+      {
+          get { return _history; }
+          set { _history = value; }
+      }
+
+      public virtual void SetOperationId(Guid id)
+      {
+          if (_history.Contains(id)) throw new DuplicateOperationException(id, null);
+          _operationId = id;
+          if (MaxHistory == 0) return;
+          var pos = _history.Count;
+          if (pos == MaxHistory)
+          {
+              pos = 0;
+              _history.RemoveAt(MaxHistory-1);
+          }
+
+          _history.Insert(pos, id);
+
+
+      }
+
+      public Guid GetOperationId()
+      {
+          return _operationId.Value;
+      }
+
+
+      public Guid EntityId { get; protected set; }
+  }
+
+</code></pre>
+<p>So, what can we do when you have objects that change often or you need to keep all the operation id history? We'll handle idempotency at the persistence level.</p>
+<h2>Handling Idempotency at the Persistence Level</h2>
+<p>I must say this is my preferred solution. It's also a generic solution that can be used any time you need to ensure idempotency but it does have a small flaw: it requires an ACID compliant db.</p>
+<p>The main idea is like this: we have a table (OperationId:Guid,Hash:string) with a unique constraint on both columns. When we persist an object, we have this transaction</p>
+<pre><code class="language-csharp">using (var t = db.BeginTransaction())
+ {
+     if (db.IsDuplicateOperation(item.ToIdempotencyId()))
+     {
+         return;
+     }
+
+    //save object
+
+    t.Commit();
+  }
+
+
+//ext method
+public static bool IsDuplicateOperation(this DbConnection db, IdempotencyId data)
+       {
+           data.MustNotBeNull();
+           try
+           {
+               //idems is the name of the idempotency table
+               db.Insert(&quot;Idems&quot;, data);
+           }
+           catch (DbException ex)
+           {
+              //duplicate operation
+               if (ex.IsUniqueViolation()) return true;
+               throw;
+           }
+           return false;
+       }
+
+   public class IdempotencyId
+      {
+          public static IdempotencyId Empty=new IdempotencyId() ;
+          public bool IsEmpty() =&gt; OperationId == Guid.Empty &amp;&amp; Hash.IsNullOrEmpty();
+
+          public Guid OperationId { get; set; }
+          /// &lt;summary&gt;
+          /// Its actually an identifier of the entity/model/event involved
+          /// &lt;/summary&gt;
+          public string Hash { get; set; }
+
+          public IdempotencyId(Guid operationId,string hash)
+          {
+              OperationId = operationId;
+              Hash = hash;
+          }
+
+          private IdempotencyId()
+          {
+
+          }
+      }
+
+</code></pre>
+<p>Basically, we try to insert an idempotency id that uniquely identifies the object and the operation and if it fails, it means it's a duplicate operation. If it succeeds then we can persist the entity and commit the transaction. If an error occurs the transaction is rolledback and the idempotency id is not saved.</p>
+<p>The idempotency id is the combination of operation id and some other specific identifier(I call it a hash in lack of a better name) of the object. For domain objects, the hash can be the entity id. For read models, hash can be the read model category and/or the domain entity id involved. Obviously, it depends, there are no rules here, the only 'rule' is that you need to be aware that one operation can affect multiple aggregates or read models. For example, if you compute metrics in an event handler and this involves incrementing a counter, the read model specific hash should be something like &quot;stats_user_count&quot;.</p>
+<p>Note that for this to work we always need to have a transaction involving the idempotency storage and the domain storage, so they both need to share the same storage. But you don't need one global idempotency store, each component can have its very own (also the case if you're using multiple databases/engines).</p>
+<h2>Conclusion</h2>
+<p>There you have it, 2 approaches to ensure idempotency for your eventual consistent app. They both work and I'm using both at the same time, it's not about choosing one over the other upfront, but choosing the best for your specific case. As an example, I have a &quot;Project&quot; entity uses event sourcing and it makes sense to use the first approach, but the read model updater (an event handler) and the metrics updater (another event handler) subscribing to the ProjectCreated event will use the second approach with the idempotency id hashes: 'project_read' and 'project_count'.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2015/08/10/to-null-or-not-to-null.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2015/09/01/in-depth-cqrs.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

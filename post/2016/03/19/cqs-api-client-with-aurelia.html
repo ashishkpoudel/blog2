@@ -1,0 +1,290 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | A CQS Api Client With Aurelia and TypeScript</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  A CQS Api Client With Aurelia and TypeScript"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>A CQS Api Client With Aurelia and TypeScript</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>19 March 2016</b></span> in <a href="/tags.html#Frontend">Frontend</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>Every SPA needs a way to communicate with the server and Aurelia features a <code>HttpClient</code> that implements the <a href="https://fetch.spec.whatwg.org/">Fetch API</a>. But this client is a bit to low level for my taste, I want my app to not be concerned with <em>how</em> a client communicates with the server. I want my app to take a Command/Query approach i.e when something needs to change I'll send a command request and when I just want some data but I don't want to change anything then I'll send a query request.</p>
+<p>On my server, I'm using the following conventions</p>
+<ul>
+<li>For commands: <code>[POST] baseUrl/{command}</code> . For every request I'm returning a <code>CommandResult</code> which looks like this</li>
+</ul>
+<pre><code class="language-javscript">export interface ICommandResult {
+    errors: any;
+    hasErrors: boolean;
+    data: any;
+}
+</code></pre>
+<ul>
+<li>For queries: <code>[GET] baseUrl/{query}</code>. It returns the query result, usually an object or a list of objects.</li>
+</ul>
+<p>So, my API client interface looks like this</p>
+<pre><code class="language-javascript">interface IApiClient{    
+     execute(cmd: string, data: any, func: (res: ICommandResult) =&gt; void);
+     query&lt;T&gt;(query: string, func: (result: T) =&gt; void, params?: any);
+}
+
+</code></pre>
+<p>Considering the http client returns a promise and I want to handle request errors in one place, I've decided to process any result inside a function that will be automatically invoked by the API client, that's why I'm always passing a function when invoking <code>execute</code> or <code>query</code>.</p>
+<p>Let's see some implementation details</p>
+<pre><code class="language-javascript">  execute(cmd: string, data: any, func: (res: ICommandResult) =&gt; void) {
+
+        return this.http.fetch(cmd, {
+            method: &quot;POST&quot;,
+            body: json(data)
+        })
+            .then(resp =&gt; resp.json().then(d=&gt; func(d)))
+            .catch(er=&gt; this.handleError(er));
+
+    }
+</code></pre>
+<p>Pretty straightforward, I'd say.  We send the command as a POST in JSON format, receive a response which needs to be processed as a json, then we invoke the result processor, while any errors will be handled inside <code>handleError</code> (will see its implementation a bit later). Any command result processor will check for validation messages(the <code>hasError</code> field) and has the error messages available in the <code>errors</code> field, and it can get things like an id or something generated on the server side from that <code>data</code> field.</p>
+<p>If you know the original CQS (which applies to objects), returning a command result with some data looks like a violation of the principle. However, this is not <em>that</em> CQS and we'd only complicate things if we'd have to query specifically for that data later.</p>
+<p>Here's an example of how to use it</p>
+<pre><code class="language-javascript"> this.api.execute(/*command name */&quot;createAsset&quot;
+                 ,/* command params*/ { name:&quot;test&quot; }
+                 ,/* result processor */ r =&gt; {
+                    if (r.hasErrors) {
+                        //this will be used by an &lt;errors&gt; element
+                        this.error = r.errors.name;
+                        return;
+                    }
+                    //do something with the new id
+                    console.log(&quot;new id:&quot;+r.data.id); 
+                });
+
+</code></pre>
+<p>The <code>query</code> is similar, only that we return a typed result</p>
+<pre><code class="language-javascript"> query&lt;T&gt;(query: string, func: (result: T) =&gt; void, params?: any) {
+    
+        if (params) {
+            var args = $.param(params);
+            query = query + &quot;?&quot; + args;
+        }
+
+        return this.http.fetch(query)
+            .then(r =&gt; r.json().then(b =&gt; func(b)))
+            .catch(err =&gt; this.handleError(err));
+
+    }
+
+</code></pre>
+<p>I'm using jquery to create the query string. The query result is considered to be of the specified <code>&lt;T&gt;</code> type.</p>
+<pre><code class="language-javascript">this.api.query&lt;MyResult&gt;(&quot;getapicommanddata&quot;, result =&gt; {
+           // do something with the result  
+         this.data=result;
+       });
+
+</code></pre>
+<p>Plain and simple.</p>
+<p>Here's the full ApiClient class in all its glory</p>
+<pre><code class="language-javascript">
+import {HttpClient, HttpClientConfiguration,json} from &quot;aurelia-fetch-client&quot;;
+import 'fetch'; //polyfill
+import * as $ from 'jquery';
+
+export interface ICommandResult {
+    errors: any;
+    hasErrors: boolean;
+    data: any;
+}
+
+
+export abstract class ApiClient {
+    constructor(private http: HttpClient) {
+        this.http.configure((cf: HttpClientConfiguration) =&gt; {
+            cf.useStandardConfiguration()
+                .defaults.headers = {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'Fetch'
+                };
+
+
+        });
+
+    }
+
+    configure(baseUrl: string) {
+        this.http.baseUrl = baseUrl + (baseUrl.endsWith(&quot;/&quot;) ? &quot;&quot; : &quot;/&quot;);
+    }
+
+
+
+
+    query&lt;T&gt;(query: string, func: (result: T) =&gt; void, params?: any) {
+    
+        if (params) {
+            var args = $.param(params);
+            query = query + &quot;?&quot; + args;
+        }
+
+        return this.http.fetch(query)
+            .then(r =&gt; r.json().then(b =&gt; func(b)))
+            .catch(err =&gt; this.handleError(err));
+
+    }
+
+    protected handleError(err) {
+        
+        //todo send to raygun
+        console.debug(&quot;Server err. &quot;);
+        console.debug(err);
+    }
+
+    execute(cmd: string, data: any, func: (res: ICommandResult) =&gt; void) {
+
+        return this.http.fetch(cmd, {
+            method: &quot;POST&quot;,
+            body: json(data)
+        })
+            .then(resp =&gt; resp.json().then(d=&gt; func(d)))
+            .catch(er=&gt; this.handleError(er));
+
+    }
+
+
+}
+
+</code></pre>
+<p>The code is more maintainable and allows us to change how we communicate with the server in the future. The class is abstract because I want to be able to talk to multiple endpoints (on the same server) so I'd create a class for each endpoint and optionally, semantic methods that makes the client look like a normal app service or even a repository.</p>
+<pre><code class="language-javascript">
+&#64;autoinject
+export class FooApi extends ApiClient {
+    constructor(http: HttpClient) {
+        super(http);
+        
+        //setup base api url
+        this.configure(&quot;api/foo-endpoint&quot;);
+    }
+
+    //override error handling
+    protected handleError(err) {
+      
+        Notifier.instance.error();
+    }
+
+    //a nice facade for the command
+    delete(item: IdName, success: Function) {
+        this.execute(&quot;deleteFoo&quot;, {assetId: item.id }, r=&gt; success(r));
+    }
+}
+
+</code></pre>
+<p>As a trivia fact, when I've started building my app, Aurelia's HttpClient was a wrapper over XMLHttpRequest, but now it implements the FetchApi. Since I was using an abstraction like the above, I just needed to change the <code>ApiClient</code> implementation and nothing else. But I recommend using this kind of abstraction primarily for developer friendliness as we don't need to change how we communicate with the server very often. But it's a nice side effect.</p>
+<p>While I'm still a novice when it comes to developing single page apps, I can't help but notice how often I can use the same approaches I'm using on the server side. In the end,we're still building an app so all the design patterns and SOLID stuff applies, but we're using Aurelia/TypeScript instead of WPF/C#.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2016/03/02/ado-net-manual-mapping.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2016/05/01/how-to-fix-the-hiring-process.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

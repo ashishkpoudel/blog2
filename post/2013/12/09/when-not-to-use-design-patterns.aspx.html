@@ -1,0 +1,133 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | When Not To Use Design Patterns</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  When Not To Use Design Patterns"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>When Not To Use Design Patterns</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>09 December 2013</b></span> in <a href="/tags.html#Best practices">Best practices</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>I do like the fact that lots of devs want to write good code and that the school caught up and actually teaches design patterns. However, it does so poorly, but this post isn't about the education system. It's about when and how to use deign patterns, regardless where you learn them.</p>
+<p>I can recognize a design patterns novice in a few seconds. They heard that design patterns are good and should be used everywhere all the time. And they come up with questions like:&quot;I'm starting this app, what design pattern should I use?&quot; (?!?!?!?!?) or &quot;In this case what design pattern is the best: X or Y?&quot;</p>
+<p>Well, you see, I've been there and I know that when learning about patterns you feel you've found out that magic recipes exists. Sadly they don't and I'm telling you, very seriously to NOT use design patterns. Unless you really understand what they are.</p>
+<p>Yes, I'm aware you know the 'definition'. But the important thing is design patterns are not silver bullets nor recipes. You don't decide what design pattern to use. You come up with a solution to a problem. In time you find out that the solution is quite used and it's considered a design pattern and has a name.</p>
+<p>This comes with experience and not by learning design patterns by heart. And contrary to what you might believe, there isn't a design pattern for every problem you have. I see this worrying trend where the first thing a junior does when he has a problem is to go ask someone (on stack overflow): what pattern should I use here? <strong>None!</strong></p>
+<p>Even if there were a well known pattern, at this point you don't understand them, you haven't spent the time to come up with a solution in order to appreciate the pattern, in order to understand WHY the pattern works that way. And judging by the number of people misusing the Repository pattern, chances are you will think that you've understood the pattern when in fact you're applying an anti-pattern.</p>
+<p>When coding, don't think about design patterns, think about solving problems. It doesn't matter that your solution isn't the perfect one, few are and from the first try, none is. Good solutions appear in time and until you haven't dealt with a bad solution, you won't understand the good one.</p>
+<p>Read about design patterns and use cases. But that's it. Don't try to fit them in your app. Chances are you're using at least one pattern anyway. Some you don't know about, others you are fully aware of. It doesn't really matter, in time you'll get to recognize the use cases and the patterns and you'll know their names.</p>
+<p>Don't think that you can find a shortcut, you can recite all the design patterns in existence (I don't know if there's someone knowing all the patterns) that doesn't mean you know when to apply them and how to apply them. In some cases, you need to alter the pattern in order to fit your problem and you can do that safely only if you understood both the problem and the pattern properly.</p>
+<p>Design patterns are great to use, but it takes time as it's an evolutionary process. And even they can change. The Singleton is not what it used to be, many people are considering it an anti-pattern now. Personally, I think it still has some uses but I favour a DI Container if available.</p>
+<p>Once again, don't think about design patterns, think about solving problems. There's no benefit in trumpeting &quot;I'm using design patterns&quot; when you don't understand what you're doing and you're actually using anti-patterns. Good code comes with experience, there is no magic elixir or hidden secret that will make you write good code from the beginning.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2013/11/19/ef-code-first-is-bad-for-your-domain.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2013/12/16/bulk-actions-with-ddd-and-cqrs.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

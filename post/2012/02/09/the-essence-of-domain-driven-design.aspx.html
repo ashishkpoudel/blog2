@@ -1,0 +1,131 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | The essence of Domain Driven Design</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  The essence of Domain Driven Design"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>The essence of Domain Driven Design</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>09 February 2012</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>&quot;Domain-driven design is not a technology or a methodology. It is a way of thinking and a set of priorities, aimed at accelerating software projects that have to deal with complicated domains.&quot;<br />
+So sayeth domaindrivendesign.org. Do you see anywhere Aggregate Roots, Entities, Ubiquitous Language etc? No, because in essence DDD is a mindset and that's what's important.</p>
+<p>Let me ask you something: What is the purpose of your application? What real life problems does it solve? These are the real reasons an application is developed and the application should be developed around them. But we learn somehow to start with the database, we design the database schema, what to save and how and then build the application around that. It's called a database centric approach and everybody does it or did it at one point.  However, if everything is centered around the database, doesn't this mean that the purpose of the application is the database?!</p>
+<p>Some people argue that the database is the most important part, but tell me, what's the point of staying on top of a mountain filled with gold if there are no means to mine it? Yes, you can think of the wealth, but until you can get the gold out, it is useless. The database is important only because of its content, however the means to extract and process meaningful information from the database it's more valuable and for most applications the real value comes from combining the stored data with the actual usage of it.</p>
+<p>Think of Twitter, do you use it (if you're using it) because it saves yours or other people's tweets? No, you're using it to keep in touch with people and subjects which matter to you (and to spam of course). The value of twitter is the service of fast and easy keeping up to date with what people are saying (thinking).</p>
+<p>DDD starts with asking what is the value of  the application and not where and  how we will store data. It's the natural, organic way to think about an application. With DDD, you design an application based on its domain , its value for the stakeholders and not based on a database schema. But does this approach work for every project? You probably learned that DDD is suitable only for big complex applications, but I'm in the camp of the people saying that DDD is just OOP done right.</p>
+<p>You don't start a project thinking: &quot;this project will be quite complex, we'll use DDD ftw!&quot; do you?  If you do, you shouldn't since the value of DDD is in the mindset and not in dogmatic rules. You don't have to use Aggregate Roots, Entities, Value Objects, Ubiquitous Language, Repositories and so on. There is no hard rule about that, but if you design the application according to its value and benefits for the stakeholders and technology constraints, then you'll be using all these 'tools' because they are a natural fit. Of course that it's natural to use the same language that the stakeholders are using, to uniquely identify a  post or a comment (<em>entities</em>), to consider that a blog has posts and a post has comments (<em>aggregates and aggregate root</em>) no matter where and how the data is persisted (<em>repository</em>).Yes, even the humble blog engine benefits from DDD - the domain is about publishing information that other people can read, discuss  and share.  What is an online newspaper (sic) but a glorifed blog with multiple authors? You can read how the <a href="http://www.infoq.com/presentations/rebuild-guardian-ddd-wills">Guardian.co.uk used DDD</a> for their new website.</p>
+<p>  Sure, some situations are very simplistic and you don't need more than an interface to send data to the database, but how do you know that beforehand? When you start with the database, you are biased to design everything to match the database structure. In a simplistic CRUD application, it's just happens that you can work directly with the database model. But if you need a bit more complexity and flexibile, maintainable code then the more changes you make, the more features are added and the more time passes, you and your company will wrestle with an increasing <a href="http://en.wikipedia.org/wiki/Big_ball_of_mud">Big Ball of Mud</a> that in the end translates into more people needed, more time to implement changes, more bugs and consequently higher costs.</p>
+<p>If it is a small application, home assignment, prototype etc then yeah, you don't need DDD, TDD design patterns etc but for everything else there's Domain Driven Design.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2011/04/30/ddd-model-validation-part-i.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2012/02/10/entities-vs-value-objects-by-example.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

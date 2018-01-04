@@ -1,0 +1,129 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Bending The Principles - Separation of Concerns</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Bending The Principles - Separation of Concerns"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Bending The Principles - Separation of Concerns</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>22 April 2014</b></span> in <a href="/tags.html#Best practices">Best practices</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>After I wrote that the Domain should be kept business only and free from everything that is not business, it's to time to contradict myself (a bit).It's in our best interest to respect SoC (Separation of Concerns principle) but sometimes you might want to use Event Sourcing. For those unfamiliar with EventSourcing (ES), the entity's state changes by applying events and the state itself is persisted as a stream of events. It's ok the entity generates the events, but the issue is the entity must have at least 2 public methods (GetGeneratedEvents and MarkEventsHandled - the names may vary) which are required by ES but clearly NOT a part of the domain concepts.</p>
+<p>This means we have to 'corrupt' our model with concerns that have nothing to do with the Domain. We're violating SoC here so what can we do about it? I mean we have a valid reason (that behaviour really is required to implement ES) but it's still a breach. We don't want to be dogmatic purists, we like to think ourselves as pragmatists so maybe in this situation we can allow an exception. After all, we don't have hard rules in software devel, we have guidelines,best practices and principles. And this is clearly an exceptional case.</p>
+<p>Well, the ORM requiring virtual properties or making a property public (getter encapsulating field) is an exception too. Maybe that one property the UI needs it can be also an exception, you can see the trend. It's very easy to rationalize every exception and we end up with code that breaks SoC (so why are we structuring the app in layers?). Yes, everything can be abused and we simply can't be rigid and say &quot;no exception&quot;, rigidity won't lead to a good code base. We need to be flexible without turning promiscuous. Bending the principles when you're fully aware of the benefits and drawbacks is ok, using often pragmatism as an excuse, is not.</p>
+<p>Personally, I'm thinking more than twice when I'm in this situation. I want to be flexible but also I like clean, clearly defined code and putting technical concerns into a domain object is a code smell to me. But any object (in C# /.Net) already has methods like <em>ToString()</em> or <em>GetType()</em> which have nothing to do with the domain and I haven't heard anyone yet complaining about them breaking SoC. They are framework features and we simply ignore them. Maybe we can think of behaviour required by ES (or any other technique) as technique/architecture features as well?</p>
+<p>We can, although it's still a smelly situation. I'm a firm advocate of being the master of your code that is, you need to 'own' the code, to know why did you write that, why have you used a specific pattern etc. Best practices are best if you understand the benefits and bending them means you're assuming the consequences. I think is better to try and see if that functionality isn't better fit in another layer. If it isn't, then we have to be flexible but also to ensure that everyone in the team understands WHY that decision has been made. And that an exception is not a 'go ahead' to do the same everytime you think it's easier to put more behaviour in an object.</p>
+<p>I think discipline is paramount for a maintainable codebase. You need creativity and flexibility to come up with solutions and discipline to make sure the solutions are for the long term, not just duct-tape. And if it is duct tape, then you better know why it is so and what are the implications. Duct taping is sometimes so easy and because it does the work it's tempting to leave it like this and find other more important/fun staff to work on. But make no mistake, the duct tape solution will be a weak point and as karma has it, it will bite your ass when least expected, usually when you have more important bugs or functionality to take care of and time is in very short supply. But maybe it's an exception, where we have to bend again the principles...</p>
+<p>In conclusion, disregarding best practices or good principles is a tricky business, one that can allow more flexibility when really needed but one that can also make your code a mess if misused. It's up to you to control the implications of crossing that fine line.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2014/04/17/the-most-important-layer-of-them-all.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2014/04/29/-modelling-ddd-behaviour-and-use-cases-by-example.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

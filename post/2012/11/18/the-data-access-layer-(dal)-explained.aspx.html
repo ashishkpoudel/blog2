@@ -1,0 +1,134 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | The Data Access Layer (DAL) Explained</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  The Data Access Layer (DAL) Explained"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>The Data Access Layer (DAL) Explained</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>18 November 2012</b></span> in <a href="/tags.html#Architecture">Architecture</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>When you're building software, more than 99% of time you'll have to deal with a storage of some kind, mainly a database or (increasily) cloud storage. But years of experience (read: failure) taught the developers that it's best for the application not to be tightly coupled to a specific storage system.</p>
+<p>Thus the Data Access Layer aka Persistence Layer was born. Simply put, the purpose of the DAL was to hide storage access details enabling the rest of the application to deal only with something called Persistence or Storage, an abstract representation of the actual storage system. This means that the app doesn't need to know about Sql or queries or any other specific details. The DAL provides the rest of the application with objects which are used to work with the storage: the Data Access Objects (DAO).</p>
+<p>But a DAL is more than a group of DAOs. It contains EVERYTHING related to persistence: DAOs, entities which model how the data is stored - if you're using a (micro) ORM and other internal services used by the DAOs. However the app accesses the DAL only via DAOs, which can be considered the 'entry points' of DAL.</p>
+<p>Note that the DAO itself is just a concept and it's used as an abstraction, that is the application doesn't know about the concrete object, it knows about an interface providing the desired functionality. The DAO has intimate knowledge about the storage system but it exposes only behaviour which makes sense for the application i.e a DAO should never expose or require information that is tied to a specific storage system.</p>
+<p>Most of the time you'll here about repositories and ORMs. While a Repository is a concept, it is implemented as a DAO, at least from the application point of view. In fact every object used to deal with the storage is a DAO, but the Repository is a specialized DAO. It deals only with Business Objects and acts as a facade for other lower level DAOs (such as an ORM).</p>
+<p>The ORM tries to present a relational database in an object oriented way. It abstracts actual database access (that's why it's a DAO) but still deals with specific database concepts as the entities defined model the storage structure, the way data is saved.<br />
+For many (CRUD) applications it can be enough and the application can use the objects returned by the ORM without caring that they are modelling persistence. For applications with complex behaviour, usually business applications, the Repository it's a better choice as most of the time a business object is different than the way it's persisted.</p>
+<p>While the Repository and the ORM are the most commonly used DAOs, in practice you will use other DAOs too for different purposes, but hey don't have (yet) specific names.</p>
+<p>You'll have DAOs which will deal with queries, returning a view model. I used to call these 'Query Repositories' but I think that 'ViewModel Repositories' is a much better name. Note that the 'ViewModel' part is valid for probably 90% of cases, but it can be replaced with other name representing the type of data returned so for example you can have  Reports Repositories (SalesReportsRepository, FinanceReportsRepository etc). In the end it's a naming issue but the essence is there are DAOs specialized in getting data for a definite purpose.</p>
+<p>There are also what I call Persistence Services which are DAOs which deal directly with the storage system for operations that don't imply Business Objects or View Models or queried data. They manipulate the storage as a resource directly. One example of operation is updating the page views for a post or to check if an item exists in the database. They are simple operations which don't naturally fit a repository.</p>
+<p>You might see in practice Query Objects which are used to encapsulate a query criteria to from ad-hoc queries, however each query object encapsulate only one operation. A repository or a service group together related operations.</p>
+<p>The DAL is an important part of an application and you have to be careful not to let storage access details to be exposed (that's  called a leaking abstraction). A properly designed DAL will allow the change of a storage system without requiring ANY change of the rest of the application.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2012/11/14/testing-has-no-business-value.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2012/11/20/coder-vs-software-developer.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

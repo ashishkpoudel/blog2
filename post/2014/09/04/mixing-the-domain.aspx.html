@@ -1,0 +1,132 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Mixing the Domain</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Mixing the Domain"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Mixing the Domain</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>04 September 2014</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>With DDD becoming more popular, it's like a &quot;fight&quot; between the old CRUD and the cool DDD. It's easy to assume that we have CRUD apps and DDD apps: this app is simple therefore it's CRUD, this app seems to have a rich domain, therefore we should be using DDD. But in practice, there are some apps which are 100% CRUD while no app is 100% DDD.</p>
+<p>Let's quickly define a CRUD app: it's a database UI concerned with taking the correct (valid) input from users to shove it into the db. It doesn't care about business semantics and contains NO business logic. It does contain some business rules represented by validation.</p>
+<p>But once you have 1 object/function encapsulating business logic, it's no longer a 100% CRUD app. But does it matter? A lot of devs are treating ANY app as a CRUD one (especially web apps) because they don't know better. And it works until the business logic becomes more complex and/or changes often. Then you have a maintainability problem.</p>
+<p>Noawadays, anyone (loose term) knows that for a domain rich in behaviour, DDD is the way to go. But regardless of how complex the Domain is, there's no such thing as 100% domain containing only Rich Behaviour Objects (RBO), you have at least one domain concept which really is a data structure (CustomerProfile comes in mind). Actually there are more than one, I say that a domain id at least 25% data structures.</p>
+<p>Thing is, with DDD we're usually using CQRS, Domain Events or Event Sourcing. But if a good chunk (actually one class is enough) of our domain is just a data structure, in other words it's CRUDy, aren't we complicating our life with at least 2 models (CQRS) or creating events which pretty much are the entity itself?</p>
+<p>The problem appears when we decide on a solution up front then force any problem into that solution. RBO with a CRUD mindset is pain, data structures with event Sourcing or CQRS is just a complication. How about we use the optimum solution for each problem? How about we're doing CRUD with the data structures from our Domain and CQRS, Domain Events and Event Sourcing with the RBOs?</p>
+<p>We don't need to declare an app as CRUD or DDD. It's an app, let's just use the approach that makes the most sense for each bit of the Domain. It's not about using the latest cool trend/design pattern, it's about coming up with the most maintainable solution. The goal is to solve the problem while making our lives easier. For big apps or where such flexibility is available, I'd say to also use the proper storage fit for the problem.</p>
+<p>This means that instead of &quot;we're using Sql Server for everything.&quot;, you can use a doc db for your RBO, a stand-alone EventStore and a RDBMS in the same app. It's a hurtful mindset to think: &quot;we do things only this (one) way (CRUD,SqlServer etc) because this works and this is how we've done it until now&quot;. It's bordering on stupid to choose the same solution regardless of the problem. An app is not a showcase for a technology or a design pattern, it's an implementation of a service used to bring value to its stakeholders.</p>
+<p>As a side note, this is why I'm implementing the persistence last. Even a small app can be 75% data structures and 25% RBO. I'll use CRUD for the data structures (that may involve an (micro)ORM) and CQRS for the reminder of 25%, with the domain objects serialized or stored as events for the objects that are fit for ES. But in order to know that, I have to design and implement the Domain first. Only after, I can start toying with the db. Anything before is wasted time and a poor design (as I'm biased to fit the Domain design to the db structures).</p>
+<p>In conclusion, your app is a place where you should use the solutions fit for the problem, all those design patterns can co-exist, the big mistake is to decide on a generic solution up front and then try to force all the problems into it.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2014/06/20/introducing-make-aka-makesharp.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2014/10/31/ddd-identifying-bounded-contexts-and-aggregates-entities-and-value-objects.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

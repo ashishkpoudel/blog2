@@ -1,0 +1,146 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Message Driven Architecture Explained - Basics</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Message Driven Architecture Explained - Basics"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Message Driven Architecture Explained - Basics</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>19 April 2013</b></span> in <a href="/tags.html#Architecture">Architecture</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>You might know about Message Driven Architecture (MDA) if you've heard about the <strong>Domain Events Pattern</strong> or <strong>Event Sourcing.</strong> As its core, MDA means that an application is composed from autonomous components which communicate with each other via messages. MDA is very common in a distributed application, because each component sits on a different server but they still need to work together.</p>
+<p>But the amazing thing about MDA is that it can be applied for local (non distributed) applications as well. This means that a local MDA application can easily become a distributed app, only some configuration is required, but the app code should remained untouched. The main benefit though is that it makes it <strong>very easy to write high quality, maintainable code</strong> i.e lowly coupled, highly cohesive and highly testable code.</p>
+<p>The downside is that it requires a bit of experience to become comfortable with it. It's not straightforward and at first, it seems like over engineering, but once you experiment with it, it will feel like the proper way to implement a non trivial application. But for that, you need to understand MDA properly.</p>
+<h2>How It Works</h2>
+<p>Let's say you have 3 modules: Sales, Accounting, Inventory. These 3 obviously need to work together but we want these modules not to be coupled one to another. Each module knows that the other exist, but they don't know where and how to talk with them. They are pretty decoupled.</p>
+<p>In order to work together, these modules will pass messages to each other via a 3rd party, a 'transporter' which knows where everyone is. That transporter is called a <strong>ServiceBus</strong> and that's its sole responsibility: to deliver messages to a destination.</p>
+<p>In a nuthsell things goes like this:</p>
+<ul>
+<li>Module sends a message to the ServiceBus.</li>
+<li>ServicesBus delivers the message to one or many configured destinations.</li>
+<li>Destination receives and handle the message.  Note that the sender and the receiver modules don't know about each other, they know only about the ServiceBus. This means that modules can be added or removed without other modules being affected.</li>
+</ul>
+<h2>Messages</h2>
+<p>A message is a simple data transfer object (DTO) which contains message name and details. A message should be as simple as possible and serialization friendly.</p>
+<p>A message can be a:</p>
+<ul>
+<li><strong>Command</strong> - the message tells that its handler must do something. The message name is the Command while its content are the command arguments. Good names are imperative ones: CreateOrder, RegisterPayment etc. A command is <strong>sent</strong> via the ServiceBus and can have <em>only one</em> handler.</li>
+<li><strong>Event</strong> - the message tells that something have happened. A good event name represents an action in the past: OrderCreated, PaymentSubmitted etc. An event is <strong>published</strong> via the ServiceBus and can have <em>0 or more</em> <strong>subscribers</strong>.  A message handler is the object which processes the message. There are** Command Handlers** (or Executors) and <strong>Event Subscribers</strong>. A message handler can send messages as well.</li>
+</ul>
+<h2>Idempotency</h2>
+<p>One important detail about MDA is that a message is guaranteed to be sent <strong>at least once</strong>. This means that a handler can receive the same message twice. The reasons why that happen are mainly technical in nature and a handler must be able to cope with this behavior. That is no matter how many times a message is processed, the outcome must be the same. This is called <strong>idempotency</strong>.</p>
+<p>Some actions are naturally idempotent, for example a=3. Invoking a handler that assigns 3 to a variable will have the same result no matter how many times is done. But if, let's say, the variable is incremented then each invoke will get a different result. For these cases, the message handler must take additional steps to ensure its idempotency.</p>
+<p>Ensuring idempotency is an app specific action, but usually is done by having in the database a unique key for the processed message. For example, inserting a new Product will also insert the message id. If the operation is a duplicate the db will refuse it. In this case the datastore is the actual enforcer of idempotency. This example also shows that idempotency is a concept that goes beyond the message handler.</p>
+<p>These are the basics of message driven architecture. In the next post I'll talk about the cool stuff.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2013/04/10/benefits-of-using-a-di-container.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2013/04/30/message-driven-architecture-explained-eventual-consistency-and-saga.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | DDD Decoded - Modelling with CQS</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  DDD Decoded - Modelling with CQS"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>DDD Decoded - Modelling with CQS</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>22 August 2016</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>While CQS/CQRS are a bit newer than DDD, they work so well together, one simply <em>has</em> to use it. And I don't mean CQRS from an architectural point of view, but from a modelling point of view.</p>
+<p>Simply put, when we identify a <strong>business case</strong> we ask ourselves: &quot;Does this case has the <strong>intention</strong> to change the business state&quot;? We're not talking about a particular state (objects, tables etc) but about business state as a whole (remember that in real world any change is implicitly persistent). If so, then it's a <strong>command case</strong> else it's a <strong>query case</strong> (this is CQS at work).</p>
+<p>Being in a query case means that you know you won't be changing anything and that the models will be read-only (this is CQRS, because we end up with specialised read <strong>models</strong>).</p>
+<p>But in a command case, things are a bit different. Many concepts can be involved however, usually only <strong>one</strong> will be represented by a <strong>command model</strong>. The other concepts will be represented by <strong>read models</strong>. We apply CQS for each concept and we end up with specialised command/query models for each, basically CQRS (not to be mistaken for a CQRS architecture, which is a different thing, but based on the same CQS principle).</p>
+<p>As an example, let's say we have the <code>Create invoice</code> business case. Clearly, the business wants to retain the new invoice, so our business case will <em>change</em> the business state. We've identified a concept too, the <code>Invoice</code> for which we need to find a <strong>relevant representation</strong>. However, because we're creating the invoice, it means we need a <strong>command representation</strong> i.e an <a href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-1">Aggregate</a>.</p>
+<p>That's great, but there's more concepts involved besides the <code>Invoice</code>. We need to get the products and prices from an <code>Order</code>, we also need to calculate <code>Tax</code> and so on. Each of these concepts have a model as well, but because we don't need to change the business state for which those concepts are in charge, it means we're going to have <strong>read models</strong> representations. So, the <code>Order</code> model will be some read-only structure which contains all the data needed by the invoice. We always try to identify the most relevant model for that specific case, and not a generic model good for everything.</p>
+<p>As a generic 'rule', consider the business case as being like a bounded context i.e it has a model which makes sense only inside it. Concepts are involved in many business cases, but we work only with their most relevant models and based on the action we need, either write or read, we end up with a command model or a query model for <em>each</em> concept.</p>
+<p>So, in a command case, we can find both command and query models of different concepts while in a query case, we're dealing only with read (query) models. Applying CQS early when modelling helps us to know upfront what types of models we're looking for, which gives us a bit more clarity and a productivity boost.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2016/08/19/ddd-application-services-explained.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2016/08/24/ddd-relationships.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
