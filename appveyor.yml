@@ -23,6 +23,6 @@ build_script:
 - ps: >-
     Copy-Item config.wyam ..\Wyam
 
-    Copy-Item Wyam.PrevNext ..\Wyam
+    Copy-Item Wyam.PrevNext.dll ..\Wyam
 
     ..\Wyam\wyam -i .\input --output ..\output
