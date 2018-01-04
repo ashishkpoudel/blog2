@@ -32,13 +32,13 @@ OrderBy((d,c)=>DateTime.Parse(d.Metadata["published"].ToString())).Descending(),
 	Razor(),  // Compile and render the page template
 	
 	WriteFiles((string)@doc.Metadata["PostFile"])  // Write the post file 
-	,
+/* 	,
 	Branch(
 		// Put the GenerateFeeds module inside a Branch module so that the feed
 		// documents don't get added to the set of output documents for this pipeline
 		GenerateFeeds(),
 		WriteFiles("./")
-	)
+	) */
 		
 	
 	
