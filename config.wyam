@@ -1,0 +1,79 @@
+//#recipe Blog
+#n Wyam.Markdown
+#n Wyam.Razor
+#n Wyam.Yaml
+#n Wyam.Redirect
+#n Wyam.Feeds
+#a Wyam.PrevNext
+
+using Wyam.PrevNext;
+
+// Customize your settings and add new ones here
+Settings[Keys.Host] = "blog.sapiensworks.com";
+//Settings[BlogKeys.Title] = "My Blog";
+//Settings[BlogKeys.Description] = "Welcome!";
+
+System.Globalization.CultureInfo.DefaultThreadCurrentCulture
+    = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
+
+Pipelines.Add("Posts",
+ ReadFiles("posts/*.md"),
+ 
+	FrontMatter(Yaml()),
+OrderBy((d,c)=>DateTime.Parse(d.Metadata["published"].ToString())).Descending(),
+	Meta("Filename",@doc.Source.FileNameWithoutExtension.ToString()),
+		Markdown(),		
+		Meta("Post", @doc.Content),  // Move the markdown content to metadata
+		Meta("PostFile", $"post/{DateTime.Parse(@doc["published"].ToString()).ToString("yyyy/MM/dd")}/{((string)@doc.Metadata["Filename"]).ToLower().Replace(' ', '-').Replace(',','-')}.html"), 
+	PrevNext(),
+	Merge(
+        ReadFiles("posts/post.cshtml")  // Load the Razor post page template
+    ),
+	Razor(),  // Compile and render the page template
+	
+	WriteFiles((string)@doc.Metadata["PostFile"])  // Write the post file 
+	,
+	Branch(
+		// Put the GenerateFeeds module inside a Branch module so that the feed
+		// documents don't get added to the set of output documents for this pipeline
+		GenerateFeeds(),
+		WriteFiles()
+	)
+		
+	
+	
+);	
+Pipelines.Add("Home",
+	ReadFiles("posts/*.md"),
+	
+	FrontMatter(Yaml()),
+OrderBy((d,c)=>DateTime.Parse(d.Metadata["published"].ToString())).Descending(),
+Take(2),
+Index(),
+	Meta("Filename",@doc.Source.FileNameWithoutExtension.ToString()),
+		Markdown(),
+		Meta("Post", @doc.Content),  // Move the markdown content to metadata
+		Meta("PostFile", $"post/{DateTime.Parse(@doc["published"].ToString()).ToString("yyyy/MM/dd")}/{((string)@doc.Metadata["Filename"]).ToLower().Replace(' ', '-').Replace(',','-')}.html"), 
+	PrevNext(),
+	OrderBy((d,c)=>d.Metadata[Keys.Index]),
+	Take(1),
+	Merge(
+        ReadFiles("posts/home.cshtml")
+	   
+    ),
+	Razor(),  // Compile and render the page template
+	
+	WriteFiles((d,ctx)=>new FilePath("home.html")) 
+	
+);
+Pipelines.Add("Pages",
+	ReadFiles("{!_,}*.cshtml"),
+	Razor(),
+	WriteFiles(".html")
+	
+);
+
+Pipelines.Add("Resources",
+	ReadFiles("*.css"),
+	WriteFiles()
+);
