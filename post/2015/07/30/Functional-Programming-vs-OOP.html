@@ -1,0 +1,274 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Functional Programming vs OOP</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Functional Programming vs OOP"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Functional Programming vs OOP</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>30 July 2015</b></span> in <a href="/tags.html#Programming">Programming</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>I have little experience with Functional Programing (FP) and even less with a FP language like F#. The FP I've done was mainly Linq stuff in C# and my attempt to write a build script for FAKE. I must say that I wanted to see how I fare with F# considering the number of its very vocal fans. Well, it was a painful experience and not only because of the strange syntax. The main problem is the mindset. Really, a FP mindset is required when using a FP language, which is pretty logical. But the big question is: Why would I want to use the FP mindset?</p>
+<p>I follow devs on twitter who are very passionate about FP in general and F# in particular. For them, FP is the greatest thing ever, the ultimate golden hammer. Everything would be better if FP would be used (with F# of course). FP makes your code simpler, cleaner, less buggier etc. All hail FP the greatest hammer of them all. Thor is green of envy now.</p>
+<p>Based on my experience as a developer, I beg to differ. While I've used the FP approach, I did it <em>only</em> where it makes sense. I'd say that the majority of problems/use cases aren't naturally fit for FP. But I know that the FP crowd says the opposite. And my opinion is they found their perfect solution and now they force every problem into it.</p>
+<p>Let's see some examples. There's a pretty famous <a href="http://fsharpforfunandprofit.com">site</a> full of articles why FP and F# rulz and OOP and C# sux (not said directly but clearly implied). I've read it in order to try and do something with F#, but after reading some <em>very</em> biased articles I decided it's more of a propaganda center than a useful resource (I'm sure others disagree but that's my opinion). It seems that OOP is such a sin for the FP cult (some devs are really behaving like zealots) that they need to come up with articles like <a href="http://fsharpforfunandprofit.com/posts/fsharp-decompiled/">this</a> . In the article, F# source code is compared to the same code but decompiled to C# and surprise, surprise the C# code is ugly.</p>
+<p>But let me show you other code decompiled to C#</p>
+<pre><code class="language-csharp">private void ExecuteTasks(TaskDictionary list)
+    {
+      foreach (KeyValuePair&lt;int, List&lt;Func&lt;string&gt;&gt;&gt; keyValuePair in (IEnumerable&lt;KeyValuePair&lt;int, List&lt;Func&lt;string&gt;&gt;&gt;&gt;) Enumerable.OrderBy&lt;KeyValuePair&lt;int, List&lt;Func&lt;string&gt;&gt;&gt;, int&gt;((IEnumerable&lt;KeyValuePair&lt;int, List&lt;Func&lt;string&gt;&gt;&gt;&gt;) list.Items, (Func&lt;KeyValuePair&lt;int, List&lt;Func&lt;string&gt;&gt;&gt;, int&gt;) (d =&gt; d.Key)))
+      {
+        string str1 = keyValuePair.Key.ToString();
+        if (keyValuePair.Key == int.MaxValue)
+          str1 = &quot;no order&quot;;
+        foreach (Func&lt;string&gt; func in keyValuePair.Value)
+        {
+          string str2 = func();
+          string message = &quot;Executed task ({0}) '{1}' &quot;;
+          object[] objArray = new object[2];
+          int index1 = 0;
+          string str3 = str1;
+          objArray[index1] = (object) str3;
+          int index2 = 1;
+          string str4 = str2;
+          objArray[index2] = (object) str4;
+          LogManager.LogInfo&lt;AStrapbootWithContainer&lt;T&gt;&gt;(this, message, objArray);
+        }
+      }
+    }
+</code></pre>
+<p>Yes, it's ugly. And here is the original source of the above code</p>
+<pre><code class="language-csharp">private void ExecuteTasks(TaskDictionary list)
+       {
+           foreach (var tasks in list.Items.OrderBy(d=&gt;d.Key))
+           {
+               var pos = tasks.Key.ToString();
+               if (tasks.Key == int.MaxValue)
+               {
+                   pos = &quot;no order&quot;;
+               }
+               foreach (var task in tasks.Value)
+               {
+                   var name = task();
+                   this.LogInfo(&quot;Executed task ({0}) '{1}' &quot;, pos,name);
+               }
+
+           }
+       }
+</code></pre>
+<p>A bit better right? Based on the article's logic then hand written C# is better than decompiled code to C#, therefor C# is better than C#.</p>
+<p>But wait, F# has immutable types and the C# equivalent is more verbose and uglier (FP people really care about source code beauty). Yes, it might be but... WHY would I want that <em>everything</em> should be immutable and value compared (<em>cough</em> C# structs <em>cough</em>)?.  Well, FP crowd will tell you how immutability means fewer bugs etc. I get that immutability is great but should it be used everywhere? Even F# has mutable support. The point is, if it exists and it's great in F# or any FP language, it doesn't mean I'll need it in an OOP language.</p>
+<p>And this brings me to the real issue. The FP mindset <strong>requires</strong> that every operation should be expressed as a mathematical function. But we, normal people don't think like that. Unless you're a mathematician, but not everyone is. In the 'human' language we think imperative, very similar with an OOP language. Doing object oriented design is like being a manager in the 'real' world: you decide who does what, which are the teams and their projects. And unlike the real world, you can create the perfect professionals/employees which are specialists at their job.</p>
+<p>OOP is quite natural. When I design something or try to come up with an algorithm, I think in a mix of Romanian and English. Only after I have a solution I expressed it in a programming language. But my thought process is unrelated to a programing language. I'm using a 'natural' mindset which then can be easily expressed in an OOP way. To change my mindset to functional just because someone says it's &quot;much better&quot;, would be stupid. Most of the problems can be solved and expressed easily in OOP. <strong>Some</strong> of the problems are naturally functional and then can be easily expressed using a FP language.</p>
+<p>It's simply a matter of how many use cases can be solved using a 'normal' mindset and how many use cases fit the functional paradigm better. My experience says the functional use cases are more limited  and I can use C# for those cases, even if in F# I could have done them easier. There are simply too few to matter.</p>
+<p>But some of the FP crowd doesn't think that. For them everything is better if it's expressed in a functional way.  Ok, let's see how it goes with the famous FizzBuzz test. The code below is taken from <a href="http://fsharpforfunandprofit.com/posts/railway-oriented-programming-carbonated/">F# for fun and profit</a>.</p>
+<p>Let's start with the imperative version but expressed in F#.</p>
+<pre><code class="language-fsharp">module FizzBuzz_IfPrime =
+
+    let fizzBuzz i =
+        let mutable printed = false
+
+        if i % 3 = 0 then
+            printed &lt;- true
+            printf &quot;Fizz&quot;
+
+        if i % 5 = 0 then
+            printed &lt;- true
+            printf &quot;Buzz&quot;
+
+        if not printed then
+            printf &quot;%i&quot; i
+
+        printf &quot;; &quot;
+
+    // do the fizzbuzz
+    [1..100] |&gt; List.iter fizzBuzz
+</code></pre>
+<p>Very similar to a C# version. But wait, we know that FP is the best paradigm <em>ever</em> so let's solve the problem in a functional way, cause everyone knows FP means less code, fewer bugs, beauty etc.</p>
+<pre><code class="language-csharp">module FizzBuzz_Pipeline_WithTuple =
+
+    // type Data = int * string option
+
+    let carbonate factor label data =
+        let (i,labelSoFar) = data
+        if i % factor = 0 then
+            // pass on a new data record
+            let newLabel =
+                labelSoFar
+                |&gt; Option.map (fun s -&gt; s + label)
+                |&gt; defaultArg &lt;| label
+            (i,Some newLabel)
+        else
+            // pass on the unchanged data
+            data
+
+    let labelOrDefault data =
+        let (i,labelSoFar) = data
+        labelSoFar
+        |&gt; defaultArg &lt;| sprintf &quot;%i&quot; i
+
+    let fizzBuzz i =
+        (i,None)   // use tuple instead of record
+        |&gt; carbonate 3 &quot;Fizz&quot;
+        |&gt; carbonate 5 &quot;Buzz&quot;
+        |&gt; labelOrDefault     // convert to string
+        |&gt; printf &quot;%s; &quot;      // print
+
+    [1..100] |&gt; List.iter fizzBuzz
+</code></pre>
+<p>Hmm, so this is how less, concise code looks like. For whatever reason I prefer the bloated and uglier (and of course hard to maintain) imperative version. But wait, there's more!!</p>
+<p>OOP has design patterns because it's such an imperfect mindset and we need workarounds. FP is so great it doesn't need patterns. Until it needs them. Enter the <a href="http://fsharpforfunandprofit.com/posts/recipe-part2/">Railway pattern</a> . And here's FizzBuzz using this pattern.</p>
+<pre><code class="language-csharp">module FizzBuzz_RailwayOriented_UsingCustomChoice =
+
+    open RailwayCombinatorModule
+
+    let (|Uncarbonated|Carbonated|) =
+        function
+        | Choice1Of2 u -&gt; Uncarbonated u
+        | Choice2Of2 c -&gt; Carbonated c
+
+    /// convert a single value into a two-track result
+    let uncarbonated x = Choice1Of2 x
+    let carbonated x = Choice2Of2 x
+
+    // carbonate a value
+    let carbonate factor label i =
+        if i % factor = 0 then
+            carbonated label
+        else
+            uncarbonated i
+
+    let connect f =
+        function
+        | Uncarbonated i -&gt; f i
+        | Carbonated x -&gt; carbonated x
+
+    let connect' f =
+        either f carbonated
+
+    let fizzBuzz =
+        carbonate 15 &quot;FizzBuzz&quot;
+        &gt;&gt; connect (carbonate 3 &quot;Fizz&quot;)
+        &gt;&gt; connect (carbonate 5 &quot;Buzz&quot;)
+        &gt;&gt; either (printf &quot;%i; &quot;) (printf &quot;%s; &quot;)
+
+    // test
+    [1..100] |&gt; List.iter fizzBuzz
+
+</code></pre>
+<p>Is it me or this version is even longer than the previous one? And to me, being a n00b when it comes to F#, it looks quite complicated and ugly. At least compared to the imperative version.</p>
+<p>The point of this is to show you that you can force anything to work with the FP golden hammer but the result isn't the expected one. Clearly in this case the imperative approach is the most simpler one. But does this mean that only simple problems are fit for the imperative (OOP) mindset? Not really, remember that normally we think in an imperative mindset. The Domain expert will communicate according to that mindset. It takes explicit effort to 'convert' everything to a functional approach. And as seen with FizzBuzz, you end up with abominations.</p>
+<p>I'm really annoyed by FP zealots who claim that FP is the answer to everything. As the saying goes &quot;A real programmer writes assembler in any language&quot;, and in the end it's the developer who's in charge of the code quality. Your codebase isn't more bug free just because you're using F# , it's because you wrote good code. You may like FP and your brain can easily convert every problem to a FP representation. Ok, but mine and other's don't work that way. This doesn't mean our code is crap and the codebase is huge.</p>
+<p>For me OOP is natural and I have no problem using it. For the little FP I do when it's the case, C# is enough. Maybe if I have enough use cases that can fit the FP mindset, I could write them in F#. But that's it. OOP is not automatically inferior for everything, FP is not superior for everything. And the fact that very few devs are using a functional language is a sign that it's a niche mindset for niche problems. And zealotry won't change things.</p>
+<p>P.S: I'm one of the devs who say &quot;always use DDD&quot; regardless of the app. But I'm talking about the strategic aspect. Most of the time you're building an app that provides some business value. It's natural for the app to be designed according to the business needs, hence domain driven design. But that doesn't mean you should always use the DDD tactical tools. And obviously for experiments, toys, learning some new tool, there's no need for anything DDD.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2015/07/20/CQRS-Immediate-Feedback-Web-App.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2015/08/10/To-Null-Or-Not-To-Null.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

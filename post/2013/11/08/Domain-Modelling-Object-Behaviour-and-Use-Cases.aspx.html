@@ -1,0 +1,149 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | DDD Modelling - Object Behaviour and Use Cases</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  DDD Modelling - Object Behaviour and Use Cases"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>DDD Modelling - Object Behaviour and Use Cases</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>08 November 2013</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>One of the most trickiest but important thing when domain (OOP) modelling is to properly identify the entity's behaviours and use cases. But in many cases what seems a behaviour is actually a use case. It's quite easy to fall into the trap if you're not taking enough time to understand the domain.</p>
+<p>Picture a mobile phone, a 'dumb' one. To call someone you just type the number and press the 'Call' button. In code it looks like this</p>
+<pre><code class="language-csharp">phone.Call(&quot;some number&quot;);
+ phone.EndCall();
+
+</code></pre>
+<p>Very straightforward. It's clear that &quot;Call&quot; is a behaviour of the phone. It's part of its intrinsic functionality.</p>
+<p>How about a smartphone? Well, first you start the Phone app then type the number then tap on the &quot;Call&quot; icon. Here's some code</p>
+<pre><code class="language-csharp">var dialer=phone.StartApp&lt;Phone&gt;();
+ dialer.Call(&quot;&quot;some number);
+ dialer.EndCall();
+
+</code></pre>
+<p>Well, things changed... Calling someone is no longer a phone behaviour, it's a phone use case. Starting an app is the phone behaviour, while calling becomes the Phone app behaviour. With a smartphone, pretty much everything is an app. What the phone does now is run apps. All you can do is tap the screen and press the hard buttons which act as a controller sending some signals to the OS or the running app. But all the actual behaviour you want from the phone belongs to its apps. The phone is just the platform now, the most used behaviours are: tap and charge the battery.</p>
+<pre><code class="language-csharp">public void Charge(Charger charger)
+ {
+    charge.Charge(this.Battery);
+ }
+
+</code></pre>
+<p>The funny stuff is that charging is a use case of both battery and charger but encapsulated into a phone behaviour. Now, how much fun would you have if your phone couldn't be charged just by plugging in a usb cable or via induction? You would have to remove phone case, remove the battery and somehow connect it to the charger. And the phone would be unusable until the battery would be put back. See? If you remove the Charge() behaviour, the phone becomes much harder to use and even useless while the battery would charge. Removing that behaviour greatly affects other object functions and use cases. Having the &quot;Charge&quot; functionality enables the smartphone to be the device it is. The same is for tablets or other similar products.</p>
+<p>Let's say Jim is a landlord. He can charge rent in the sense that he has the right to demand rent. But the actual calculation and collecting can be done by other people too. After all, if  Jim owns 5 BIG appartment buildings and 10 other properties, I doubt that he will personally handle all the rent situations. It could do it, but this behaviour can be delegated. And Jim doesn't lose his landlord status because of it. Just as Jim could clean the properties himself but he has specialized staff hired for that purpose.</p>
+<p>The main point is that the Domain concept matters a lot in identifying object behaviour. The concept of Landlord is about ownership, but in a certain Bounded Context we may only care about calculating rent. While it seems something clearly suitable for a landlord,  the fact is your code isn't about ownership, it's about finance issues and it should reflect that. And instead of the Landlord you'd probably have a RentCollector or RentCalculator concepts.</p>
+<p>Let's consider an (e-commerce) Order and an Invoice. Is the creation of an invoice a behaviour of the Order? After all, it has the data the invoice needs. But it's not an Order behaviour, because the concept of an Order is basically a 'document' detailing what a customer wants to buy from you. An invoice is another document which uses some data from the Order but also other data (discounts rules based on volume or customer status). An Invoice generation is a use case of the Order.</p>
+<p>How about tracking the Order's fulfilment? We need to know what products are ready, what needs to be ordered from the supplier etc. All these together form another use case of the Order. How about the Order status (Pending, InProgress,ReadyToShip, Shipped,Delivered etc)? Does this belongs to an Order? It doesn't. The tracking of the Order's state isn't part of the Order concept. We're using additional data and behaviour to represent different use cases which are useful for the business and for the customer but which don't define the Order concept.</p>
+<p>There are a lot of Domain entities and Aggregate Roots which don't have behaviour but are involved in many use cases.  A domain object should model a Domain concept regardless of complexity or number of behaviours. The purpose is not to come up with big objects with lots of methods. The purpose of DDD is to represent the relevant business concepts, simple or complex.</p>
+<p>If you model the correct concept <strong>as it is, not as you think it should be</strong> based on technical rules or recipes, you'll have a very organic, flexible and thus maintainable Model.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2013/10/23/-Why-You-Should-Always-Use-CQRS-with-DDD.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2013/11/19/EF-Code-First-Is-Bad-For-Your-Domain.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

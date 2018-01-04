@@ -1,0 +1,128 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Why Domain Driven Design is Hard</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Why Domain Driven Design is Hard"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Why Domain Driven Design is Hard</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>28 June 2012</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>Well, in fairness, it isn't. Yes, it's a bit tricky to understand at first what's all the <a href="http://www.sapiensworks.com/blog/post/2012/04/17/DDD-The-Bounded-Context-Explained.aspx">bounded contexts</a>, <a href="http://www.sapiensworks.com/blog/post/2012/04/18/DDD-Aggregates-And-Aggregates-Root-Explained.aspx">aggregates</a>, <a href="http://www.sapiensworks.com/blog/post/2012/04/20/DDD-Entities-And-Value-Objects-Explained.aspx">entities and value objects</a> things about, but that's about it. Or isn't it?!</p>
+<p>The biggest obstacle in understanding DDD is you. Yes, <strong>YOU</strong>! Your mindset, to be more precise. When you're used to think in certain ways, it's very hard to forget about the 'old' ways and pretty soon you'll be doing what you think is DDD, but in fact it's a mix of 35% DDD and 65% old habits.</p>
+<p>Probably the biggest thing is that the db is not the center of everything anymore. You <strong>don't start</strong> with the db schema design, you don't go defining the ORM entities and you don't wrongfully think that the EF entity is a domain entity. The domain is the center of everything and you must forget about other implementation details. And that's maybe the second hardest thing: you need to have a pretty <strong>clear understanding of the app layers</strong> and more important their concerns. If you have only a vague idea about them you won't get very far with DDD, in fact it will be MUCH harder and you will conclude that DDD is VERY HARD :)</p>
+<p>One other thing is that, once understood, DDD is pretty simple and straightforward but with a catch: there are <strong>no rules, only guidelines</strong>. This means there aren't cookie cutter solutions, no magic answers and no ultimate techniques. Ok, if you really want some hard rule here is one: it depends on the context. Yes, everything depends on the context, one perfect solution for one context is not appropriate for other context, in the same app.</p>
+<p>So, you have to think and to analyze the problem, using only a few concepts and guidelines in order to come up with a naturally flowing solution, implemented as maintainable code. And that's hard! Thinking and coming up with good solutions is hard. That's why a good developer is well paid (or they should be anyway) and that's why Evans himself says to not use DDD everywhere. You need <strong>experienced developers</strong> who can navigate only with a simple compass and a bit of clear night sky and those developers are expensive. Add to that a fairly complex domain and watch the costs rise. And for simple apps (ha! define simple), this approach is just overkill. A senior developer will just waste time while a junior developer will just slap together some pocos (anemic domain), validate some rules and send everything to a db (which is not DDD in case you wonder).</p>
+<p>In  conclusion, DDD is a tricky beast: confusing but simple, clear yet very vague. Because you need skilled people, it's expensive from the start and not everyone can afford it. And for many problems, it just doesn't worth the trouble or the cost.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2012/04/20/Dont-Use-ORM-Entities-To-Model-The-Domain.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2012/10/10/Do-We-Need-The-Repository-Pattern.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

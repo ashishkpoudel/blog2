@@ -1,0 +1,191 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Optimum Ways To Restore A Domain Object From Persistence</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Optimum Ways To Restore A Domain Object From Persistence"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Optimum Ways To Restore A Domain Object From Persistence</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>06 April 2012</b></span> in <a href="/tags.html#Best practices">Best practices</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p><strong>Update</strong> <a href="http://www.sapiensworks.com/blog/post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx">Strategies To Restore Domain Entities </a></p>
+<p>Let's say we have this object (the actual definition is not important)</p>
+<pre><code class="language-csharp">public class QueueItem
+    {    
+        public QueueItem(int blogId,string name,Type command,object data)
+        {
+            if (name == null) throw new ArgumentNullException(&quot;name&quot;);
+            if (command == null) throw new ArgumentNullException(&quot;command&quot;);
+            BlogId = blogId;
+            CommandType = command;
+            ParamValue = data;
+            CommandName = name;
+            AddedOn = DateTime.UtcNow;
+        }
+
+      
+        public Guid Id { get; internal set; }
+        public int BlogId { get; private set; }
+        public string CommandName { get; set; }
+        public Type CommandType { get; private set; }
+        public object ParamValue { get; private set; }
+        public DateTime AddedOn { get; private set; }
+        public DateTime? ExecutedOn { get; private set; }
+        public void ExecuteIn(ILifetimeScope ioc)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+</code></pre>
+<p>This domain object will be handled by a repository</p>
+<pre><code class="language-csharp">public interface IRepository
+{
+     void Save(QueueItem item);
+     QueueItem Get(Guid id);
+}
+
+</code></pre>
+<p>The repository persists the object, but also has to restore it. And here lies our problem. When implementing the repository, how can we restore the domain object, respecting the encapsulation and without  requiring the object to provide special behaviour for this task.</p>
+<p>It turns out that it depends.</p>
+<p>Now, when designing the domain object, the design <em>should not care</em> about the persistence needs, it isn't the object's responsibility to know about storage, serializing and deserializing, that's the repository's concern. In this example, when a QueueItem is created, some values are supplied, but the <strong>AddedOn</strong> property is automatically set by the object. When restoring the object, the repository obviously can't use that constructor, so it needs a way to fill in all the values.</p>
+<p>There are several ways, which are most obvious but all have the same flaw: they require that the object change just for this purpose and that's not good.</p>
+<ol start="2">
+<li><p><strong>Having another constructor</strong> that has all the values as arguments.<br />
+This solution may work,  but:</p>
+<ul>
+<li>That constructor is available everywhere and you'd have to specify in comments that that constructor is to be used only for restoring the object. Pretty ugly.</li>
+<li>If the object has many fields then the constructor needs to accept LOTS of arguments, which is not a pretty sight.</li>
+</ul>
+</li>
+<li><p><strong>Making all the fields/properties setters public</strong>.<br />
+This is probably the worst solution, as it breaks the encapsulation. <strong>Don't do it! Ever!</strong></p>
+</li>
+<li><p><strong>Provide a factory method</strong>.<br />
+This is actually the best solution from this group. The domain will keep its encapsulation and the static method won't interfere with the actual usage. Also it provides a very clear intent</p>
+</li>
+</ol>
+<pre><code class="language-csharp">public static QueueItem Restore(Guid id,int blogId /* etc*/) {}
+
+</code></pre>
+<p>However is still has the same parameters number problem as the constructor solution, but at least it depends form object to object.</p>
+<pre><code>    The good news is there still are other better solutions:
+</code></pre>
+<ol start="2">
+<li>If you're using a document database (like RavenDb) or you're storing the objects in serialized form (I recommend JSON for that) just deserialize it back or let the db do it. But most of the time you won't be using a document database nor you'll be storing the objects in JSON. However it's a good solution, if the conditions are met.</li>
+<li>Mapping. Using a mapper (I use Automapper) the domain object is created and its data its copied automatically from a provided source.  These solutions don't require to change anything in the domain object definition so the class can evolve according to the domain needs, ignoring anything persistence related (so the separation of concerns is maintained).</li>
+</ol>
+<p>You might have noticed that I didn't include the case when an ORM is used. That's because an ORM is an implementation detail of the repository and the <strong>Domain Model is different from the Persistence Model</strong> handled by the ORM (I don't consider relevant the cases where those happen to be identical because of a very simplistic domain or a misuse). And being different means you still have to transfer the values from the ORM entities to the domain object.</p>
+<p>But what if you can't use any of the good solutions above? No document db and no automapper (I find it hard to believe automapper can't be used almost anywhere but it may be the case). Then the next optimum solution is to use the factory method I've presented before. It's not the best but it's a good compromise. Of course, if the object is very complex perhaps a dedicated factory is a better choice.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2012/04/04/Domain-Events-Toolkit-Released-And-My-Git-Experience.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2012/04/07/Just-Stop-It!-The-Domain-Model-Is-Not-The-Persistence-Model.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

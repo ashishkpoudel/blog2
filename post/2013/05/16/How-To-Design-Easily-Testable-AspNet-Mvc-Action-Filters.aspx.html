@@ -1,0 +1,216 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | How To Design Easily Testable Asp.Net Mvc Action Filters</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  How To Design Easily Testable Asp.Net Mvc Action Filters"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>How To Design Easily Testable Asp.Net Mvc Action Filters</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>16 May 2013</b></span> in <a href="/tags.html#Best practices">Best practices</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>While Asp.Net Mvc is a much more test friendly framework compared to WebForms, some things are still complicated to test. Custom Action Filters are very common and naturally you want to test them too. But you still have to setup a whole chain of dependencies (the filterContext argument) even for trivial filters.</p>
+<p>However, we can test things much easier, without the complicating setup. Let's say I want a filter that takes the id from the url, gets the user for that id and then cache it in HttpContext.Items. It looks something like this</p>
+<pre><code class="language-csharp">public class MyFilter:IActionFilter
+    {
+        
+        public void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            var repo = DependencyResolver.Current.GetService&lt;IMyRepository&gt;();
+            int uid;
+            if (!int.TryParse(filterContext.RouteData.GetRequiredString(&quot;id&quot;),out uid))
+            {
+                filterContext.Result=new HttpNotFoundResult();
+                return;
+            }
+            var user = repo.GetById(uid);
+            if (user == null)
+            {
+                filterContext.Result = new HttpNotFoundResult();
+                return;
+            }
+            filterContext.HttpContext.Items[&quot;user&quot;] = user;
+        }
+        
+     
+        public void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            
+        }
+    }
+
+</code></pre>
+<p>While the behavior is quite simplistic look what I have to fake: the DependecyResolver, the RouteData and the HttpContext. Let's refactor it so that it's easily testable</p>
+<pre><code class="language-csharp">public void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            var repo = DependencyResolver.Current.GetService&lt;IMyRepository&gt;();            
+            var user = GetUser(repo, filterContext.RouteData.GetRequiredString(&quot;id&quot;));
+            filterContext.Result = CacheUser(user, filterContext.HttpContext.Items);                        
+        }
+
+        public User GetUser(IMyRepository repo, string id)
+        {
+            int uid;
+            User user = null;
+            if (int.TryParse(id, out uid))
+            {
+                user = repo.GetById(uid);                
+            }
+            return user;
+        }
+
+        public ActionResult CacheUser(User user, IDictionary cache)
+        {
+            if (user == null)
+            {
+                return new HttpNotFoundResult();
+            }
+            cache[&quot;user&quot;] = user;
+            return null;
+        }
+
+</code></pre>
+<p>I've isolated the desired behavior in 2 public easily testable methods. With <em>GetUser</em> you can test what happens if the 'id' is or not a valid user id having only to mock <strong>IMyRepository</strong>. With <em>CacheUser</em> you can test what happens if the <strong>User</strong> is null or not. None of these methods depend on asp.net mvc so no need to fake all the <strong>ActionExecutingContext</strong> object. Better yet, the behavior can be used outside the action filter as well.</p>
+<p>It's a trivial example because it's a simple technique: extract the actual behavior in one or more relevant methods which take only the dependencies they need. In this example we needed only the repository and an <strong>IDictionary</strong>. Very rarely you'll need HttpRequest or HttpContext as a dependency, usually you need only a property.</p>
+<p>Here's another example. I want to allow access only to users with the email belonging to some domain.</p>
+<pre><code class="language-csharp">public class DomainEmailAuth:AuthorizeAttribute
+    {
+        public string EmailDomain { get; set; }
+
+        protected override bool AuthorizeCore(System.Web.HttpContextBase httpContext)
+        {
+            if (base.AuthorizeCore(httpContext))
+            {
+                var repo = DependencyResolver.Current.GetService&lt;IUserServices&gt;();
+                return IsAuthorized(repo, httpContext.User.Identity.Name);
+            }
+            return false;
+        }
+
+        public bool IsAuthorized(IUserServices users,string username)
+        {
+            Email email = users.GetEmail(username);
+            if (email != null)
+            {
+                if (email.BelongsToDomain(EmailDomain))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+</code></pre>
+<p>The relevant behavior needs only the <strong>UserServices</strong> and the username in order to get the email and find out if it is allowed. It can be tested without caring about asp.net or the AuthorizeAttribute itself.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2013/05/15/You-Might-Be-Misusing-The-ORM.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2013/06/20/Say-Yes-To-The-Repository-In-Your-DAL.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

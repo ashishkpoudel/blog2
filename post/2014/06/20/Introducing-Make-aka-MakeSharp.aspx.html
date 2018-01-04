@@ -1,0 +1,267 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Introducing Make# aka MakeSharp</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Introducing Make# aka MakeSharp"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Introducing Make# aka MakeSharp</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>20 June 2014</b></span> in <a href="/tags.html#.net">.net</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>I don't always have many needs when using a build automation tool (with C# as the scripting language) but when I do, I make a mess with the procedural approach. Static methods and global variables simply don't work if you want a tidy, reusable and flexible functionality. At least in my case it doesn't work, since I'm so used with the object oriented mindset and I always feel the need to define a class and extract some things into private methods etc.</p>
+<p>So, I've decided to take my <a href="https://github.com/sapiens/csake">CSake (C# Make)</a> project to the next level i.e I've rewrote it to be more compatible with the OOP mindset and to use the (not so) new <a href="https://github.com/scriptcs/scriptcs">scriptcs</a> that everyone's raving about. Enter Make#(MakeSharp) the build automation tool where you can use C# in an OOP way (like God intended). And because I do like intellisense, all of my projects using Make# also have a Build project referencing Make# executable and helper library where I can code my build 'script' with all the VS goodness. And the script is in fact a bunch of classes (you can almost call it an app) which do the actual work.</p>
+<p>You can read details and a generic example on the <a href="https://github.com/sapiens/MakeSharp">Make# github page</a> but in this post I want to show a bit more advanced usage. This is the build script for a project of mine called <a href="https://github.com/sapiens/MvcPowerTools">MvcPowerTools</a> (well, in fact there are 2 because it contains the WebApi tools, too). My needs are:</p>
+<ul>
+<li>clean/build solution;</li>
+<li>update nuspec files with the current version, as well as versions for some deps. One dependency is a generic library I'm maintaining and evolving and many times I'd need some features which turn out to be generic enough to be part of that library. And since I don't want to make 3 releases a day for that library, I'm using it directly, hence its version it's not stable. So, I want to update the dep version automatically;</li>
+<li>build packages as code release, this means the project's version in nuspec would have the &quot;-code&quot; suffix;</li>
+<li>push packages.  I need all this steps for both projects and I want my script to allow me to specify I want only one or both projects to be built. This is the script (you can see it as <a href="https://github.com/sapiens/MvcPowerTools/blob/master/build/build.cs">one file here</a>) .</li>
+</ul>
+<pre><code class="language-csharp">public class PowerToolsInit : IScriptParams
+{
+    public PowerToolsInit()
+    {
+        ScriptParams=new Dictionary&lt;int, string&gt;();
+		Solution.FileName = &#64;&quot;..\src\MvcPowerTools.sln&quot;;
+    }
+
+    List&lt;Project&gt; _projects=new List&lt;Project&gt;();
+
+    public IEnumerable&lt;Project&gt; GetProjects()
+    {
+        if (_projects.Count == 0)
+        {
+            bool mvc = ScriptParams.Values.Contains(&quot;mvc&quot;);
+            bool api = ScriptParams.Values.Contains(&quot;api&quot;);
+            bool all = !mvc &amp;&amp; !api;
+            if (mvc || all)
+            {
+                _projects.Add(new Project(&quot;MvcPowerTools&quot;,Solution.Instance){ReleaseDirOffset = &quot;net45&quot;});
+            }
+            if (api || all)
+            {
+                _projects.Add(new Project(&quot;WebApiPowerTools&quot;,Solution.Instance){ReleaseDirOffset = &quot;net45&quot;});
+            }
+        }
+        return _projects;
+    }
+
+    public IDictionary&lt;int, string&gt; ScriptParams { get; private set; }
+}
+
+</code></pre>
+<p>You see that I'm defining a class using init data: <strong>PowerToolsInit</strong>. This is how I override the default implementation of <strong>IScriptParams</strong>, I'm providing my own. In this class I'm deciding which projects are to be built based on script arguments. <strong>Solution</strong>  and <strong>Project</strong> are predefined helpers of Make# (intellisense really simplifies your work ). I have only one solution so I'll be using it as a singleton.</p>
+<pre><code class="language-csharp">public class clean
+ {
+     public void Run()
+     {
+        
+         BuildScript.TempDirectory.CleanupDir();
+        Solution.Instance.FilePath.MsBuildClean();        
+     }
+
+ }
+
+[Default]
+[Depends(&quot;clean&quot;)]
+public class build
+{
+
+    public void Run()
+    {
+        Solution.Instance.FilePath.MsBuildRelease();
+    }
+}
+
+</code></pre>
+<p>Self explaining. <strong>BuildScript</strong> is another predefined helper. <em>MsBuildClean</em> and <em>MsBuildRelease</em> are windows specific helpers (found in <strong>MakeSharp.Windows.Helpers.dll</strong> which comes with Make#) implemented as extension methods.</p>
+<pre><code class="language-csharp">[Depends(&quot;build&quot;)]
+public class pack
+{
+    public ITaskContext Context {get;set;}
+
+	public void Run()	
+    {
+
+	    foreach (var project in Context.InitData.As&lt;PowerToolsInit&gt;().GetProjects())
+	    {
+	        &quot;Packing {0} &quot;.WriteInfo(project.Name); //another helper
+            Pack(project);
+	    }
+      
+    }
+	
+   void Pack(Project project)
+    {
+        var nuspec = BuildScript.GetNuspecFile(project.Name);
+        nuspec.Metadata.Version = project.GetAssemblySemanticVersion(&quot;code&quot;);
+	    
+        var deps = new ExplicitDependencyVersion_(project);
+        deps.UpdateDependencies(nuspec);
+        
+        var tempDir = BuildScript.GetProjectTempDirectory(project);
+	    var projDir = Path.Combine(project.Solution.Directory, project.Name);
+        var nupkg=nuspec.Save(tempDir).CreateNuget(projDir,tempDir);
+	    Context.Data[project.Name+&quot;pack&quot;] = nupkg;
+    }
+}
+
+
+class ExplicitDependencyVersion_
+{
+    private readonly Project _project;
+
+    public ExplicitDependencyVersion_(Project project)
+    {
+        _project = project;
+    }
+
+    public void UpdateDependencies(NuSpecFile nuspec)
+    {
+         nuspec.Metadata.DependencySets[0].Dependencies.Where(d=&gt;d.Version.Contains(&quot;replace&quot;))
+         .ForEach(d=&gt; 
+                d.Version=_project.ReleasePathForAssembly(d.Id+&quot;.dll&quot;).GetAssemblyVersion().ToString());
+    }
+}
+
+</code></pre>
+<p>Now this is interesting. The <strong>Context</strong> property allows Make# to inject a predefined <strong>TaskContext</strong> that can be used to access script arguments (or in this case the init object) and pass values to be used by other tasks. <strong>BuildScript.GetNuspecFile</strong> is a helper returning a <strong>NuSpecFile</strong> object (predefined helper) which assumes there is a nuspec file with the project name available in the same directory as the build script. The <strong>GetAssemblySemanticVersion</strong> method of Project allows you to specify versioning details like pre-release or build meta as defined by <a href="http://semver.org">Semver</a>. For Nuget purposes any text suffix marks the package as pre-release.</p>
+<p>In order to update the dependencies version, I've created an utility class for that (default task discovery convention for Make# says that a class with the &quot;_&quot; suffix is not a task, i.e just a POCO) and my convention to indicate in a nuspec that a package dependency's version needs to be updated is that the version contains &quot;replace&quot;, like this</p>
+<pre><code class="language-csharp">&lt;dependency id=&quot;CavemanTools&quot; version=&quot;0.0.0-replace&quot; /&gt;
+
+</code></pre>
+<p>Then I tell the <strong>NuSpecFile</strong> object to save the updated nuspec in the project's temp folder then I invoke the predefined <em>CreateNuget</em> helper. Then I save the returned nupgk file path into <strong>Context.Data</strong> so that it can be used by the next task.</p>
+<pre><code class="language-csharp">[Depends(&quot;pack&quot;)]
+public class push
+{
+    public ITaskContext Context { get; set; }
+
+    
+    public void Run()
+    {
+        foreach (var project in Context.InitData.As&lt;PowerToolsInit&gt;().GetProjects())
+	    {
+	        var nupkg=Context.Data.GetValue&lt;string&gt;(project.Name+&quot;pack&quot;);     
+            BuildScript.NugetExePath.Exec(&quot;push&quot;, nupkg);
+	    }
+      
+        
+       
+    }
+}
+
+</code></pre>
+<p>Push doesn't do much. It gets the nupkg paths from <strong>Context.Data</strong> then invokes the <em>Exec</em> helper to execute nuget.exe to push the pakage. By default, NugetExePath assumes the nuget.exe is in the &quot;..\src.nuget&quot; directory. You can change that.</p>
+<p>And here you have it: the implementation to build MvcPwerTools. I don't know about you, but I think this object oriented approach is much easier to maintain, rather than functions and global variables. <a href="https://github.com/sapiens/MakeSharp">MakeSharp</a> is already available as a <a href="https://www.nuget.org/packages/MakeSharp/">nuget package</a>.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2014/06/11/Domain-Driven-Design-Modelling-Example-Brain-and-Neurons.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2014/09/04/Mixing-the-Domain.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

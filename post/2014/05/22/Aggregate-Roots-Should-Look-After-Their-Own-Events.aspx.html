@@ -1,0 +1,134 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Aggregate Roots Should Look After Their Own Events</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Aggregate Roots Should Look After Their Own Events"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Aggregate Roots Should Look After Their Own Events</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>22 May 2014</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>Today I've stumbled upon (well someone re-tweeted it) this <a href="http://mat-mcloughlin.net/2014/05/22/entities-should-look-after-their-own-events">interesting post</a> . However I must disagree with the OP approach and this my reason why. <strong>Update</strong>: Disagreeing means I have another opinion, not that Mat's wrong. All these being implementation details, every dev chooses what (s)he thinks to be the best approach.</p>
+<p>While I understand that we're dealing with an example and I shouldn't take things literally, I couldn't help but notice that the Site aggregate root (I presume) looks a lot like a container for other entities (it's a Site holding a collection of Account). This is maybe the biggest mistake when modelling an AR, to treat it as a container and in that example it does looks like it is one.</p>
+<p>But let's consider that the Site really is an AR and Account is an entity which partly defines the Site concept. We do care about AR as the most important concept of the aggregate. Therefore we're working just with the AR and in this case the repository will restore the AR from a stream of events (technically the entity restores itself but that's not the point here).</p>
+<p>The AR implementation details will actually decides which entity changes based on the event. I don't think that children of an AR should care about event sourcing because they're more of an implementation detail of the AR. Sure they might be entities, but that doesn't make them important enough in that context. The only star is the AR.</p>
+<p>And the AR isn't just a wrapper for its children objects. It should make sense for the Domain to actually implement a behaviour in an AR. Just as the Repository, we don't use it because we want a facade over other objects, the AR utility lies in the fact that it defines a (more) complex concept which makes uses of other minor, more generic domain concepts and encapsulates business interaction rules which happens to be expressed as objects.</p>
+<p>That's why it matters a lot to get the correct AR design. If it's wrong then you'll only have a container with wrapper methods while the real behaviour will belong elsewhere. And you'll be keeping the AR class because Evans said that we should have one and the repositories work with one.</p>
+<p>Back to Mat's example, the Account is basically a minor domain concept defining the Site (it should be if the modelling is correct). When something changes (or the object is restored) one or more events are applied. By the Aggregate Root to the Aggregate Root.</p>
+<p>For me it makes no sense to make an implementation detail (like Account is for Site) handle their own event stream. After all, Event Sourcing (ES) is a technical solution, the event store cares only about a stream of events regardless to the object it belongs to and the repository and the outside 'world' works only with the AR. Why should we burden a lower level object to support ES?</p>
+<p>Of course, you want some things to be, let's say, not public. I mean maybe we want to check if an Account is Active, so it makes sense for it to have a public getter, but maybe not a public setter. Internal is a good fit here, not fool proof but at least it hints that it's not for everyone to change. Even better, an interface can be used if it doesn't complicate things.</p>
+<p>So, I think that ES makes sense only at the AR level. The rest of the objects used by the AR, because they make sense only in AR context (quite important!) are the AR's responsibility to persist. An on this note, this means that I consider the the AR should (it's not a hard rule after all) also generate all the relevant events. Let's not forget that the AR implements one domain concept with all the relevant behaviour. It just makes sense for it to be the domain events authority for that concept.</p>
+<p>I would model differently Mat's example. Site is an AR but not for Account which itself is (can be) an AR. And maybe Activated doesn't belong to Account as well. I mean an account is an account, activated or not. Activation is a status i.e a kind of flag to tell <em>other</em> concepts/behaviour if/how they should use the Account. It's debatable if it makes sense to be part of the Account concept. I'm only guessing since I don't know exactly what Mat's Domain really is.</p>
+<p>In conclusion, I think of the AR as the main object of an aggregate, one which is defined by/coordinates/uses the &quot;lesser&quot; objects. Therefore, in my opinion, the AR should be the only one event sourced.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2014/05/20/Is-OrderLine-an-Entity-or-A-Value-Object.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2014/05/27/Tips-To-Be-More-Productive-(NetJava-Edition).aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

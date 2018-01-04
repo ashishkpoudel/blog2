@@ -1,0 +1,159 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Domain Events Toolkit Released And My Git Experience</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Domain Events Toolkit Released And My Git Experience"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Domain Events Toolkit Released And My Git Experience</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>04 April 2012</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p><strong>This post is OBSOLETE</strong></p>
+<p>So, I decided that my Domain Events Framework was a bit to dependent on Rx, not only as a library but also as a mindset. The DomainEvents pattern is pretty straightforward and I thought that a simplified and lighter alternative is better. I mean you don't have to understand the Rx principles in order to use it. Rx is an amazing library but way to overkill for this.</p>
+<p>After a bit of thinking,I decided that is also better to come up with a different name, rather than change the version and break pretty much everything. Besides, 'Toolkit' is a better description, it's something small and quick. 'Framework' usually makes you think of something big, complex, clunky.</p>
+<p>A quick tutorial</p>
+<pre><code class="language-csharp">//define an event
+public class OrderPlacedEvent:DomainEventBase&lt;Order&gt;
+{
+    public OrderPlacedEvent(Order data) : base(data)
+   {
+   }
+ }
+
+//define a handler
+ public class OrderPlacedEventHandler:DomainEventHandlerBase&lt;OrderPlacedEvent&gt;
+  {
+    public override void Handle(OrderPlacedEvent ev)
+    {
+      //handle event
+    }
+  }
+
+//create the events manager
+static IApplicationDomainEventsManager DomainEvents=new ApplicationDomainEventsManager()
+
+//register a handler for the event
+var subscription=DomainEvents.RegisterHandler(new OrderedPlacedEventHandler());
+
+//publish events
+DomainEvents.Publish(new OrderPlacedEvent(myOrder))
+
+//unregister the handler
+subscription.Dispose();
+
+</code></pre>
+<p>Pretty simple, heh? But you can find more details <a href="https://github.com/sapiens/DomainEventsToolkit/wiki/Usage">on Github</a> .</p>
+<p>Speaking of Github, this is also the day I joined the cool kids and made an account on github and actually using Git. My experience was pretty much ugly. Yes, Git is known as being hard to use on Windows and it lives up to the expectations. The Github site has more features than BitBucket but also I found it more cumbersome to write the docs. I write Markdown every day on Stackoverflow so I'm used to the syntax, but it was painful to write it on Github.</p>
+<p>I prefer Mercurial every day (I learned it quite fast), but unfortunately Github is all the rage these days and Github uses only Git. Well more knowledge means more power after all.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2012/03/05/The-Generic-Repository-Is-An-Anti-Pattern.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2012/04/06/Optimum-Ways-To-Restore-A-Domain-Object-In-A-Repository.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

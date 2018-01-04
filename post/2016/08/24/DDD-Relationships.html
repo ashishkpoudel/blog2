@@ -1,0 +1,140 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | DDD Decoded - Domain Relationships Explained</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  DDD Decoded - Domain Relationships Explained"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>DDD Decoded - Domain Relationships Explained</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>24 August 2016</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>One of the most trickiest things to understand in DDD is the domain relationship between 2 concepts. Most of the time when people think relationship they use the programmer mindset and they look for: <code>has-a</code> or <code>is-a</code> or <code>parent-child</code> or (worse) <code>one-to-many</code> etc  relationships. Which is valid when you write code but <strong>absolutely wrong</strong> when you do domain modelling.</p>
+<p>What we're looking for is a <strong>Domain Relationship</strong> i.e how the Domain sees the relationship from a business point of view or, to be more precise, what is the level of association/partnership between the concepts and what business rules are involved in maintaining the relationship. And usually there are 2 types: <strong>strong/always</strong> and <strong>weak/optional</strong>.</p>
+<h1>Strong (always) domain relationships</h1>
+<p>This one is the easiest: it simply means that in a given business case, a concept <strong>always</strong> needs the other. Examples: Customer and Order, Author and Tutorial etc. Contrary to how many devs think, it's never &quot;Customer has orders&quot;, it's always an action about an <code>Order</code> which might involve or not the <code>Customer</code>. When the customer places an order, we need to create that order and we're going to use a specific <code>Order</code> aggregate. But orders don't just appear from thin air, a customer is <em>always</em> involved so we can't create a new order without mentioning the customer.</p>
+<p><code>Order</code> concept requires at its creation a <code>Customer</code> so, in our Order model, we need to find the representation of the Customer that will be used by the Order aggregate. In most cases, we only need the simplest model that represents the <em>existence</em> of the Customer, so we'll use its id. That id is a Value Object and will be a part of the Order aggregate. We don't care about a Customer aggregate, because we don't need one for this business case. The <code>Order</code> is the main concept, <code>Customer</code> is secondary.</p>
+<p>However, if we are in a &quot;Cancel order&quot; case, there is no <code>Customer-Order</code> relationship to care about (there is an <code>Order-OrderStatus</code> one, though). So, we can cancel the Order without involving/mentioning the Customer, but, as I've said, there's a different relationship to take care of now.</p>
+<p>Let's say that an Order <em>always</em> needs to have a status. It might be tempting to include it as part of the aggregate but... if you look at it like the business does, it makes no sense for this <em>Value Object</em> to be part of it. What makes sense is to consider the <code>Order Status</code> as being a sort of metadata associated with an Order.</p>
+<p>When the Order is created, the only place where this relationship should be represented is the resulting <code>OrderCreated</code> event. That's because a status like &quot;Pending&quot; is implicit, we don't need any particular input or business constraint for it. But we still need to 'announce' that the order has that status, because it is part of the business state change.</p>
+<p>Now, when cancelling an order, we need to specify a different status for the order, however because we can have different outcomes based on the existing order status, we need to identify an aggregate just for that. This aggregate involves the <a href="http://blog.sapiensworks.com/post/2016/07/29/DDD-Entities-Value-Objects-Explained">Entity</a> <code>Order</code> (via OrderId) and the <a href="http://blog.sapiensworks.com/post/2016/07/29/DDD-Entities-Value-Objects-Explained">Value Object</a> <code>OrderStatus</code> and while being a model specific to changing the order status (representing the relationship itself) the resulting change is still associated with the <code>Order</code> concept.</p>
+<p>Using Event Sourcing, this means that the <code>OrderCanceled</code> event is considered to be part of the <code>Order</code> and so, the entity's id is the order's id. But the aggregate is about the <em>relationship</em> between <code>Order</code> and <code>OrderStatus</code>, it's not just an Order aggregate. If this sounds weird, I can only say that it will make sense with more experience.</p>
+<h1>Weak (optional) domain relationships</h1>
+<p>Basically, 2 concepts <em>can</em> be associated together. Think <code>Post</code> and <code>Category</code>. Both concepts are independent, but they can work together. In the business case  &quot;Assign post to category&quot; we need to create the association between them according to business rules. The relationship aggregate will involve both concepts and we get an interesting situation, because we end up with 2 entities but we need only one to act as the aggregate root. Which will it be?</p>
+<p>Clearly, we shouldn't just flip a coin. We need to understand the concepts better as well as the purpose of their association. It turns out that <code>Category</code> exists to organize posts, while a <code>Post</code> really doesn't care about categories. This relationship is more important (relevant) for the <code>Category</code> so, we select it to act as the aggregate root. This means that in the resulting event, the entity id would be that of the <code>Category</code> while <code>PostId</code> will be just a field.</p>
+<p>Being a relationship, even if changes are considered to 'belong' to a specific concept, the aggregate is <em>always</em> a model for the relationship.</p>
+<p>An interesting example is deleting something. If I soft delete a post, what I have is in fact a new relationship between the <code>Post</code> and <code>Deleted</code> status, the status is never part of the post itself (as a concept) but always some metadata associated with the post. Btw, the status is a Value Object even if its implementation is just an enum.</p>
+<p>Another example can be &quot;Pay invoice&quot;. Yet again, a relationship between an Entity (<code>Invoice</code>) and a Value Object (<code>InvoiceStatus</code>) . The status is metadata for the invoice and we need a relationship aggregate to change the status. From the domain point of view, something associated with the Invoice entity has changed.</p>
+<h1>Conclusion</h1>
+<p>The hardest part about domain relationships is to properly identify them; many times, especially when an Entity and a Value Object are involved, we can think that the VO is part of the Entity's aggregate, when in fact it's a relationship that might need its own aggregate. But with more practice, spotting relationships will become second nature.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2016/08/22/DDD-Cqs-Cqrs.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2017/08/23/Handling-Business-Rules-DDD.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

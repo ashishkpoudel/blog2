@@ -1,0 +1,233 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>14 July 2016</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<ul>
+<li><a href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-1">Part 1: Theory</a></li>
+<li><a href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-2">Part 2: Modelling Example</a></li>
+</ul>
+<p>Coding time! I bet you've been waiting for this part for some time. Yes, once we have our model, it's time to write the code. Let's start with the Value Objects first.</p>
+<pre><code class="language-csharp">public class TransferNumber
+    {
+        public string Value { get; private set; }
+        public Guid EntityId { get; private set; }
+
+        public TransferNumber(string value,Guid entityId)
+        {
+            //validate format based on domain rules
+
+            Value = value;
+            EntityId = entityId;
+        }
+    }
+
+    public class AccountNumber:IEquatable&lt;AccountNumber&gt;
+    {
+        public string Number { get; private set; }
+     
+        public AccountNumber(string number)
+        {
+            //validate format based on domain rules
+
+            Number = number;
+            
+        }
+
+        public bool Equals(AccountNumber other) =&gt; other != null &amp;&amp; Number == other.Number;
+
+    }
+
+    public class Debit
+    {
+        public decimal Value { get; private set; }
+        public AccountNumber Account { get; private set; }
+
+
+        public Debit(decimal value,AccountNumber account)
+        {
+            Value = value;
+            Account = account;
+            value.Must(v=&gt;v&gt;=0);//business rule
+            account.MustNotBeNull();//ensure VO is valid            
+        }
+    }
+     public class Credit
+    {
+        public decimal Value { get; private set; }
+        public AccountNumber Account { get; private set; }
+
+
+        public Credit(decimal value,AccountNumber account)
+        {
+            value.Must(v=&gt;v&gt;=0);//business rule
+            account.MustNotBeNull();//ensure VO is valid            
+            Value = value;
+            Account = account;
+        }
+    }
+
+</code></pre>
+<p>Code should be self-explaining, although I bet you're wondering about 2 things:</p>
+<ol>
+<li>Why <code>TransferNumber</code> gets a Guid?</li>
+<li>Why there's no VO implementation for the creation date?</li>
+</ol>
+<p>Well, let me start with no. 2. The creation date doesn't need encapsulation as there are no actual business constraints (in this example). Why complicate the implementation with another class?</p>
+<p><code>TransferNumber</code> acts as a natural id for the <code>Transfer</code>, however, for technical purposes, I prefer to have a technical id too, hence the Guid. We'll be using it in situations where we need to specify the entity, but we don't need a full Value Object, for example in messages.</p>
+<p>And speaking of messages, here's our domain <strong>change</strong> , expressed as a Domain Event</p>
+<pre><code class="language-csharp"> public class TransferedRegistered
+    {
+        public Guid EntityId { get; set; }
+        public string TransferNumber { get; set; }
+        public decimal Amount { get; set; }
+        public string DebitAccountNo { get; set; }
+        public string CreditAccountNo { get; set; }
+        public DateTimeOffset CreatedOn { get; set; }=DateTimeOffset.Now;
+    }
+
+</code></pre>
+<p>A nice, flattened data structure, containing <em>valid</em> data. Valid, because it's the Aggregate Root (AR) who's in charge of its generation. Now, I'm going to use a more &quot;exotic&quot; approach for the AR's implementation.</p>
+<pre><code class="language-csharp">
+ public static class Transfer
+    {
+        public static TransferedRegistered Create(TransferNumber number, Debit debit, Credit credit)
+        {
+            number.MustNotBeNull();
+            debit.MustNotBeNull();
+            credit.MustNotBeNull();
+
+            debit.Account.MustNotBe(credit.Account);
+
+            var ev=new TransferedRegistered();
+            ev.EntityId = number.EntityId;
+            ev.TransferNumber = number.Value;
+            ev.Amount = debit.Value;
+            ev.DebitAccountNo = debit.Account.Number;
+            ev.CreditAccountNo = credit.Account.Number;
+            return ev;
+        }
+    }
+
+</code></pre>
+<p>Wait... what?! Static class??? Static function???!!! Say what?! Yeah, it's called a functional approach. I prefer a hybrid OOP-FP style to code DDD models, especially ARs. Why? Because it's the simplest implementation. Remember that AR is a <em>role</em> , and the function is the implementation. It makes little sense to make it a full class, when a function is sufficient.</p>
+<p>Now, sure, I may have another command case involving <code>Transfer</code> but you see, each model is relevant to one case only and I want my code to reflect that. Basically,I want some boundaries between cases, so the class <code>Transfer</code> is the concept and each static method is an AR enforcing a specific model. Things being static it means they <strong>shouldn't share</strong> any state. They're grouped together only as a <em>convenience</em>.</p>
+<p>Our AR makes sure the business rules are respected and then it communicates the change by generating and returning a domain event.</p>
+<p>This is not the only way to implement our model, but I like it since it keeps things simple and our code is Event Sourcing friendly. In a future post, when we'll talk about Application Services, we're going to see how the AR is used by the service and what to do with the event.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2016/07/14/DDD-Aggregate-Decoded-2.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2016/07/23/DDD-Eventual-Consistency.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

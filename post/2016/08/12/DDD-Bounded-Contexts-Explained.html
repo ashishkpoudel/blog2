@@ -1,0 +1,142 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | DDD Decoded - Bounded Contexts Explained</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  DDD Decoded - Bounded Contexts Explained"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>DDD Decoded - Bounded Contexts Explained</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>12 August 2016</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>In DDD, we organize the Domain into Bounded Contexts(BC), with at least 1 BC. An important pattern, the BC is a bit tricky to &quot;get&quot; and to explain, but I assure you that you <em>need</em> it for proper DDD and it simplifies things on the long run.</p>
+<h1>What is a Bounded Context?</h1>
+<p>What if I told you that you've been using the bounded context principle for a while, without knowing it? You know those UI, Business and Database/Persistence layers? Those are literally bounded contexts, an implementation of the <strong>separation of concerns</strong> principle. A complex Domain can be considered a bunch of functionalities, but we like to group them into 'specialized' modules, where each module is responsible for a high level concern.</p>
+<p>If the Domain would be a company, the BCs would be its departments: accounting, HR, marketing, production etc. Each with its own responsibility, different but working together. And since DDD is about being <strong>Domain</strong> driven, we want to design our application similarly to how the real domain(business) is organized.</p>
+<h1>Why do we need a Bounded Context?</h1>
+<p>It's more than just mimicking the business' structure. The keyword here is <strong>bounded</strong>, that is, each BC has boundaries, limits that isolate the model from other BCs(if there are more than one). Actually, the boundaries <em>are</em> the main benefit of a BC because they 'contain' a specific model, allowing us to focus on it. We can say that the main utility of BC is that it allows <strong>better decoupling</strong>, which is the most important trait of maintainability. Basically, we group together related models while keeping them separated from other models.</p>
+<p>And like everything else in DDD, we aren't the ones designing or deciding BCs, we <em>identify</em> them. The business already knows what responsibilities and limits each department has, we're just putting that information together.</p>
+<h1>How we identify a BC?</h1>
+<p>Well, we pay attention to the language. The ubiquitous language is not just a DDD buzzword. It means that the business language has the same meaning in a certain context. <code>Invoice</code> means something to Accounting, but it can be just the name of a class for a programmer. Just because the name is identical doesn't mean it's the same concept. And Marketing can say <code>Customer</code> and Accounting can say <code>Payer</code> but they can both mean the same thing for the business as a whole.</p>
+<p>The important part here is that names are by themselves irrelevant. We need to understand the <em>concept</em>'s definition that makes sense in that context in order to place a business case in a certain BC. Many times is quite easy, <code>Create an order</code> is part of <code>ECommerce</code> but sending the order's confirmation email is clearly part of a different BC, something like <code>Marketing</code> or <code>Sales</code>. <em>How</em> you send the email it's an implementation/infrastructure detail and we're not interested in that (at this point).</p>
+<h1>How do the BCs communicate?</h1>
+<p>Since the model of a BC makes sense only inside that BC we can't just use (refer) other BC's model directly. But in many cases we need information available in another BC. How can we get it, without breaking the boundaries?</p>
+<p>Enter <strong>Domain Events</strong>. They represent changes of the global business state, but they do have another, very useful technical trait: they are messages, simple data structures. They are no longer a <em>model</em> , they are simply information and they don't belong to a BC, they are domain wide valid.</p>
+<p>If one BC is interested in data from another BC, it will just subscribe to the relevant events and then it will use that data to maintain its very own <strong>read model</strong> (yes, that's CQRS in action). And since messages are data and not part of a model, boundaries are not violated. All this should be part of the BC's own infrastructure.</p>
+<p>But what about invoking a business case which is part of a different BC? When you need that, it means you're dealing with a business process, a sequence of business cases, however, even if a business case belongs to a BC, the process itself doesn't and we're going to have a <strong>process manager</strong> a.k.a saga in charge, which is a technical implementation detail. When we identify a process, we care about which business cases are part of it, the manager itself doesn't exist as part of the domain.</p>
+<p>A business case shouldn't invoke directly the next business case i.e it shouldn't act as a part-time project manager; in order to achieve decoupling and to maintain boundaries, business cases don't know anything about other cases, it's the process manager's job to know and to invoke the next case.</p>
+<h2>In special situations...</h2>
+<p>..you might want to couple one BC to another, because it's the easiest way. It can be a valid, good enough solution, but you have to be careful. The trick here is to find the right compromise between decoupling and easy implementation.</p>
+<h1>Conclusion</h1>
+<p>The <strong>Bounded Context</strong> concept is very important for the maintainability of the app. It allows us to deal with relevant models that don't overlap. It's important to note that this is a logical grouping criteria and we can implement everything inside a monolith. But if the app needs to be scalable and we go distributed, then we may want to implement one BC per app/process/server.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2016/07/29/DDD-Entities-Value-Objects-Explained.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2016/08/16/DDD-Domain-Services-Explained.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

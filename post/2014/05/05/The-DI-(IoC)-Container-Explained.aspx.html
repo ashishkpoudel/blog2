@@ -1,0 +1,167 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | The DI (IoC) Container Explained</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  The DI (IoC) Container Explained"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>The DI (IoC) Container Explained</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>05 May 2014</b></span> in <a href="/tags.html#Best practices">Best practices</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>While commenting on a stackoverflow question, Mark Seemann (<a href="https://github.com/AutoFixture">Autofixture</a>) told me that in his experience a lot of people (even experienced developers) are not comfortable with using a DI Container, even if they understand the benefits. They seem to fear its &quot;magic&quot; .  This post is about dispelling the magic.</p>
+<p>I assume you already know what dependency injection (DI) is and you're already doing it manually. Something like</p>
+<pre><code class="language-csharp">var service= new Service(new Repository(new DBContext()), new OtherService( new OtherRepository()))
+
+</code></pre>
+<p>Imagine doing that everytime you need an instance of that service or one of its dependencies. I know, we can create a Factory class that will take care of that. I got news for you: it's already created and it's called a DI Container (DIC). Yeah, a DIC is basically a factory for your objects. And it's not magical at all because it uses the language/framework reflection capabilities to know what are the dependencies of an object and also needs configuration in order to do something. And when magic needs configuration to work, it isn't magic.</p>
+<p>Let's take an example</p>
+<pre><code class="language-csharp">public interface IRepository { }
+ 
+ public class Repository:IRepository {} 
+ 
+ public class MyService{}
+ 
+public class OtherService
+{
+    public OtherService(MyService svc, IRepository repo) {}
+
+}
+
+</code></pre>
+<p>We need an instance of OtherService so you ask the container for it. Some containers (like autofac) require explicit type registration for EVERY type that will be used by the container.If you ask it for an object will return null or throw an exception (not very magical). Other containers will try to create an instance using a public parameterless constructor (if available) and this is all the magic they do (calling_ Activator.CreateInstance()_ in .net).</p>
+<p>So first you need to tell the container that you want a certain type to be used and how it should be used. Basically, you say to it: &quot;Know about this type and use it in the following scenarios: when a concrete instance is requested or when an interface implemented by this type is requested. Oh, and re-use the same instance every time for type A i.e make it a singleton&quot;.</p>
+<p>Let's say do this with Autofac</p>
+<pre><code class="language-csharp">var cb=new ContainerBuilder();
+ 
+ cb.RegisterType&lt;Repository&gt;().AsImplementedInterfaces()
+ 
+ //alternative more explicit 
+ cb.RegisterType&lt;Repository&gt;().As&lt;IRepository&gt;().InstancePerHttpRequest();
+ 
+ cb.RegisterType&lt;MyService&gt;();
+ cb.RegisterType&lt;OtherService&gt;();
+
+</code></pre>
+<p>Now, you ask for an object of <strong>OtherService</strong>. The Container sees the <strong>MyService</strong> dependency and uses the configuration to create an instance. Then it sees the <strong>IRepository</strong> dependency and it knows that for that interface it should use an instance of the <strong>Repository</strong>. If the Repository has itself a dependency, it will use the configuration to create an instance of that type. Once again, nothing mystical or magical here. Just a factory object using configuration and reflection to instantiate types.</p>
+<p>The point of the container is that it automates work for you. Instead of manually coding a factory, you configure an existing one. However in a real app, you won't be registering each type manually. Even here we can automate things :) using conventions. We decide on naming conventions and then we register types matching a convention in a certain way.</p>
+<p>For example, I decide that all my service will contain the word <em>Service</em> in their names and all instances of a service should be request scoped (one instance per http request). However all my in memory repositories, should start with <em>InMemory</em> and they should be singletons.</p>
+<pre><code class="language-csharp">cb.RegisterAssemblyTypes(this.Assembly).Where(t=&gt;t.Name.Contains(&quot;Service&quot;)).AsSelf().AsImplementedInterfaces().InstancePerHttpRequest();
+ cb.RegisterAssemblyTypes(this.Assembly).Where(t=&gt;t.Name.StartsWith(&quot;InMemory&quot;)).AsSelf().AsImplementedInterfaces().SingleInstance();
+
+</code></pre>
+<p>Now, everytime I add a new service or a new in memory repository, it gets automatically picked up by the container. Magic! Or not. The container scans for assemblies then asks them for the public types then filters them by a condition (implementing our convention) and registers the resulting types to be used as self and as concrete types for the implemented interfaces.</p>
+<p>A container also does object lifetime management so you don't have to worry about it. You can tell it to serve a new instance every time, an instance per scope (the http request is a tagged scope) or a singleton. Btw, this is the preferred way to implement singletons. At least Autofac cares about disposable types, so when the scope ends, Dispose() is automatically invoked.</p>
+<p>I hope you're not afraid of DI Containers any more. They are simply factories which instantiate classes and do the boring work of getting every dependency right and they need configuration in order to work properly. You know that objects should be loosely coupled and when you have many of them with abstractions and different concrete types for the same abstraction, the DI Container is an invaluable tool that simplifies your work. And once you've used one properly, it will be very hard not to use it from then on.</p>
+<p>P.S: I'm using a DI Container by default for every non-trivial (prototype,tests) app. It takes me a whole 30 seconds to set up one and then I just add configuration conventions as I need them. And I simply don't care about the numbers of classes or abstractions. I do care about the number of dependencies a constructor has but that's an object design issue, not a technical one.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2014/04/29/-Modelling-DDD-Behaviour-And-Use-Cases-By-Example.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2014/05/08/A-Way-To-Provide-Immediate-Feedback-With-CQRS-Commands.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

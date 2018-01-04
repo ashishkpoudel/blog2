@@ -1,0 +1,156 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | DDD Decoded - The Aggregate and Aggregate Root Explained (Part 1)</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  DDD Decoded - The Aggregate and Aggregate Root Explained (Part 1)"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 1)</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>14 July 2016</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>For easy reading this topic is split in 3 parts: theory, <a href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-2">example modelling</a> and <a href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-3">coding (C#)</a> .</p>
+<p>A lot of actual and virtual ink has been used to explain this important DDD concept, but as Vaughn Vernon puts it &quot;aggregates are one of the most important DDD patterns and one of the most misunderstood ones&quot;. That's because they are hard to explain, but once you've <em>really</em> understood it, everything becomes easy and clear. But, first you have to accept the fact that <a href="http://blog.sapiensworks.com/post/2015/11/23/DDD-is-not-programming">DDD is not about coding</a>. Once you know that DDD is just a way to gather domain information and organize it in a technical (developer) friendly manner, you're ready to grok the Aggregate and its sibling <em>concept</em>, the Aggregate Root.</p>
+<h1>A model specific to one business case</h1>
+<p>Everytime we change something we have to make sure we're making valid changes from the business point of view. Now, the easiest way is to represent things as close as we can to how the business sees them. This means we have to identify the <strong>concepts</strong> that the domain uses, but more importantly, we need to identify a <em>relevant</em> representation of a concept, relevant for the busines case using that concept.</p>
+<p>For example, I can identify the <code>Invoice</code> concept, but what I really need is a representation of it (a model) that I can use in a specific use case like: <code>Create invoice</code>. But what about <code>Cancel invoice</code>? Well, it has its own represenation of <code>Invoice</code>. Each business case needs its own <em>relevant</em> model even if it involves the same concept. We end up with one model per use case but with multiple representations of the same concept. And yes, we <strong>want</strong> that. <em>Relevancy</em> is a keyword in DDD.</p>
+<h2>A CQRS intermezzo</h2>
+<p>Applying the Command Query Segregation (CQS) principle, we ask ourselves: &quot;Am I trying to <strong>change</strong> things here? Do I need this model to change the existing business state?&quot;. If yes, then our model is actually a Command Model (yes, that's the C from CQRS) that will contain all he information we need to change that particular part of the business state.</p>
+<p>For a <code>Create Invoice</code> case, we need a model of <code>Invoice</code> that makes sense to that business case <em>only</em>! The domain expert will tell you what is the data and the business constraints needed to create an invoice, basically, the <strong>components</strong> and the <strong>rules</strong> which together define a new invoice. We've identified our Command model which in DDD is called an Aggregate!!</p>
+<p>But before we continue...</p>
+<h2>A real world aggregate example</h2>
+<p>Let's say you want to buy a table from Ikea. Do you get a table? Not really, you get a bunch of components and instructions in a box that you have to put together yourself. Let's say you take out all the wooden parts, screws etc from the box and put them in a pile. Do you have a table? No. You have the <strong>components</strong> of a table but you need to <em>assemble</em> them according to some <strong>rules</strong> in order to end up with a table.</p>
+<p>The table is an <strong>aggregate</strong>, that is a group of components 'held' together by (assembly)rules, in order to act as a <strong>single</strong> thing. Both components and rules (Vernon calls them invariants) are what makes an aggregate. A pile of parts doesn't make a table, just some assembly rules don't mean anything, we need all of them to create our table.</p>
+<p>The aggregate is a model that represents all the relevant information we need to change something. Only that, the information is organized into components, themselves models of other smaller concepts, and rules that needs to be respected. Everytime we want to make changes, we need to identify the aggregate that tell us the relevant components and the rules they must respect.</p>
+<h1>Identifying an Aggregate</h1>
+<p>Back to our table example. First thing, we need a busines case that aims to make changes. That's important, because if you only need to read stuff, you don't need an aggregate, but just a simple read model and remember that an aggregate is <strong>always</strong> a command model (meant to change business state). While we don't really want to build a table, that's what we need to do in order to have one, so this is our business case: <code>Assemble table</code> (note the semantics).</p>
+<p>We want to identify the command business cases as granular as they can be and this means we want one business state change per case. Many times, we think it's one case when in fact it's a whole process i.e a sequence of cases. So, we need to pay attention to the domain expert, they can help us identify the boundaries of a business case. <strong>Example</strong>: a process named &quot;Generate invoice&quot; can involve the cases of &quot;Create invoice&quot; and &quot;Create PDF from invoice&quot;. If we need to change the state of different concepts (&quot;Invoice&quot;,&quot;Pdf Invoice&quot;), then we might deal with a process. And a process can span multiple bounded contexts as well. But we want to identify only one business case (or at least we tackle them one at the time) i.e one relevant business change.</p>
+<p>Then we identify the business concept - or domain relationship - that needs to change (being created, updated, deleted) and the relevant model representing it. Again, we want a model which is specific for that business case. So we end up with a bunch of other concepts (we need their models, too!) and business rules. So, for our table, which is the identified concept, we need a representation that tells us what are the important parts and rules required to build it. In this case, we're lucky, Ikea did the work for us, so our model consists of all the wooden parts and screws, plus the assembly instructions.</p>
+<h2>An aggregate is an always consistent portion of the business model</h2>
+<p>An aggregate defines consistency boundaries, that is, everything inside it needs to be immediate consistent. This is important, because it tells us that no matter how many actual changes (state mutations) need to be performed, we have to see them as one commit, one unit of work, basically one 'big' change made up from smaller related changes which need to succeed together.</p>
+<p>But we don't actually <em>design</em> things to be in a consistent manner; the fact that we have all those components and rules <strong>together</strong> tells us that we're dealing with a group acting as a single unit that needs to always be consistent. This is how we know we've <em>found</em> an aggregate.</p>
+<p>We can say that we can identify an aggregate either starting from a 'big' concept and understand its (business) composition, or by noticing related concepts and rules that together define an area that needs to be always consistent. Either way, we end up with an aggregate.</p>
+<p>A somewhat interesting situation is when we deal with domain relationships, in some cases we need to identify an aggregate for them too. But that's a topic for another post.</p>
+<p>As you see, modelling an aggregate has nothing to with object oriented design, but everything to do with paying attention to the domain expert and really groking the domain.</p>
+<h2>The aggregate role is very specific</h2>
+<p>This is an important thing. We need a model because we want to make valid business state changes. However, the purpose of our aggregate is to <strong>control</strong> change, <em>not be</em> the change. Yes, we have data there organized as <a href="http://blog.sapiensworks.com/post/2016/07/29/DDD-Entities-Value-Objects-Explained">Value Objects or Entity</a> references but that's because it's the easiest and most maintainable way to enforce the business rules. We're not interested in the state itself, we're interested in ensuring that the intended changes respect the rules and for that we're 'borrowing' the domain mindset i.e we look at things as if WE were part of the business.</p>
+<p>An aggregate instance communicates that everything is ok for a specific business state change to happen. And, yes, we need to persist the busines state changes. But that doesn't mean the aggregate itself needs to be persisted (a possible implementation detail). Remember that the aggregate is just a construct to organize business rules, it's not a meant to be a representation of state.</p>
+<p>So, if the aggregate is not the change itself, what is it? The change is expressed as one or more relevant <strong>Domain Events</strong> that are generated by the aggregate. And those need to be recorded (persisted) and applied (interpreted). When we apply an event we &quot;process&quot; the business implications of it. This means some value has changed or a business scenario can be triggered. More about that in a future post.</p>
+<p>You can say the job of the aggregate goes like this: &quot;Based on the input you gave me and business rules that I know, the following business state changes took place: X happened with these details. Do whatever you want with it, it's not my job, I'm done here&quot;.</p>
+<h1>The role of Aggregate Root</h1>
+<p>The companion of the Aggregate is the Aggregate Root (AR) and we already know that we should use the AR to manipulate things in our aggregate. However...</p>
+<h2>Artifacts everywhere..</h2>
+<p>In the beginning, DDD was very much mixed (coupled) with OOP. And that's why we usually have an OOP centric view and patterns names. But today, DDD is about identifying a domain model regardless how it will be implemented; however its OOP roots(ha!) left some artifacts, especially in naming e.g Value Object.</p>
+<p>The name &quot;Aggregate Root&quot; make sense in an OOP approach where you have a group of objects and you want only one to be the &quot;root&quot;, the facade representing the whole structure, however, in a more abstract manner, the role of the AR is simply to enforce the aggregate's business/consistency rules. So today, AR is a <strong>role</strong> that can be implemented by an object or just a function. If the aggregate means a group of components and rules, the AR is the &quot;guardian&quot; making sure we're dealing with the right components and the rules are respected. In our real life table example, the AR is the person assembling the table.</p>
+<p>And that's the theory! Onward to a <a href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-2">modelling example</a>.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2016/06/06/practical-event-sourcing-and-cqrs-benefits.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2016/07/14/DDD-Aggregate-Decoded-2.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

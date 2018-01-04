@@ -1,0 +1,131 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | Repository vs DAO</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  Repository vs DAO"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>Repository vs DAO</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>01 November 2012</b></span> in <a href="/tags.html#Best practices">Best practices</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>You're right, it's confusing! You have the repository which abstracts the persistence access details and you have the Data Access Object (DAO) which used to .. abstract persistence access details. So, is there a difference between those two, are they the same thing with different name?</p>
+<p>Well, once again the devil is in the details. In many apps, especially data-centric, DAO and a repository are interchangeable as they do the same job. But the difference starts to show up when you have more complex apps with complex business behavior. While the Repository and DAO will strict abstract the data access they have different intentions in mind.</p>
+<p>A DAO is much closer to the underlying storage , it's really data centric. That's why in many cases you'll have DAOs matching db tables or views 1 on 1. A DAO allows for a simpler way to get data from a storage, hiding the ugly queries. But the important part is that they return data as in <strong>object state</strong>.</p>
+<p>A repository sits at a higher level. It deals with data too and hides queries and all that but, a repository deals with** business/domain objects**. That's the difference. A repository will use a DAO to get the data from the storage and uses that data to restore a business object. Or it will take a business object and extract the data that will be persisted. If you have an anemic domain, the repository will be just a DAO. Also when dealing with querying stuff, most of the time a specialized query repository is just a DAO sending DTOs to a higher layer.</p>
+<p>Recently, someone told me that my repository approach is just a badly named DAO and it doesn't match Martin Fowler's definition of the Repo. Well, besides what I've said above, there is something else when dealing with the repository pattern. I tend to apply a pattern according to its spirit and intention, not as a dogma.</p>
+<p>We have the <a href="http://martinfowler.com/eaaCatalog/repository.html">definition</a>: &quot;<strong>Mediates between the domain and data mapping layers</strong> using a collection-like interface for accessing domain objects. A system with a complex domain model often benefits from a layer [...]  that <strong>isolates domain objects</strong> from details of the database access code&quot;.</p>
+<p>So the intention of the repository is to isolate the domain objects from the database access concerns. This is the important part. The fact that the repository is using a collection-like interface, doesn't mean you MUST treat it as a collection and you MUST have ONLY Add/Remove/Get/Find functionality. Really, it's not a dogma and you don't have to apply it by the letter.</p>
+<p>Let's think a bit. The pattern is used to acheive separation of concerns and to simplify things. If you force yourself to use a collection and a criteria and some unit of work (things that made ORMs very popular) in probably 99% of cases you just complicate things. And it's quite ironic that people are using ORMs or some other Unit of Work approach to apply the repository pattern forcing their domain objects to include data access related stuff (like making properties virtual for NHibernate or needing to provide a parameterless constructor etc). What's the point in using the repository pattern if you couple your domain objects to data access details?</p>
+<p>Back to Repository and DAO, in conclusion, they have similar intentions only that the Repository is a higher level concept dealing directly with business/domain objects, while DAO is more lower level, closer to the database/storage dealing only with data. A (micro)ORM is a DAO that is used by a Repository. For data-centric apps, a repository and DAO are interchangeable because the 'business' objects are simple data.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2012/10/10/Do-We-Need-The-Repository-Pattern.aspx.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2012/11/14/Testing-has-no-business-value.aspx.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

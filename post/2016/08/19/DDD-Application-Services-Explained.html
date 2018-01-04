@@ -1,0 +1,215 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sapiensworks | DDD Decoded - Application Services Explained</title>
+  <meta name="description" content="Converting tech into business advantage">
+  <meta name="author" content="Mike Mogosanu">
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In-depth technical articles for developers who want to deliver more business value"/>
+<meta name="twitter:title" content="SapiensWorks -  DDD Decoded - Application Services Explained"/>
+<meta name="twitter:site" content="@sapiensworks"/>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridlex/2.6.1/gridlex.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <!-- <link rel="alternate" type="application/atom+xml" title="Sapiensworks Articles" href="/feed.atom" /> -->
+  <link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a3b096e9d192f001374336b&product=sop' async='async'></script> -->
+</head>
+<body>
+<header>
+  <div class="grid-noGutter-middle">
+    <div class="col-4_xs-12_sm-12" data-push-left="off-4_sm-0_xs-0">
+      
+          <h1 class="title">  <a href="/">  Sapiens Works </a> </h1>
+      
+      
+
+      </div>
+      
+      <div class="col-3_xs-8_sm-8 text-center" data-push-left="off-1_xs-1_sm-1"><a href="https://twitter.com/sapiensworks">
+        <span class="fa fa-twitter-square fa-2x"></span></a>
+        <a href="https://github.com/sapiens">
+        <span class="fa fa-github-square fa-2x"></span></a>
+        <a href="http://stackoverflow.com/users/1017868/mikesw">
+        <span class="fa fa-stack-overflow fa-2x"></span></a>
+        <!-- <a href="/feed.atom">
+        <span class="fa fa-rss-square fa-2x"></span></a> -->
+      </div>
+    
+    
+  </div>
+  <div class="grid-middle-center-noGutter">
+      <div class="col-3_xs-12_sm-12"><span class="tagline">Converting tech into business advantage</span></div>
+    
+    </div>
+    
+        <nav class="grid-center-noGutter-middle main-menu">
+            
+            <a href="/tags.html" class="col-1_xs-3_sm-3">
+              <span>Topics</span>
+            </a>
+            <a href="/about.html" class="col-1_xs-3_sm-3">
+              <span>About</span>
+            </a>
+            
+         
+            
+          </nav>
+
+    
+    
+
+ 
+  
+
+  
+
+
+  
+</header>
+<main>
+
+
+
+ <article>
+    <header>
+      <h1>DDD Decoded - Application Services Explained</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>19 August 2016</b></span> in <a href="/tags.html#Domain driven design">Domain driven design</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+<p>We have all those domain models, <a href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-1">aggregates</a> and <a href="http://blog.sapiensworks.com/post/2016/08/16/DDD-Domain-Services-Explained">domain services</a> but they are just parts of business cases, floating around. We need something to put things together, to orchestrate the fulfillment of a specific business case. We need a manager of sorts and in DDD that role is performed by an <strong>Application Service</strong>.</p>
+<h1>What does an Application Service (AS) actually do?</h1>
+<p>The simplest way to look at it is as the 'hosting environment' of a business case. It takes care of invoking the correct domain models and services, it mediates between Domain and Infrastructure and it shields any Domain model from the outside. Basically, in a DDD app, only the Application Service interacts directly with the Domain model. The rest of the application only sees the Application Service (interesting choice of name).</p>
+<p>Business functionality is expressed as business cases and the AS acts as a shell, encapsulating one business case (it should anyway, in practice we can host a simple process i.e more than one business case, but that's more of a pragmatic compromise). This means the UI/API or some higher layer talks to the AS responsible for that requested functionality and the AS gets to work. At most, the calling layer receives some result which shouldn't be nor contain a domain model i.e entities or value objects.</p>
+<p>It's important to note that an AS doesn't have any business behaviour. It knows only <strong>what</strong> model to use but not <strong>how</strong> that model works. So, the AS knows which Aggregate to invoke, it knows about some Domain Services that might be required, but that's it.</p>
+<h1>An example</h1>
+<p>Let's continue the <a href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-2">money transfer example</a>. But now, we have the business rule that says the transfer can be done only if the account balance has enough money. So we're introducing 2 Domain Services: <code>Calculate account balance</code> and <code>Can account be debitted</code> both implemented as functions of a <code>IDomainServices</code> abstraction. But we also need an <code>AccountBalance</code> Value Object.</p>
+<p>For obvious reasons, the code is heavily simplified. Also, this is just one of the possible implementations. It's a matter of style in the end, as long as the code is clear and respects the domain model you can go wild with the implementation.</p>
+<pre><code class="language-csharp">
+  public class AccountBalance
+    {
+        
+    }
+
+    /* Domain Services implementation */
+    public interface IDomainServices
+    {
+        AccountBalance CalculateAccountBalance(AccountNumber acc);
+        bool CanAccountBeDebitted(AccountBalance balance,Debit debit);
+    }
+
+    /* abstraction representing the query model, implementation resides in Infrastructure */
+    public interface IDomainQueries
+    {
+        AccountNumber GetAccountNumber(string number);
+    }
+
+    /* Event store abstraction, basically our 'repository' */
+    public interface IEventStore
+    {
+        
+    }
+
+    //command object, data structure
+    public class TransferMoney
+    {
+        public Guid Id { get; set; }
+        public string AccountFrom { get; set; }
+        public string AccountTo { get; set; }
+        public decimal Amount { get; set; }
+
+    }
+
+    /* Application Service!!! */
+
+    public class TransferManager
+    {
+        private readonly IEventStore _store;
+        private readonly IDomainServices _svc;
+        private readonly IDomainQueries _query;
+        private readonly ICommandResultMediator _result;
+
+        public TransferManager(IEventStore store, IDomainServices svc,IDomainQueries query,ICommandResultMediator result)
+        {
+            _store = store;
+            _svc = svc;
+            _query = query;
+            _result = result;
+        }
+
+        public void Execute(TransferMoney cmd)
+        {
+            //interacting with the Infrastructure
+            var accFrom = _query.GetAccountNumber(cmd.AccountFrom);
+
+            //Setup value objects
+            var debit=new Debit(cmd.Amount,accFrom);
+
+            //invoking Domain Services
+            var balance = _svc.CalculateAccountBalance(accFrom);
+            if (!_svc.CanAccountBeDebitted(balance, debit))
+            {
+                //return some error message using a mediator
+                //this approach works well inside monoliths where everything happens in the same process 
+                _result.AddResult(cmd.Id, new CommandResult());
+                return;
+            }
+
+            //using the Aggregate and getting the business state change expressed as an event
+            var evnt = Transfer.Create(/* args */);
+
+            //storing the event
+            _store.Append(evnt);
+            
+            //publish event if you want
+        }
+    }
+
+</code></pre>
+<p>This particular approach uses a message driven architecture as well as Event Sourcing. We see how the AS orchestrates the business case; the domain model isn't aware of the command object, the event store or the result mediator. One thing that might be confusing is the branching, it almost looks like the AS needs to know the domain rules of what happens when an account balance is too low, however it doesn't :) . That's one of the &quot;tell me if I can continue with the business case&quot; type of situations and the AS uses a Domain Service to get an answer for that. Again, it's a matter of knowing <strong>who</strong> is responsible for something, not <strong>how</strong> something needs to be done. The AS <em>never</em> micro-manages.</p>
+<p>If you want to keep things even simpler, you can call this service directly from the UI/API layer, and make <code>Execute()</code> return a <code>CommandResult</code>. We can implement things as complex or as simple we want, as always, it depends on many factors.</p>
+<h1>Conclusion</h1>
+<p>The Application Service is the host of a business case and acts as a mediator between the app and the domain model. As long as you keep the domain behaviour inside the dedicated patterns and none leaks into the AS, you're good to go. Implementations vary and there's not a recipe of how a &quot;good&quot; AS looks like. Just remember its role and respect the domain model, the actual code is up to you.</p>
+
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+ <a class="previous" href="/post/2016/08/16/DDD-Domain-Services-Explained.html">&laquo; Previous</a> 
+ <a class="next" href="/post/2016/08/22/DDD-Cqs-Cqrs.html">Next &raquo;</a>    
+ </footer>
+  </article>;
+
+  <section id="comments">
+  
+      <div class="comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+      
+            var disqus_shortname = 'sapiensworks';
+      
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+      
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      
+        </section>
+</main>
+<footer>
+    © 2018 SapiensWorks.com 
+</footer>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
