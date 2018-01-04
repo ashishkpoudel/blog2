@@ -19,12 +19,12 @@ install:
   - 7z x ..\Wyam\Wyam.zip -o..\Wyam -r
 
 build_script:
- - ps: >-
-    Copy-Item config.wyam ..\Wyam
+	- ps: >-
+		Copy-Item config.wyam ..\Wyam
 
-    Copy-Item Wyam.PrevNext.dll ..\Wyam
+		Copy-Item Wyam.PrevNext.dll ..\Wyam
 
-    ..\Wyam\wyam -i .\input --output ..\output
+		..\Wyam\wyam -i .\input --output ..\output
 	
 on_success:
   # Switch branches to gh-pages, clean the folder, copy everything in from the Wyam output, and commit/push
@@ -45,4 +45,4 @@ on_success:
   - git commit -a -m "Commit from AppVeyor"
   - git push
   
- test: off
+test: off
