@@ -37,7 +37,7 @@ OrderBy((d,c)=>DateTime.Parse(d.Metadata["published"].ToString())).Descending(),
 		// Put the GenerateFeeds module inside a Branch module so that the feed
 		// documents don't get added to the set of output documents for this pipeline
 		GenerateFeeds(),
-		WriteFiles("*")
+		WriteFiles("./")
 	)
 		
 	
