@@ -24,7 +24,7 @@ OrderBy((d,c)=>DateTime.Parse(d.Metadata["published"].ToString())).Descending(),
 	Meta("Filename",@doc.Source.FileNameWithoutExtension.ToString()),
 		Markdown(),		
 		Meta("Post", @doc.Content),  // Move the markdown content to metadata
-		Meta("PostFile", $"post/{DateTime.Parse(@doc["published"].ToString()).ToString("yyyy/MM/dd")}/{((string)@doc.Metadata["Filename"]).ToLower().Replace(' ', '-').Replace(',','-')}.html"), 
+		Meta("PostFile", $"post/{DateTime.Parse(@doc["published"].ToString()).ToString("yyyy/MM/dd")}/{((string)@doc.Metadata["Filename"]).Replace(' ', '-').Replace(',','-')}.html"), 
 	PrevNext(),
 	Merge(
         ReadFiles("posts/post.cshtml")  // Load the Razor post page template
