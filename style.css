@@ -1,0 +1,339 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Pontano+Sans|Open+Sans|Roboto|Squada+One|PT+Serif|PT+Mono");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+html {
+  font-size: 1.35em;
+  font-family: 'Pontano Sans','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@media only screen and (max-width: 500px) {
+  html {
+    font-size: 1.2rem;
+  }
+}
+
+a {
+  color: #277ec5;
+  font-weight: bold;
+  font-stretch: normal;
+}
+
+.with-bg-color {
+  background: linear-gradient(#8cbff3, #4b80b6);
+  background-repeat: no-repeat;
+}
+
+body {
+  margin-bottom: 0.5rem;
+  color: #524f4f;
+}
+
+body > header {
+  border-bottom: 1px solid #9e9e9e;
+  background: #ffffff;
+  width: 100%;
+  position: fixed;
+  z-index: 9000;
+  box-shadow: 0px -2px 9px #7e7e7e;
+  top: 0;
+  left: 0;
+}
+
+body > header .title {
+  padding-top: 1rem;
+  font-weight: bold;
+  color: #3f69a8;
+  color: #277ec5;
+  text-align: center;
+  font-family: "Squada One";
+  font-size: 170%;
+  margin-bottom: .2rem;
+}
+
+body > header a {
+  text-decoration: none;
+}
+
+body > header span.tagline {
+  margin: .3rem 0;
+  font-size: 80%;
+  display: block;
+  color: #949494;
+  text-align: center;
+  font-weight: normal;
+  font-family: "Open Sans";
+}
+
+body > header .fa {
+  color: #f56b41;
+}
+
+body > header .fa:hover, body > header .fa:focus {
+  color: #f89171;
+}
+
+body > header .main-menu {
+  text-align: center;
+}
+
+body > header .main-menu a {
+  display: inline-block;
+  text-decoration: none;
+  color: #277ec5;
+  font-weight: bold;
+  font-family: "Roboto";
+}
+
+body > header .main-menu a span {
+  padding: .5rem 0;
+  display: block;
+  font-size: .8em;
+}
+
+body > header .main-menu a:hover, body > header .main-menu a:focus {
+  background-color: #277ec5;
+  border-radius: 3px 3px 0 0;
+  color: #fff;
+}
+
+body main {
+  margin-top: 6rem;
+  margin-bottom: 3rem;
+  padding: 1rem;
+}
+
+@media only screen and (max-width: 500px) {
+  body main {
+    margin-top: 8rem;
+    padding: 0;
+  }
+}
+
+body footer {
+  font-size: .85rem;
+  padding: 1rem;
+  text-align: center;
+  width: 80%;
+  margin: .5rem auto;
+  border-top: 1px solid #a3ccf5;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.block {
+  display: block;
+}
+
+.about-box {
+  font-family: "Open Sans";
+  font-size: 1.2rem;
+}
+
+.about-box h1 {
+  font-size: 1.3rem;
+  font-family: "Roboto";
+  font-weight: bold;
+}
+
+main article {
+  background: #fff;
+  font-family: "PT Serif";
+  padding: 1rem 2rem;
+  border: 1px solid ligthen(#277ec5, 10%);
+  border-radius: 5px;
+}
+
+main article ul {
+  font-family: "PT Serif";
+  list-style-type: disc;
+  font-size: .85em;
+  padding-left: 3rem;
+}
+
+main article ul li {
+  margin: .5rem 0;
+}
+
+main article .article-meta {
+  font-size: 80%;
+  color: #9d9d9d;
+  text-align: center;
+  padding-left: 2rem;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+main article .article-meta a {
+  padding-left: .2rem;
+  font-style: normal;
+  font-size: 120%;
+}
+
+main article blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  font-size: 1em;
+  line-height: 1.5;
+  quotes: "“" "”" "‘" "’";
+}
+
+main article blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+
+main article blockquote p {
+  display: inline;
+}
+
+main article em {
+  font-style: italic;
+}
+
+main article b, main article strong {
+  font-family: bold;
+}
+
+main article p {
+  line-height: 1.5;
+  font-size: .85em;
+  color: #5e5e5e;
+  text-align: justify;
+  margin-top: .85rem;
+  margin-bottom: .85rem;
+}
+
+main article p code {
+  background-color: #faf5ea;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: bold;
+  font-size: 95%;
+  color: #b96505;
+}
+
+main article header {
+  margin-bottom: .5rem;
+}
+
+main article header h1 {
+  text-align: center;
+  font-family: "Roboto";
+  font-weight: bold;
+  margin-top: .5rem;
+  font-size: 1.5em;
+  text-shadow: 1px 1px 1px #d0d0d0;
+}
+
+main article footer {
+  border: 0;
+}
+
+main article footer a {
+  display: inline-block;
+  margin-left: 1rem;
+  text-align: center;
+  font-size: 1.3em;
+}
+
+main article .post h1, main article .post h2, main article .post h3, main article .post h4 {
+  margin-left: 2rem;
+  width: 50%;
+  font-weight: bold;
+  font-family: "Roboto";
+  color: #808080;
+  margin-top: 1rem;
+  font-size: 1.3em;
+}
+
+main article .post h1 {
+  font-size: 1.2em;
+}
+
+main article .post h2 {
+  font-size: 1.15em;
+}
+
+main article .post h3, main article .post h4 {
+  font-size: 1.1em;
+}
+
+main article pre > code {
+  font-size: .7rem;
+  font-family: "PT Mono";
+  margin: auto 0.5rem;
+}
+
+main article pre > code.hljs {
+  border-radius: 4px;
+}
+
+@media only screen and (max-width: 500px) {
+  main article pre > code {
+    font-size: 0.6rem;
+  }
+}
+
+#comments {
+  margin-top: 1rem;
+  background-color: #fff;
+  padding: 1rem 2rem;
+}
+
+#accordion {
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+#accordion .accordion-toggle {
+  color: #fff;
+  padding: 1rem 1.5rem;
+  background-color: #4c81a5;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+#accordion .accordion-content {
+  border-left: 3px solid #4c81a5;
+  border-right: 3px solid #4c81a5;
+  border-bottom: 3px solid #4c81a5;
+  position: relative;
+  top: -1px;
+  padding: 1rem 1.5rem;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+#accordion .accordion-content a {
+  display: inline-block;
+  margin-bottom: 1rem;
+  text-decoration: none;
+}
+
+#accordion .accordion-content a:hover {
+  text-decoration: underline;
+}
+
+.accordion-toggle {
+  cursor: pointer;
+}
+
+.accordion-content {
+  display: none;
+}
+
+.accordion-content.default {
+  display: block;
+}
+/*# sourceMappingURL=style.css.map */

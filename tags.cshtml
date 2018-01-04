@@ -1,0 +1,41 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    
+    $(document).ready(function($) {
+      var h=window.location.hash.substr(1);
+
+      $('#accordion').find('.accordion-toggle').click(function(){
+  
+        //Expand or collapse this panel
+        $(this).next().slideToggle('fast');
+  
+        //Hide the other panels
+        $(".accordion-content").not($(this).next()).slideUp('fast');
+  
+      });
+      
+      var el=$('.accordion-toggle').filter(function(idx,el){
+        return $(el).text()==h;
+      }).first().click().scroll();
+      
+    });
+  </script>
+
+  <div id="accordion">
+    
+@foreach(var tag in Documents["Posts"].GroupBy(d=>d["tags"].ToString()).OrderByDescending(d=>d.Count()))
+{
+  <h4 class="accordion-toggle">@tag.Key (@tag.Count())</h4>
+  <div class="accordion-content">
+	@foreach(var doc in tag.OrderByDescending(d=>DateTime.Parse(d["Published"].ToString())))
+  {               
+    var dt=DateTime.Parse((string)doc["Published"]);
+    <text>
+    <div>
+		<a href="@doc["PostFile"]">@doc["Title"]</a> - @dt.ToString("dd MMMM yyyy")
+    </div>
+     </text> 
+    }
+    </div>
+}
+</div>

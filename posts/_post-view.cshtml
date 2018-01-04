@@ -1,0 +1,21 @@
+ <article>
+    <header>
+      <h1>@Metadata["Title"]</h1>
+      <div class="article-meta">
+      <span>published on &nbsp; <b>@DateTime.Parse(Metadata["Published"].ToString()).ToString("dd MMMM yyyy")</b></span> in <a href="/tags.html#@Metadata["tags"]">@Metadata["tags"]</a>
+    </div>
+    </header>
+  <div class="post">
+ 
+@Html.Raw(Metadata["Post"])
+ </div>
+ <footer>
+   <div class="sharethis-inline-share-buttons"></div>
+   @if(Metadata["Prev"]!=null)
+   { <a class="previous" href="/@Metadata["Prev"]">&laquo; Previous</a> }
+
+   @if(Metadata["Next"]!=null)
+   { <a class="next" href="/@Metadata["Next"]">Next &raquo;</a> }
+   
+ </footer>
+  </article>
