@@ -26,6 +26,8 @@ build_script:
 on_success:
   # Switch branches to gh-pages, clean the folder, copy everything in from the Wyam output, and commit/push
   # See http://www.appveyor.com/docs/how-to/git-push for more info
+  - ps: Remove-Item config.*
+  - ps: Remove-Item packages.xml
   - git config --global credential.helper store
   # EDIT your Git email and name
   - git config --global user.email $env:op_build_user_email
