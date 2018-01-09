@@ -221,7 +221,7 @@ main article p code {
 }
 
 main article p b, main article p strong {
-  font-family: bold;
+  font-weight: bold;
 }
 
 main article header {
