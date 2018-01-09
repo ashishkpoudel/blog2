@@ -202,10 +202,6 @@ main article em {
   font-style: italic;
 }
 
-main article b, main article strong {
-  font-family: bold;
-}
-
 main article p {
   line-height: 1.5;
   font-size: .85em;
@@ -222,6 +218,10 @@ main article p code {
   font-weight: bold;
   font-size: 95%;
   color: #b96505;
+}
+
+main article p b, main article p strong {
+  font-family: bold;
 }
 
 main article header {

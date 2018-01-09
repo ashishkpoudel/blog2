@@ -55,9 +55,7 @@ main{
           em{
               font-style: italic;              
           }
-          b,strong{
-              font-family: bold;
-          }
+         
         p{
             line-height: 1.5;
             font-size: .85em;
@@ -73,6 +71,9 @@ main{
                font-weight: bold;
                 font-size:95%;
                 color:#b96505;
+            }
+            b,strong{
+                font-family: bold;
             }
         }
         header{
