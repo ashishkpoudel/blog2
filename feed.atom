@@ -4,13 +4,7 @@
 	<id>http://blog.sapiensworks.com/</id>
 	<title />
 	<rights>2018</rights>
-	<updated>2018-01-11T03:13:44Z</updated>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2014/03/26/Rich-Domain-Is-SOLID-Anaemic-Domain-Is-An-Anti-Pattern.aspx" />
-		<id>http://blog.sapiensworks.com/post/2014/03/26/Rich-Domain-Is-SOLID-Anaemic-Domain-Is-An-Anti-Pattern.aspx</id>
-		<title>Rich Domain Is SOLID , Anaemic Domain Is An Anti Pattern</title>
-		<updated>2014-03-26T00:00:00Z</updated>
-	</entry>
+	<updated>2018-01-11T03:19:45Z</updated>
 	<entry>
 		<link href="http://blog.sapiensworks.com/post/2013/12/09/When-Not-To-Use-Design-Patterns.aspx" />
 		<id>http://blog.sapiensworks.com/post/2013/12/09/When-Not-To-Use-Design-Patterns.aspx</id>
@@ -18,70 +12,34 @@
 		<updated>2013-12-09T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2013/11/08/Domain-Modelling-Object-Behaviour-and-Use-Cases.aspx" />
-		<id>http://blog.sapiensworks.com/post/2013/11/08/Domain-Modelling-Object-Behaviour-and-Use-Cases.aspx</id>
-		<title>DDD Modelling - Object Behaviour and Use Cases</title>
-		<updated>2013-11-08T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2013/04/19/Message-Driven-Architecture-Explained-Basics.aspx" />
+		<id>http://blog.sapiensworks.com/post/2013/04/19/Message-Driven-Architecture-Explained-Basics.aspx</id>
+		<title>Message Driven Architecture Explained - Basics</title>
+		<updated>2013-04-19T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2013/09/16/CRUD-vs-DDD.aspx" />
-		<id>http://blog.sapiensworks.com/post/2013/09/16/CRUD-vs-DDD.aspx</id>
-		<title>CRUD vs DDD</title>
-		<updated>2013-09-16T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2012/11/18/The-Data-Access-Layer-(DAL)-Explained.aspx" />
+		<id>http://blog.sapiensworks.com/post/2012/11/18/The-Data-Access-Layer-(DAL)-Explained.aspx</id>
+		<title>The Data Access Layer (DAL) Explained</title>
+		<updated>2012-11-18T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2013/04/30/Message-Driven-Architecture-Explained-Eventual-Consistency-and-Saga.aspx" />
-		<id>http://blog.sapiensworks.com/post/2013/04/30/Message-Driven-Architecture-Explained-Eventual-Consistency-and-Saga.aspx</id>
-		<title>Message Driven Architecture Explained - Eventual Consistency and Saga</title>
-		<updated>2013-04-30T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2012/06/28/Why-Domain-Driven-Design-is-Hard.aspx" />
+		<id>http://blog.sapiensworks.com/post/2012/06/28/Why-Domain-Driven-Design-is-Hard.aspx</id>
+		<title>Why Domain Driven Design is Hard</title>
+		<updated>2012-06-28T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2013/03/18/Http-Module-Dependecy-Injection-with-Autofac-Gotcha.aspx" />
-		<id>http://blog.sapiensworks.com/post/2013/03/18/Http-Module-Dependecy-Injection-with-Autofac-Gotcha.aspx</id>
-		<title>Http Module Dependecy Injection with Autofac Gotcha</title>
-		<updated>2013-03-18T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2012/04/19/Invoking-A-Private-Method-On-A-Subclass.aspx" />
+		<id>http://blog.sapiensworks.com/post/2012/04/19/Invoking-A-Private-Method-On-A-Subclass.aspx</id>
+		<title>Invoking A Private Method On A Subclass</title>
+		<updated>2012-04-19T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2012/12/29/How-to-Write-Loosely-Coupled-Code.aspx" />
-		<id>http://blog.sapiensworks.com/post/2012/12/29/How-to-Write-Loosely-Coupled-Code.aspx</id>
-		<title>How to Write Loosely Coupled Code</title>
-		<updated>2012-12-29T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2012/11/20/Coder-vs-Software-Developer.aspx" />
-		<id>http://blog.sapiensworks.com/post/2012/11/20/Coder-vs-Software-Developer.aspx</id>
-		<title>Coder vs Software Developer</title>
-		<updated>2012-11-20T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2012/11/14/Testing-has-no-business-value.aspx" />
-		<id>http://blog.sapiensworks.com/post/2012/11/14/Testing-has-no-business-value.aspx</id>
-		<title>Testing has no business value</title>
-		<updated>2012-11-14T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2012/11/01/Repository-vs-DAO.aspx" />
-		<id>http://blog.sapiensworks.com/post/2012/11/01/Repository-vs-DAO.aspx</id>
-		<title>Repository vs DAO</title>
-		<updated>2012-11-01T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2012/10/10/Do-We-Need-The-Repository-Pattern.aspx" />
-		<id>http://blog.sapiensworks.com/post/2012/10/10/Do-We-Need-The-Repository-Pattern.aspx</id>
-		<title>Do We Need The Repository Pattern?</title>
-		<updated>2012-10-10T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2012/04/18/DDD-Aggregates-And-Aggregates-Root-Explained.aspx" />
-		<id>http://blog.sapiensworks.com/post/2012/04/18/DDD-Aggregates-And-Aggregates-Root-Explained.aspx</id>
-		<title>DDD - The Aggregate And Aggregate Root Explained</title>
-		<updated>2012-04-18T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2012/04/07/Just-Stop-It!-The-Domain-Model-Is-Not-The-Persistence-Model.aspx" />
-		<id>http://blog.sapiensworks.com/post/2012/04/07/Just-Stop-It!-The-Domain-Model-Is-Not-The-Persistence-Model.aspx</id>
-		<title>Just Stop It! The Domain Model Is Not The Persistence Model</title>
-		<updated>2012-04-07T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2012/04/17/DDD-The-Bounded-Context-Explained.aspx" />
+		<id>http://blog.sapiensworks.com/post/2012/04/17/DDD-The-Bounded-Context-Explained.aspx</id>
+		<title>DDD - The Bounded Context Explained</title>
+		<updated>2012-04-17T00:00:00Z</updated>
 	</entry>
 	<entry>
 		<link href="http://blog.sapiensworks.com/post/2012/02/22/The-Repository-Pattern-Explained.aspx" />
@@ -90,39 +48,81 @@
 		<updated>2012-02-22T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2018/01/09/Why-ORM-has-failed" />
-		<id>http://blog.sapiensworks.com/post/2018/01/09/Why-ORM-has-failed</id>
-		<title>It's Time To Let The ORM Go</title>
-		<updated>2018-01-09T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2016/08/24/DDD-Relationships" />
+		<id>http://blog.sapiensworks.com/post/2016/08/24/DDD-Relationships</id>
+		<title>DDD Decoded - Domain Relationships Explained</title>
+		<updated>2016-08-24T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2016/08/22/DDD-Cqs-Cqrs" />
-		<id>http://blog.sapiensworks.com/post/2016/08/22/DDD-Cqs-Cqrs</id>
-		<title>DDD Decoded - Modelling with CQS</title>
-		<updated>2016-08-22T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2016/05/14/discriminated-unions-option-csharp" />
+		<id>http://blog.sapiensworks.com/post/2016/05/14/discriminated-unions-option-csharp</id>
+		<title>Using Discriminated Unions In C#</title>
+		<updated>2016-05-14T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-1" />
-		<id>http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-1</id>
-		<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 1)</title>
-		<updated>2016-07-14T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2015/09/02/DDD-and-UoW" />
+		<id>http://blog.sapiensworks.com/post/2015/09/02/DDD-and-UoW</id>
+		<title>The Unit of Work and Transactions In Domain Driven Design</title>
+		<updated>2015-09-02T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2016/06/06/practical-event-sourcing-and-cqrs-benefits" />
-		<id>http://blog.sapiensworks.com/post/2016/06/06/practical-event-sourcing-and-cqrs-benefits</id>
-		<title>Practical Event Sourcing And CQRS Benefits</title>
-		<updated>2016-06-06T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2015/05/25/DDD-Concepts-As-One-Liners" />
+		<id>http://blog.sapiensworks.com/post/2015/05/25/DDD-Concepts-As-One-Liners</id>
+		<title>DDD Concepts As One Liners</title>
+		<updated>2015-05-25T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2016/03/02/ado-net-manual-mapping" />
-		<id>http://blog.sapiensworks.com/post/2016/03/02/ado-net-manual-mapping</id>
-		<title>The Myth of Manual POCO Mapping Performance</title>
-		<updated>2016-03-02T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2014/10/31/DDD-Identifying-Bounded-Contexts-and-Aggregates-Entities-and-Value-Objects.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/10/31/DDD-Identifying-Bounded-Contexts-and-Aggregates-Entities-and-Value-Objects.aspx</id>
+		<title>DDD - Identifying Bounded Contexts and Aggregates, Entities and Value Objects</title>
+		<updated>2014-10-31T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2015/11/23/DDD-is-not-programming" />
-		<id>http://blog.sapiensworks.com/post/2015/11/23/DDD-is-not-programming</id>
-		<title>Domain Driven Design (DDD) Is Not Programming</title>
-		<updated>2015-11-23T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2014/06/20/Introducing-Make-aka-MakeSharp.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/06/20/Introducing-Make-aka-MakeSharp.aspx</id>
+		<title>Introducing Make# aka MakeSharp</title>
+		<updated>2014-06-20T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2014/06/04/Unit-Of-Work-is-the-new-Singleton.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/06/04/Unit-Of-Work-is-the-new-Singleton.aspx</id>
+		<title>Unit Of Work is the new Singleton</title>
+		<updated>2014-06-04T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2014/05/27/Tips-To-Be-More-Productive-(NetJava-Edition).aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/05/27/Tips-To-Be-More-Productive-(NetJava-Edition).aspx</id>
+		<title>Tips To Be More Productive (.Net/Java Edition)</title>
+		<updated>2014-05-27T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2014/04/05/Developing-Software-Is-A-Marathon.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/04/05/Developing-Software-Is-A-Marathon.aspx</id>
+		<title>Software Development Is A Marathon</title>
+		<updated>2014-04-05T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2014/03/26/Rich-Domain-Is-SOLID-Anaemic-Domain-Is-An-Anti-Pattern.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/03/26/Rich-Domain-Is-SOLID-Anaemic-Domain-Is-An-Anti-Pattern.aspx</id>
+		<title>Rich Domain Is SOLID , Anaemic Domain Is An Anti Pattern</title>
+		<updated>2014-03-26T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2013/07/17/-TDD-Is-Not-Slow.aspx" />
+		<id>http://blog.sapiensworks.com/post/2013/07/17/-TDD-Is-Not-Slow.aspx</id>
+		<title>TDD Is Not Slow</title>
+		<updated>2013-07-17T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2013/01/18/Repository-vs-Document-Store-vs-Everything-Else.aspx" />
+		<id>http://blog.sapiensworks.com/post/2013/01/18/Repository-vs-Document-Store-vs-Everything-Else.aspx</id>
+		<title>Repository vs Everything Else</title>
+		<updated>2013-01-18T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2012/04/20/DDD-Entities-And-Value-Objects-Explained.aspx" />
+		<id>http://blog.sapiensworks.com/post/2012/04/20/DDD-Entities-And-Value-Objects-Explained.aspx</id>
+		<title>DDD - Entities And Value Objects Explained</title>
+		<updated>2012-04-20T00:00:00Z</updated>
 	</entry>
 </feed>
