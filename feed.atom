@@ -4,108 +4,42 @@
 	<id>http://blog.sapiensworks.com/</id>
 	<title />
 	<rights>2018</rights>
-	<updated>2018-01-11T00:23:46Z</updated>
+	<updated>2018-01-11T03:07:42Z</updated>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2013/10/07/Tips-And-Tricks-For-The-Repository-Pattern.aspx" />
-		<id>http://blog.sapiensworks.com/post/2013/10/07/Tips-And-Tricks-For-The-Repository-Pattern.aspx</id>
-		<title>Tips And Tricks For The Repository Pattern</title>
-		<updated>2013-10-07T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2014/01/13/Do-Either-DDD-or-DDD-But-Not-DDD.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/01/13/Do-Either-DDD-or-DDD-But-Not-DDD.aspx</id>
+		<title>Do Either DDD or DDD But Not DDD</title>
+		<updated>2014-01-13T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2013/06/20/Say-Yes-To-The-Repository-In-Your-DAL.aspx" />
-		<id>http://blog.sapiensworks.com/post/2013/06/20/Say-Yes-To-The-Repository-In-Your-DAL.aspx</id>
-		<title>Say "Yes" To The Repository In Your DAL</title>
-		<updated>2013-06-20T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2016/08/24/DDD-Relationships" />
+		<id>http://blog.sapiensworks.com/post/2016/08/24/DDD-Relationships</id>
+		<title>DDD Decoded - Domain Relationships Explained</title>
+		<updated>2016-08-24T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2013/01/15/Domain-Driven-Design-Aggregate-Root-Modelling-Fallacy.aspx" />
-		<id>http://blog.sapiensworks.com/post/2013/01/15/Domain-Driven-Design-Aggregate-Root-Modelling-Fallacy.aspx</id>
-		<title>Domain Driven Design - Aggregate Root Modelling Fallacy</title>
-		<updated>2013-01-15T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2016/03/01/password-hashing-dot-net" />
+		<id>http://blog.sapiensworks.com/post/2016/03/01/password-hashing-dot-net</id>
+		<title>C# (.Net) Password Hashing The Easy Way</title>
+		<updated>2016-03-01T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2012/10/10/Do-We-Need-The-Repository-Pattern.aspx" />
-		<id>http://blog.sapiensworks.com/post/2012/10/10/Do-We-Need-The-Repository-Pattern.aspx</id>
-		<title>Do We Need The Repository Pattern?</title>
-		<updated>2012-10-10T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2014/06/20/Introducing-Make-aka-MakeSharp.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/06/20/Introducing-Make-aka-MakeSharp.aspx</id>
+		<title>Introducing Make# aka MakeSharp</title>
+		<updated>2014-06-20T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2012/02/09/The-essence-of-Domain-Driven-Design.aspx" />
-		<id>http://blog.sapiensworks.com/post/2012/02/09/The-essence-of-Domain-Driven-Design.aspx</id>
-		<title>The essence of Domain Driven Design</title>
-		<updated>2012-02-09T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx</id>
+		<title>Strategies To Restore Domain Entities</title>
+		<updated>2014-05-17T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-1" />
-		<id>http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-1</id>
-		<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 1)</title>
-		<updated>2016-07-14T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2016/03/19/cqs-api-client-with-aurelia" />
-		<id>http://blog.sapiensworks.com/post/2016/03/19/cqs-api-client-with-aurelia</id>
-		<title>A CQS Api Client With Aurelia and TypeScript</title>
-		<updated>2016-03-19T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2016/03/02/ado-net-manual-mapping" />
-		<id>http://blog.sapiensworks.com/post/2016/03/02/ado-net-manual-mapping</id>
-		<title>The Myth of Manual POCO Mapping Performance</title>
-		<updated>2016-03-02T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2016/01/25/aurelia-submit-on-enter" />
-		<id>http://blog.sapiensworks.com/post/2016/01/25/aurelia-submit-on-enter</id>
-		<title>Submit on Enter With Aurelia</title>
-		<updated>2016-01-25T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2015/09/01/In-Depth-CQRS" />
-		<id>http://blog.sapiensworks.com/post/2015/09/01/In-Depth-CQRS</id>
-		<title>An In-Depth Look At CQRS</title>
-		<updated>2015-09-01T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2015/07/18/CQRS-Generic-Controller" />
-		<id>http://blog.sapiensworks.com/post/2015/07/18/CQRS-Generic-Controller</id>
-		<title>Make Your CQRS Web App More Maintainable With a Generic Controller</title>
-		<updated>2015-07-18T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2014/06/02/The-Repository-Pattern-For-Dummies.aspx" />
-		<id>http://blog.sapiensworks.com/post/2014/06/02/The-Repository-Pattern-For-Dummies.aspx</id>
-		<title>The Repository Pattern Explained (For Dummies)</title>
-		<updated>2014-06-02T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2014/05/27/Tips-To-Be-More-Productive-(NetJava-Edition).aspx" />
-		<id>http://blog.sapiensworks.com/post/2014/05/27/Tips-To-Be-More-Productive-(NetJava-Edition).aspx</id>
-		<title>Tips To Be More Productive (.Net/Java Edition)</title>
-		<updated>2014-05-27T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2014/01/15/DRY-Code-Rich-Code.aspx" />
-		<id>http://blog.sapiensworks.com/post/2014/01/15/DRY-Code-Rich-Code.aspx</id>
-		<title>DRY Code, Rich Code</title>
-		<updated>2014-01-15T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2013/01/18/Repository-vs-Document-Store-vs-Everything-Else.aspx" />
-		<id>http://blog.sapiensworks.com/post/2013/01/18/Repository-vs-Document-Store-vs-Everything-Else.aspx</id>
-		<title>Repository vs Everything Else</title>
-		<updated>2013-01-18T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2012/11/18/The-Data-Access-Layer-(DAL)-Explained.aspx" />
-		<id>http://blog.sapiensworks.com/post/2012/11/18/The-Data-Access-Layer-(DAL)-Explained.aspx</id>
-		<title>The Data Access Layer (DAL) Explained</title>
-		<updated>2012-11-18T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2012/03/02/When-To-Use-The-Static-Keyword-In-Net.aspx" />
-		<id>http://blog.sapiensworks.com/post/2012/03/02/When-To-Use-The-Static-Keyword-In-Net.aspx</id>
-		<title>When To Use The Static Keyword In .Net</title>
-		<updated>2012-03-02T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2013/05/04/CQRS-Explained.aspx" />
+		<id>http://blog.sapiensworks.com/post/2013/05/04/CQRS-Explained.aspx</id>
+		<title>CQRS Explained</title>
+		<updated>2013-05-04T00:00:00Z</updated>
 	</entry>
 	<entry>
 		<link href="http://blog.sapiensworks.com/post/2016/08/19/DDD-Application-Services-Explained" />
@@ -114,15 +48,81 @@
 		<updated>2016-08-19T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2016/06/06/practical-event-sourcing-and-cqrs-benefits" />
-		<id>http://blog.sapiensworks.com/post/2016/06/06/practical-event-sourcing-and-cqrs-benefits</id>
-		<title>Practical Event Sourcing And CQRS Benefits</title>
-		<updated>2016-06-06T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2016/05/01/how-to-fix-the-hiring-process" />
+		<id>http://blog.sapiensworks.com/post/2016/05/01/how-to-fix-the-hiring-process</id>
+		<title>Let's Fix The Broken Hiring Process</title>
+		<updated>2016-05-01T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2015/11/23/DDD-is-not-programming" />
-		<id>http://blog.sapiensworks.com/post/2015/11/23/DDD-is-not-programming</id>
-		<title>Domain Driven Design (DDD) Is Not Programming</title>
-		<updated>2015-11-23T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2015/05/25/DDD-Concepts-As-One-Liners" />
+		<id>http://blog.sapiensworks.com/post/2015/05/25/DDD-Concepts-As-One-Liners</id>
+		<title>DDD Concepts As One Liners</title>
+		<updated>2015-05-25T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2014/09/04/Mixing-the-Domain.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/09/04/Mixing-the-Domain.aspx</id>
+		<title>Mixing the Domain</title>
+		<updated>2014-09-04T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2014/05/19/-What-is-the-best-way-to-do-this-What-is-the-best-design-pattern-for-this-problem.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/05/19/-What-is-the-best-way-to-do-this-What-is-the-best-design-pattern-for-this-problem.aspx</id>
+		<title>What is the best way to do this? What is the best design pattern for this problem?</title>
+		<updated>2014-05-19T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2013/07/17/-TDD-Is-Not-Slow.aspx" />
+		<id>http://blog.sapiensworks.com/post/2013/07/17/-TDD-Is-Not-Slow.aspx</id>
+		<title>TDD Is Not Slow</title>
+		<updated>2013-07-17T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2013/04/30/Message-Driven-Architecture-Explained-Eventual-Consistency-and-Saga.aspx" />
+		<id>http://blog.sapiensworks.com/post/2013/04/30/Message-Driven-Architecture-Explained-Eventual-Consistency-and-Saga.aspx</id>
+		<title>Message Driven Architecture Explained - Eventual Consistency and Saga</title>
+		<updated>2013-04-30T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2013/01/15/Domain-Driven-Design-Aggregate-Root-Modelling-Fallacy.aspx" />
+		<id>http://blog.sapiensworks.com/post/2013/01/15/Domain-Driven-Design-Aggregate-Root-Modelling-Fallacy.aspx</id>
+		<title>Domain Driven Design - Aggregate Root Modelling Fallacy</title>
+		<updated>2013-01-15T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2011/04/30/DDD-Model-Validation-Part-I.aspx" />
+		<id>http://blog.sapiensworks.com/post/2011/04/30/DDD-Model-Validation-Part-I.aspx</id>
+		<title>DDD Model Validation (Part I)</title>
+		<updated>2011-04-30T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2016/05/14/discriminated-unions-option-csharp" />
+		<id>http://blog.sapiensworks.com/post/2016/05/14/discriminated-unions-option-csharp</id>
+		<title>Using Discriminated Unions In C#</title>
+		<updated>2016-05-14T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2015/07/30/Functional-Programming-vs-OOP" />
+		<id>http://blog.sapiensworks.com/post/2015/07/30/Functional-Programming-vs-OOP</id>
+		<title>Functional Programming vs OOP</title>
+		<updated>2015-07-30T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2014/10/31/DDD-Identifying-Bounded-Contexts-and-Aggregates-Entities-and-Value-Objects.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/10/31/DDD-Identifying-Bounded-Contexts-and-Aggregates-Entities-and-Value-Objects.aspx</id>
+		<title>DDD - Identifying Bounded Contexts and Aggregates, Entities and Value Objects</title>
+		<updated>2014-10-31T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2014/05/27/Tips-To-Be-More-Productive-(NetJava-Edition).aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/05/27/Tips-To-Be-More-Productive-(NetJava-Edition).aspx</id>
+		<title>Tips To Be More Productive (.Net/Java Edition)</title>
+		<updated>2014-05-27T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2013/09/16/CRUD-vs-DDD.aspx" />
+		<id>http://blog.sapiensworks.com/post/2013/09/16/CRUD-vs-DDD.aspx</id>
+		<title>CRUD vs DDD</title>
+		<updated>2013-09-16T00:00:00Z</updated>
 	</entry>
 </feed>

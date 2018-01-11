@@ -5,109 +5,43 @@
 		<link>http://blog.sapiensworks.com/</link>
 		<description />
 		<copyright>2018</copyright>
-		<pubDate>Thu, 11 Jan 2018 00:23:46 GMT</pubDate>
-		<lastBuildDate>Thu, 11 Jan 2018 00:23:46 GMT</lastBuildDate>
+		<pubDate>Thu, 11 Jan 2018 03:07:42 GMT</pubDate>
+		<lastBuildDate>Thu, 11 Jan 2018 03:07:42 GMT</lastBuildDate>
 		<item>
-			<title>Tips And Tricks For The Repository Pattern</title>
-			<link>http://blog.sapiensworks.com/post/2013/10/07/Tips-And-Tricks-For-The-Repository-Pattern.aspx</link>
-			<guid>http://blog.sapiensworks.com/post/2013/10/07/Tips-And-Tricks-For-The-Repository-Pattern.aspx</guid>
-			<pubDate>Mon, 07 Oct 2013 00:00:00 GMT</pubDate>
+			<title>Do Either DDD or DDD But Not DDD</title>
+			<link>http://blog.sapiensworks.com/post/2014/01/13/Do-Either-DDD-or-DDD-But-Not-DDD.aspx</link>
+			<guid>http://blog.sapiensworks.com/post/2014/01/13/Do-Either-DDD-or-DDD-But-Not-DDD.aspx</guid>
+			<pubDate>Mon, 13 Jan 2014 00:00:00 GMT</pubDate>
 		</item>
 		<item>
-			<title>Say "Yes" To The Repository In Your DAL</title>
-			<link>http://blog.sapiensworks.com/post/2013/06/20/Say-Yes-To-The-Repository-In-Your-DAL.aspx</link>
-			<guid>http://blog.sapiensworks.com/post/2013/06/20/Say-Yes-To-The-Repository-In-Your-DAL.aspx</guid>
-			<pubDate>Thu, 20 Jun 2013 00:00:00 GMT</pubDate>
+			<title>DDD Decoded - Domain Relationships Explained</title>
+			<link>http://blog.sapiensworks.com/post/2016/08/24/DDD-Relationships</link>
+			<guid>http://blog.sapiensworks.com/post/2016/08/24/DDD-Relationships</guid>
+			<pubDate>Wed, 24 Aug 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
-			<title>Domain Driven Design - Aggregate Root Modelling Fallacy</title>
-			<link>http://blog.sapiensworks.com/post/2013/01/15/Domain-Driven-Design-Aggregate-Root-Modelling-Fallacy.aspx</link>
-			<guid>http://blog.sapiensworks.com/post/2013/01/15/Domain-Driven-Design-Aggregate-Root-Modelling-Fallacy.aspx</guid>
-			<pubDate>Tue, 15 Jan 2013 00:00:00 GMT</pubDate>
+			<title>C# (.Net) Password Hashing The Easy Way</title>
+			<link>http://blog.sapiensworks.com/post/2016/03/01/password-hashing-dot-net</link>
+			<guid>http://blog.sapiensworks.com/post/2016/03/01/password-hashing-dot-net</guid>
+			<pubDate>Tue, 01 Mar 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
-			<title>Do We Need The Repository Pattern?</title>
-			<link>http://blog.sapiensworks.com/post/2012/10/10/Do-We-Need-The-Repository-Pattern.aspx</link>
-			<guid>http://blog.sapiensworks.com/post/2012/10/10/Do-We-Need-The-Repository-Pattern.aspx</guid>
-			<pubDate>Wed, 10 Oct 2012 00:00:00 GMT</pubDate>
+			<title>Introducing Make# aka MakeSharp</title>
+			<link>http://blog.sapiensworks.com/post/2014/06/20/Introducing-Make-aka-MakeSharp.aspx</link>
+			<guid>http://blog.sapiensworks.com/post/2014/06/20/Introducing-Make-aka-MakeSharp.aspx</guid>
+			<pubDate>Fri, 20 Jun 2014 00:00:00 GMT</pubDate>
 		</item>
 		<item>
-			<title>The essence of Domain Driven Design</title>
-			<link>http://blog.sapiensworks.com/post/2012/02/09/The-essence-of-Domain-Driven-Design.aspx</link>
-			<guid>http://blog.sapiensworks.com/post/2012/02/09/The-essence-of-Domain-Driven-Design.aspx</guid>
-			<pubDate>Thu, 09 Feb 2012 00:00:00 GMT</pubDate>
+			<title>Strategies To Restore Domain Entities</title>
+			<link>http://blog.sapiensworks.com/post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx</link>
+			<guid>http://blog.sapiensworks.com/post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx</guid>
+			<pubDate>Sat, 17 May 2014 00:00:00 GMT</pubDate>
 		</item>
 		<item>
-			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 1)</title>
-			<link>http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-1</link>
-			<guid>http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-1</guid>
-			<pubDate>Thu, 14 Jul 2016 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>A CQS Api Client With Aurelia and TypeScript</title>
-			<link>http://blog.sapiensworks.com/post/2016/03/19/cqs-api-client-with-aurelia</link>
-			<guid>http://blog.sapiensworks.com/post/2016/03/19/cqs-api-client-with-aurelia</guid>
-			<pubDate>Sat, 19 Mar 2016 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>The Myth of Manual POCO Mapping Performance</title>
-			<link>http://blog.sapiensworks.com/post/2016/03/02/ado-net-manual-mapping</link>
-			<guid>http://blog.sapiensworks.com/post/2016/03/02/ado-net-manual-mapping</guid>
-			<pubDate>Wed, 02 Mar 2016 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>Submit on Enter With Aurelia</title>
-			<link>http://blog.sapiensworks.com/post/2016/01/25/aurelia-submit-on-enter</link>
-			<guid>http://blog.sapiensworks.com/post/2016/01/25/aurelia-submit-on-enter</guid>
-			<pubDate>Mon, 25 Jan 2016 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>An In-Depth Look At CQRS</title>
-			<link>http://blog.sapiensworks.com/post/2015/09/01/In-Depth-CQRS</link>
-			<guid>http://blog.sapiensworks.com/post/2015/09/01/In-Depth-CQRS</guid>
-			<pubDate>Tue, 01 Sep 2015 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>Make Your CQRS Web App More Maintainable With a Generic Controller</title>
-			<link>http://blog.sapiensworks.com/post/2015/07/18/CQRS-Generic-Controller</link>
-			<guid>http://blog.sapiensworks.com/post/2015/07/18/CQRS-Generic-Controller</guid>
-			<pubDate>Sat, 18 Jul 2015 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>The Repository Pattern Explained (For Dummies)</title>
-			<link>http://blog.sapiensworks.com/post/2014/06/02/The-Repository-Pattern-For-Dummies.aspx</link>
-			<guid>http://blog.sapiensworks.com/post/2014/06/02/The-Repository-Pattern-For-Dummies.aspx</guid>
-			<pubDate>Mon, 02 Jun 2014 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>Tips To Be More Productive (.Net/Java Edition)</title>
-			<link>http://blog.sapiensworks.com/post/2014/05/27/Tips-To-Be-More-Productive-(NetJava-Edition).aspx</link>
-			<guid>http://blog.sapiensworks.com/post/2014/05/27/Tips-To-Be-More-Productive-(NetJava-Edition).aspx</guid>
-			<pubDate>Tue, 27 May 2014 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>DRY Code, Rich Code</title>
-			<link>http://blog.sapiensworks.com/post/2014/01/15/DRY-Code-Rich-Code.aspx</link>
-			<guid>http://blog.sapiensworks.com/post/2014/01/15/DRY-Code-Rich-Code.aspx</guid>
-			<pubDate>Wed, 15 Jan 2014 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>Repository vs Everything Else</title>
-			<link>http://blog.sapiensworks.com/post/2013/01/18/Repository-vs-Document-Store-vs-Everything-Else.aspx</link>
-			<guid>http://blog.sapiensworks.com/post/2013/01/18/Repository-vs-Document-Store-vs-Everything-Else.aspx</guid>
-			<pubDate>Fri, 18 Jan 2013 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>The Data Access Layer (DAL) Explained</title>
-			<link>http://blog.sapiensworks.com/post/2012/11/18/The-Data-Access-Layer-(DAL)-Explained.aspx</link>
-			<guid>http://blog.sapiensworks.com/post/2012/11/18/The-Data-Access-Layer-(DAL)-Explained.aspx</guid>
-			<pubDate>Sun, 18 Nov 2012 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>When To Use The Static Keyword In .Net</title>
-			<link>http://blog.sapiensworks.com/post/2012/03/02/When-To-Use-The-Static-Keyword-In-Net.aspx</link>
-			<guid>http://blog.sapiensworks.com/post/2012/03/02/When-To-Use-The-Static-Keyword-In-Net.aspx</guid>
-			<pubDate>Fri, 02 Mar 2012 00:00:00 GMT</pubDate>
+			<title>CQRS Explained</title>
+			<link>http://blog.sapiensworks.com/post/2013/05/04/CQRS-Explained.aspx</link>
+			<guid>http://blog.sapiensworks.com/post/2013/05/04/CQRS-Explained.aspx</guid>
+			<pubDate>Sat, 04 May 2013 00:00:00 GMT</pubDate>
 		</item>
 		<item>
 			<title>DDD Decoded - Application Services Explained</title>
@@ -116,16 +50,82 @@
 			<pubDate>Fri, 19 Aug 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
-			<title>Practical Event Sourcing And CQRS Benefits</title>
-			<link>http://blog.sapiensworks.com/post/2016/06/06/practical-event-sourcing-and-cqrs-benefits</link>
-			<guid>http://blog.sapiensworks.com/post/2016/06/06/practical-event-sourcing-and-cqrs-benefits</guid>
-			<pubDate>Mon, 06 Jun 2016 00:00:00 GMT</pubDate>
+			<title>Let's Fix The Broken Hiring Process</title>
+			<link>http://blog.sapiensworks.com/post/2016/05/01/how-to-fix-the-hiring-process</link>
+			<guid>http://blog.sapiensworks.com/post/2016/05/01/how-to-fix-the-hiring-process</guid>
+			<pubDate>Sun, 01 May 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
-			<title>Domain Driven Design (DDD) Is Not Programming</title>
-			<link>http://blog.sapiensworks.com/post/2015/11/23/DDD-is-not-programming</link>
-			<guid>http://blog.sapiensworks.com/post/2015/11/23/DDD-is-not-programming</guid>
-			<pubDate>Mon, 23 Nov 2015 00:00:00 GMT</pubDate>
+			<title>DDD Concepts As One Liners</title>
+			<link>http://blog.sapiensworks.com/post/2015/05/25/DDD-Concepts-As-One-Liners</link>
+			<guid>http://blog.sapiensworks.com/post/2015/05/25/DDD-Concepts-As-One-Liners</guid>
+			<pubDate>Mon, 25 May 2015 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Mixing the Domain</title>
+			<link>http://blog.sapiensworks.com/post/2014/09/04/Mixing-the-Domain.aspx</link>
+			<guid>http://blog.sapiensworks.com/post/2014/09/04/Mixing-the-Domain.aspx</guid>
+			<pubDate>Thu, 04 Sep 2014 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>What is the best way to do this? What is the best design pattern for this problem?</title>
+			<link>http://blog.sapiensworks.com/post/2014/05/19/-What-is-the-best-way-to-do-this-What-is-the-best-design-pattern-for-this-problem.aspx</link>
+			<guid>http://blog.sapiensworks.com/post/2014/05/19/-What-is-the-best-way-to-do-this-What-is-the-best-design-pattern-for-this-problem.aspx</guid>
+			<pubDate>Mon, 19 May 2014 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>TDD Is Not Slow</title>
+			<link>http://blog.sapiensworks.com/post/2013/07/17/-TDD-Is-Not-Slow.aspx</link>
+			<guid>http://blog.sapiensworks.com/post/2013/07/17/-TDD-Is-Not-Slow.aspx</guid>
+			<pubDate>Wed, 17 Jul 2013 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Message Driven Architecture Explained - Eventual Consistency and Saga</title>
+			<link>http://blog.sapiensworks.com/post/2013/04/30/Message-Driven-Architecture-Explained-Eventual-Consistency-and-Saga.aspx</link>
+			<guid>http://blog.sapiensworks.com/post/2013/04/30/Message-Driven-Architecture-Explained-Eventual-Consistency-and-Saga.aspx</guid>
+			<pubDate>Tue, 30 Apr 2013 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Domain Driven Design - Aggregate Root Modelling Fallacy</title>
+			<link>http://blog.sapiensworks.com/post/2013/01/15/Domain-Driven-Design-Aggregate-Root-Modelling-Fallacy.aspx</link>
+			<guid>http://blog.sapiensworks.com/post/2013/01/15/Domain-Driven-Design-Aggregate-Root-Modelling-Fallacy.aspx</guid>
+			<pubDate>Tue, 15 Jan 2013 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>DDD Model Validation (Part I)</title>
+			<link>http://blog.sapiensworks.com/post/2011/04/30/DDD-Model-Validation-Part-I.aspx</link>
+			<guid>http://blog.sapiensworks.com/post/2011/04/30/DDD-Model-Validation-Part-I.aspx</guid>
+			<pubDate>Sat, 30 Apr 2011 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Using Discriminated Unions In C#</title>
+			<link>http://blog.sapiensworks.com/post/2016/05/14/discriminated-unions-option-csharp</link>
+			<guid>http://blog.sapiensworks.com/post/2016/05/14/discriminated-unions-option-csharp</guid>
+			<pubDate>Sat, 14 May 2016 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Functional Programming vs OOP</title>
+			<link>http://blog.sapiensworks.com/post/2015/07/30/Functional-Programming-vs-OOP</link>
+			<guid>http://blog.sapiensworks.com/post/2015/07/30/Functional-Programming-vs-OOP</guid>
+			<pubDate>Thu, 30 Jul 2015 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>DDD - Identifying Bounded Contexts and Aggregates, Entities and Value Objects</title>
+			<link>http://blog.sapiensworks.com/post/2014/10/31/DDD-Identifying-Bounded-Contexts-and-Aggregates-Entities-and-Value-Objects.aspx</link>
+			<guid>http://blog.sapiensworks.com/post/2014/10/31/DDD-Identifying-Bounded-Contexts-and-Aggregates-Entities-and-Value-Objects.aspx</guid>
+			<pubDate>Fri, 31 Oct 2014 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Tips To Be More Productive (.Net/Java Edition)</title>
+			<link>http://blog.sapiensworks.com/post/2014/05/27/Tips-To-Be-More-Productive-(NetJava-Edition).aspx</link>
+			<guid>http://blog.sapiensworks.com/post/2014/05/27/Tips-To-Be-More-Productive-(NetJava-Edition).aspx</guid>
+			<pubDate>Tue, 27 May 2014 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>CRUD vs DDD</title>
+			<link>http://blog.sapiensworks.com/post/2013/09/16/CRUD-vs-DDD.aspx</link>
+			<guid>http://blog.sapiensworks.com/post/2013/09/16/CRUD-vs-DDD.aspx</guid>
+			<pubDate>Mon, 16 Sep 2013 00:00:00 GMT</pubDate>
 		</item>
 	</channel>
 </rss>
