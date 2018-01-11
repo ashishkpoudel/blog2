@@ -336,4 +336,8 @@ main article pre > code.hljs {
 .accordion-content.default {
   display: block;
 }
+
+div.sharethis-* {
+  margin: 1rem;
+}
 /*# sourceMappingURL=style.css.map */

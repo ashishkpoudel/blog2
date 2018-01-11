@@ -11,11 +11,19 @@
  </div>
  <footer>
    <div class="sharethis-inline-share-buttons"></div>
-   @if(Metadata["Prev"]!=null)
-   { <a class="previous" href="/@Metadata["Prev"]">&laquo; Previous</a> }
+@{
+  var prev=Metadata["Prev"]?.ToString();
+  var next=Metadata["Next"]?.ToString();
 
-   @if(Metadata["Next"]!=null)
-   { <a class="next" href="/@Metadata["Next"]">Next &raquo;</a> }
+  prev=prev?.Substring(0,prev.Length-5);
+  next=next?.Substring(0,next.Length-5);
+}
+
+   @if(prev!=null)
+   { <a class="previous" href="/@prev">&laquo; Previous</a> }
+
+   @if(next!=null)
+   { <a class="next" href="/@next">Next &raquo;</a> }
    
  </footer>
   </article>
