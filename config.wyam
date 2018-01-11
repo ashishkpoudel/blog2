@@ -24,14 +24,14 @@ OrderBy((d,c)=>DateTime.Parse(d.Metadata["published"].ToString())).Descending(),
 	Meta("Filename",@doc.Source.FileNameWithoutExtension.ToString()),
 		Markdown(),		
 		Meta("Post", @doc.Content),  // Move the markdown content to metadata
-		Meta("PostFile", $"post/{DateTime.Parse(@doc["published"].ToString()).ToString("yyyy/MM/dd")}/{((string)@doc.Metadata["Filename"]).Replace(' ', '-').Replace(',','-')}.html"), 
+		Meta("PostFile", $"post/{DateTime.Parse(@doc["published"].ToString()).ToString("yyyy/MM/dd")}/{((string)@doc.Metadata["Filename"]).Replace(' ', '-').Replace(',','-')}"), 
 	PrevNext(),
 	Merge(
         ReadFiles("posts/post.cshtml")  // Load the Razor post page template
     ),
 	Razor(),  // Compile and render the page template
 	
-	WriteFiles((string)@doc.Metadata["PostFile"])  // Write the post file 
+	WriteFiles((string)@doc.Metadata["PostFile"]+".html")  // Write the post file 
  	,
 	Branch(
 		// Put the GenerateFeeds module inside a Branch module so that the feed
@@ -53,7 +53,7 @@ Index(),
 	Meta("Filename",@doc.Source.FileNameWithoutExtension.ToString()),
 		Markdown(),
 		Meta("Post", @doc.Content),  // Move the markdown content to metadata
-		Meta("PostFile", $"post/{DateTime.Parse(@doc["published"].ToString()).ToString("yyyy/MM/dd")}/{((string)@doc.Metadata["Filename"]).Replace(' ', '-').Replace(',','-')}.html"), 
+		Meta("PostFile", $"post/{DateTime.Parse(@doc["published"].ToString()).ToString("yyyy/MM/dd")}/{((string)@doc.Metadata["Filename"]).Replace(' ', '-').Replace(',','-')}"), 
 	PrevNext(),
 	OrderBy((d,c)=>d.Metadata[Keys.Index]),
 	Take(1),
