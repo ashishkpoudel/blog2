@@ -4,19 +4,7 @@
 	<id>http://blog.sapiensworks.com/</id>
 	<title />
 	<rights>2018</rights>
-	<updated>2018-01-15T22:57:57Z</updated>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2018/01/09/Why-ORM-has-failed" />
-		<id>http://blog.sapiensworks.com/post/2018/01/09/Why-ORM-has-failed</id>
-		<title>It's Time To Let The ORM Go</title>
-		<updated>2018-01-09T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2016/08/22/DDD-Cqs-Cqrs" />
-		<id>http://blog.sapiensworks.com/post/2016/08/22/DDD-Cqs-Cqrs</id>
-		<title>DDD Decoded - Modelling with CQS</title>
-		<updated>2016-08-22T00:00:00Z</updated>
-	</entry>
+	<updated>2018-01-16T03:58:58Z</updated>
 	<entry>
 		<link href="http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-1" />
 		<id>http://blog.sapiensworks.com/post/2016/07/14/DDD-Aggregate-Decoded-1</id>
@@ -24,58 +12,64 @@
 		<updated>2016-07-14T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2016/05/12/ddd-is-expensive-myth" />
-		<id>http://blog.sapiensworks.com/post/2016/05/12/ddd-is-expensive-myth</id>
-		<title>DDD Is Expensive Is A Myth</title>
-		<updated>2016-05-12T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2014/04/22/Bending-The-Principles-Separation-of-Concerns.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/04/22/Bending-The-Principles-Separation-of-Concerns.aspx</id>
+		<title>Bending The Principles - Separation of Concerns</title>
+		<updated>2014-04-22T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2016/03/01/password-hashing-dot-net" />
-		<id>http://blog.sapiensworks.com/post/2016/03/01/password-hashing-dot-net</id>
-		<title>C# (.Net) Password Hashing The Easy Way</title>
-		<updated>2016-03-01T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2013/10/18/Modelling-Aggregate-Roots-Relationships.aspx" />
+		<id>http://blog.sapiensworks.com/post/2013/10/18/Modelling-Aggregate-Roots-Relationships.aspx</id>
+		<title>Modelling Aggregate Roots Relationships</title>
+		<updated>2013-10-18T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2015/12/16/confirmation-modal-with-aurelia-and-bootstrap" />
-		<id>http://blog.sapiensworks.com/post/2015/12/16/confirmation-modal-with-aurelia-and-bootstrap</id>
-		<title>Confirmation Modal With Aurelia And Bootstrap</title>
-		<updated>2015-12-16T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2013/09/16/CRUD-vs-DDD.aspx" />
+		<id>http://blog.sapiensworks.com/post/2013/09/16/CRUD-vs-DDD.aspx</id>
+		<title>CRUD vs DDD</title>
+		<updated>2013-09-16T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2015/08/26/How-To-Ensure-Idempotency" />
-		<id>http://blog.sapiensworks.com/post/2015/08/26/How-To-Ensure-Idempotency</id>
-		<title>How To Ensure Idempotency In An Eventual Consistent DDD/CQRS Application</title>
-		<updated>2015-08-26T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2013/04/30/Message-Driven-Architecture-Explained-Eventual-Consistency-and-Saga.aspx" />
+		<id>http://blog.sapiensworks.com/post/2013/04/30/Message-Driven-Architecture-Explained-Eventual-Consistency-and-Saga.aspx</id>
+		<title>Message Driven Architecture Explained - Eventual Consistency and Saga</title>
+		<updated>2013-04-30T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2015/07/18/CQRS-Generic-Controller" />
-		<id>http://blog.sapiensworks.com/post/2015/07/18/CQRS-Generic-Controller</id>
-		<title>Make Your CQRS Web App More Maintainable With a Generic Controller</title>
-		<updated>2015-07-18T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2012/04/19/Invoking-A-Private-Method-On-A-Subclass.aspx" />
+		<id>http://blog.sapiensworks.com/post/2012/04/19/Invoking-A-Private-Method-On-A-Subclass.aspx</id>
+		<title>Invoking A Private Method On A Subclass</title>
+		<updated>2012-04-19T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2014/10/31/DDD-Identifying-Bounded-Contexts-and-Aggregates-Entities-and-Value-Objects.aspx" />
-		<id>http://blog.sapiensworks.com/post/2014/10/31/DDD-Identifying-Bounded-Contexts-and-Aggregates-Entities-and-Value-Objects.aspx</id>
-		<title>DDD - Identifying Bounded Contexts and Aggregates, Entities and Value Objects</title>
-		<updated>2014-10-31T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2012/02/22/The-Repository-Pattern-Explained.aspx" />
+		<id>http://blog.sapiensworks.com/post/2012/02/22/The-Repository-Pattern-Explained.aspx</id>
+		<title>The Repository Pattern Explained</title>
+		<updated>2012-02-22T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2014/06/04/Unit-Of-Work-is-the-new-Singleton.aspx" />
-		<id>http://blog.sapiensworks.com/post/2014/06/04/Unit-Of-Work-is-the-new-Singleton.aspx</id>
-		<title>Unit Of Work is the new Singleton</title>
-		<updated>2014-06-04T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2016/07/29/DDD-Entities-Value-Objects-Explained" />
+		<id>http://blog.sapiensworks.com/post/2016/07/29/DDD-Entities-Value-Objects-Explained</id>
+		<title>DDD Decoded - Entities and Value Objects Explained</title>
+		<updated>2016-07-29T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2014/05/20/Is-OrderLine-an-Entity-or-A-Value-Object.aspx" />
-		<id>http://blog.sapiensworks.com/post/2014/05/20/Is-OrderLine-an-Entity-or-A-Value-Object.aspx</id>
-		<title>Is OrderLine an Entity or A Value Object</title>
-		<updated>2014-05-20T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2015/06/19/Functional-Programming-Holy-Wars" />
+		<id>http://blog.sapiensworks.com/post/2015/06/19/Functional-Programming-Holy-Wars</id>
+		<title>Functional Programming Holy Wars</title>
+		<updated>2015-06-19T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2014/05/08/A-Way-To-Provide-Immediate-Feedback-With-CQRS-Commands.aspx" />
-		<id>http://blog.sapiensworks.com/post/2014/05/08/A-Way-To-Provide-Immediate-Feedback-With-CQRS-Commands.aspx</id>
-		<title>A Way To Provide Immediate Feedback In CQRS</title>
-		<updated>2014-05-08T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2014/06/02/The-Repository-Pattern-For-Dummies.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/06/02/The-Repository-Pattern-For-Dummies.aspx</id>
+		<title>The Repository Pattern Explained (For Dummies)</title>
+		<updated>2014-06-02T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2014/05/19/-What-is-the-best-way-to-do-this-What-is-the-best-design-pattern-for-this-problem.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/05/19/-What-is-the-best-way-to-do-this-What-is-the-best-design-pattern-for-this-problem.aspx</id>
+		<title>What is the best way to do this? What is the best design pattern for this problem?</title>
+		<updated>2014-05-19T00:00:00Z</updated>
 	</entry>
 	<entry>
 		<link href="http://blog.sapiensworks.com/post/2014/01/15/DRY-Code-Rich-Code.aspx" />
@@ -84,45 +78,51 @@
 		<updated>2014-01-15T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2013/11/08/Domain-Modelling-Object-Behaviour-and-Use-Cases.aspx" />
-		<id>http://blog.sapiensworks.com/post/2013/11/08/Domain-Modelling-Object-Behaviour-and-Use-Cases.aspx</id>
-		<title>DDD Modelling - Object Behaviour and Use Cases</title>
-		<updated>2013-11-08T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2013/10/07/Tips-And-Tricks-For-The-Repository-Pattern.aspx" />
-		<id>http://blog.sapiensworks.com/post/2013/10/07/Tips-And-Tricks-For-The-Repository-Pattern.aspx</id>
-		<title>Tips And Tricks For The Repository Pattern</title>
-		<updated>2013-10-07T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2013/06/27/The-Fallacy-of-YAGNI.aspx" />
-		<id>http://blog.sapiensworks.com/post/2013/06/27/The-Fallacy-of-YAGNI.aspx</id>
-		<title>The Fallacy of YAGNI</title>
-		<updated>2013-06-27T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="http://blog.sapiensworks.com/post/2013/05/13/7-Biggest-Pitfalls-When-Doing-Domain-Driven-Design.aspx" />
-		<id>http://blog.sapiensworks.com/post/2013/05/13/7-Biggest-Pitfalls-When-Doing-Domain-Driven-Design.aspx</id>
-		<title>7 Biggest Pitfalls When Doing Domain Driven Design</title>
-		<updated>2013-05-13T00:00:00Z</updated>
-	</entry>
-	<entry>
 		<link href="http://blog.sapiensworks.com/post/2013/05/01/DDD-Persisting-Aggregate-Roots-In-A-Unit-Of-Work.aspx" />
 		<id>http://blog.sapiensworks.com/post/2013/05/01/DDD-Persisting-Aggregate-Roots-In-A-Unit-Of-Work.aspx</id>
 		<title>DDD - Persisting Aggregate Roots In A Unit Of Work</title>
 		<updated>2013-05-01T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2013/03/18/Http-Module-Dependecy-Injection-with-Autofac-Gotcha.aspx" />
-		<id>http://blog.sapiensworks.com/post/2013/03/18/Http-Module-Dependecy-Injection-with-Autofac-Gotcha.aspx</id>
-		<title>Http Module Dependecy Injection with Autofac Gotcha</title>
-		<updated>2013-03-18T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2012/04/20/DDD-Entities-And-Value-Objects-Explained.aspx" />
+		<id>http://blog.sapiensworks.com/post/2012/04/20/DDD-Entities-And-Value-Objects-Explained.aspx</id>
+		<title>DDD - Entities And Value Objects Explained</title>
+		<updated>2012-04-20T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="http://blog.sapiensworks.com/post/2012/12/29/How-to-Write-Loosely-Coupled-Code.aspx" />
-		<id>http://blog.sapiensworks.com/post/2012/12/29/How-to-Write-Loosely-Coupled-Code.aspx</id>
-		<title>How to Write Loosely Coupled Code</title>
-		<updated>2012-12-29T00:00:00Z</updated>
+		<link href="http://blog.sapiensworks.com/post/2012/03/05/The-Generic-Repository-Is-An-Anti-Pattern.aspx" />
+		<id>http://blog.sapiensworks.com/post/2012/03/05/The-Generic-Repository-Is-An-Anti-Pattern.aspx</id>
+		<title>The Generic Repository Is An Anti-Pattern</title>
+		<updated>2012-03-05T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2016/08/24/DDD-Relationships" />
+		<id>http://blog.sapiensworks.com/post/2016/08/24/DDD-Relationships</id>
+		<title>DDD Decoded - Domain Relationships Explained</title>
+		<updated>2016-08-24T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2016/03/01/password-hashing-dot-net" />
+		<id>http://blog.sapiensworks.com/post/2016/03/01/password-hashing-dot-net</id>
+		<title>C# (.Net) Password Hashing The Easy Way</title>
+		<updated>2016-03-01T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx" />
+		<id>http://blog.sapiensworks.com/post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx</id>
+		<title>Strategies To Restore Domain Entities</title>
+		<updated>2014-05-17T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2013/10/23/-Why-You-Should-Always-Use-CQRS-with-DDD.aspx" />
+		<id>http://blog.sapiensworks.com/post/2013/10/23/-Why-You-Should-Always-Use-CQRS-with-DDD.aspx</id>
+		<title>Why You Should Always Use CQRS with DDD</title>
+		<updated>2013-10-23T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="http://blog.sapiensworks.com/post/2013/08/07/Developer-vs-Programmer-Take-2.aspx" />
+		<id>http://blog.sapiensworks.com/post/2013/08/07/Developer-vs-Programmer-Take-2.aspx</id>
+		<title>Developer vs Programmer. Take 2</title>
+		<updated>2013-08-07T00:00:00Z</updated>
 	</entry>
 </feed>
