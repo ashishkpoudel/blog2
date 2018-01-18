@@ -1,6 +1,6 @@
  <article>
     <header>
-      <h1><a href="@Metadata["PostFile"]">@Metadata["Title"]</a></h1>
+      <h1><a href="/@Metadata["PostFile"]">@Metadata["Title"]</a></h1>
       <div class="article-meta">
       <span>published on &nbsp; <b>@DateTime.Parse(Metadata["Published"].ToString()).ToString("dd MMMM yyyy")</b></span> in <a href="/tags.html#@Metadata["tags"]">@Metadata["tags"]</a>
     </div>
