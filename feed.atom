@@ -4,13 +4,7 @@
 	<id>http://blog.sapiensworks.com/</id>
 	<title>SapiensWorks Articles</title>
 	<rights>2018</rights>
-	<updated>2018-01-25T04:37:08Z</updated>
-	<entry>
-		<link href="post/2018/01/25/Why-you-dont-need-microservices" />
-		<id>post/2018/01/25/Why-you-dont-need-microservices</id>
-		<title>No, You Don't Need To Use Microservices</title>
-		<updated>2018-01-25T00:00:00Z</updated>
-	</entry>
+	<updated>2018-01-25T04:40:16Z</updated>
 	<entry>
 		<link href="post/2018/01/22/Why-do-we-need-eventual-consistency" />
 		<id>post/2018/01/22/Why-do-we-need-eventual-consistency</id>
@@ -304,5 +298,11 @@
 		<id>post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx</id>
 		<title>Strategies To Restore Domain Entities</title>
 		<updated>2014-05-17T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="post/2014/05/08/A-Way-To-Provide-Immediate-Feedback-With-CQRS-Commands.aspx" />
+		<id>post/2014/05/08/A-Way-To-Provide-Immediate-Feedback-With-CQRS-Commands.aspx</id>
+		<title>A Way To Provide Immediate Feedback In CQRS</title>
+		<updated>2014-05-08T00:00:00Z</updated>
 	</entry>
 </feed>
