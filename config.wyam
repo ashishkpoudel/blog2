@@ -30,19 +30,29 @@ OrderBy((d,c)=>DateTime.Parse(d.Metadata["published"].ToString())).Descending(),
         ReadFiles("posts/post.cshtml")  // Load the Razor post page template
     ),
 	Razor(),  // Compile and render the page template
-	
-	WriteFiles((string)@doc.Metadata["PostFile"]+".html")  // Write the post file 
- 	,
-	Branch(
-		// Put the GenerateFeeds module inside a Branch module so that the feed
-		// documents don't get added to the set of output documents for this pipeline
-		GenerateFeeds(),
+	WriteFiles((string)@doc.Metadata["PostFile"]+".html")  // Write the post file 		
+);
+
+
+
+Pipelines.Add("Feeds",
+ReadFiles("posts/*.md"),
+
+	FrontMatter(Yaml()),
+	Meta("Filename",@doc.Source.FileNameWithoutExtension.ToString()),
+	Meta("PostFile", $"post/{DateTime.Parse(@doc["published"].ToString()).ToString("yyyy/MM/dd")}/{((string)@doc.Metadata["Filename"]).Replace(' ', '-').Replace(',','-')}"), 
+ OrderBy((d,c)=>d.DateTime("published")).Descending(),
+	GenerateFeeds().MaximumItems(50).WithFeedTitle(_=>"SapiensWorks Articles")
+	.WithItemLink((d,c)=>d.String("PostFile"))
+	.WithItemId((d,c)=>d.String("PostFile"))
+	,
 		WriteFiles()
-	) 
-		
-	
-	
-);	
+);
+
+
+
+
+
 Pipelines.Add("Home",
 	ReadFiles("posts/*.md"),
 	
