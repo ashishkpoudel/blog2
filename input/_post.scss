@@ -55,7 +55,11 @@ main{
           em{
               font-style: italic;              
           }
-         
+         img{
+             display: block;
+             margin: 0 auto;
+             width:80%;
+         }
         p{
             line-height: 1.5;
             font-size: .85em;
