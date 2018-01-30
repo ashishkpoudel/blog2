@@ -5,8 +5,8 @@
 		<link>http://blog.sapiensworks.com/</link>
 		<description />
 		<copyright>2018</copyright>
-		<pubDate>Tue, 30 Jan 2018 04:11:26 GMT</pubDate>
-		<lastBuildDate>Tue, 30 Jan 2018 04:11:26 GMT</lastBuildDate>
+		<pubDate>Tue, 30 Jan 2018 04:17:15 GMT</pubDate>
+		<lastBuildDate>Tue, 30 Jan 2018 04:17:15 GMT</lastBuildDate>
 		<item>
 			<title>Microservices - These Are Not The Droids You're Looking For</title>
 			<link>post/2018/01/29/Why-you-dont-need-microservices</link>
@@ -92,15 +92,15 @@
 			<pubDate>Sat, 23 Jul 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
-			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</title>
-			<link>post/2016/07/14/DDD-Aggregate-Decoded-3</link>
-			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-3</guid>
-			<pubDate>Thu, 14 Jul 2016 00:00:00 GMT</pubDate>
-		</item>
-		<item>
 			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 1)</title>
 			<link>post/2016/07/14/DDD-Aggregate-Decoded-1</link>
 			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-1</guid>
+			<pubDate>Thu, 14 Jul 2016 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</title>
+			<link>post/2016/07/14/DDD-Aggregate-Decoded-3</link>
+			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-3</guid>
 			<pubDate>Thu, 14 Jul 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
