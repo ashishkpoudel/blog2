@@ -4,7 +4,7 @@
 	<id>http://blog.sapiensworks.com/</id>
 	<title>SapiensWorks Articles</title>
 	<rights>2018</rights>
-	<updated>2018-01-30T04:05:09Z</updated>
+	<updated>2018-01-30T04:11:26Z</updated>
 	<entry>
 		<link href="post/2018/01/29/Why-you-dont-need-microservices" />
 		<id>post/2018/01/29/Why-you-dont-need-microservices</id>
@@ -90,6 +90,12 @@
 		<updated>2016-07-23T00:00:00Z</updated>
 	</entry>
 	<entry>
+		<link href="post/2016/07/14/DDD-Aggregate-Decoded-3" />
+		<id>post/2016/07/14/DDD-Aggregate-Decoded-3</id>
+		<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</title>
+		<updated>2016-07-14T00:00:00Z</updated>
+	</entry>
+	<entry>
 		<link href="post/2016/07/14/DDD-Aggregate-Decoded-1" />
 		<id>post/2016/07/14/DDD-Aggregate-Decoded-1</id>
 		<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 1)</title>
@@ -99,12 +105,6 @@
 		<link href="post/2016/07/14/DDD-Aggregate-Decoded-2" />
 		<id>post/2016/07/14/DDD-Aggregate-Decoded-2</id>
 		<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 2)</title>
-		<updated>2016-07-14T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="post/2016/07/14/DDD-Aggregate-Decoded-3" />
-		<id>post/2016/07/14/DDD-Aggregate-Decoded-3</id>
-		<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</title>
 		<updated>2016-07-14T00:00:00Z</updated>
 	</entry>
 	<entry>
