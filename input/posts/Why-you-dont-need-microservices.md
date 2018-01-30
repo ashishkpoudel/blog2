@@ -1,6 +1,6 @@
 Title : Microservices - These Are Not The Droids You're Looking For
 Tags : Architecture
-Published : 2018-01-25
+Published : 2018-01-29
 ---
 
 Quite often these days, while reading job ads I see the "microservices" requirement, sometimes even for junior positions. Microservices have become such a buzzword (next to XML and JSON - I've seen them in the same enumeration, literally) that everyone thinks they're needed. It's like:"Oh, we have a monolith right now, a big ball of mud and we want to switch to microservices". 'Cuz obviously monolith = bad coupling, microservices = good design.
