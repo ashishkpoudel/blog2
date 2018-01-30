@@ -5,8 +5,14 @@
 		<link>http://blog.sapiensworks.com/</link>
 		<description />
 		<copyright>2018</copyright>
-		<pubDate>Thu, 25 Jan 2018 04:40:16 GMT</pubDate>
-		<lastBuildDate>Thu, 25 Jan 2018 04:40:16 GMT</lastBuildDate>
+		<pubDate>Tue, 30 Jan 2018 04:05:09 GMT</pubDate>
+		<lastBuildDate>Tue, 30 Jan 2018 04:05:09 GMT</lastBuildDate>
+		<item>
+			<title>Microservices - These Are Not The Droids You're Looking For</title>
+			<link>post/2018/01/29/Why-you-dont-need-microservices</link>
+			<guid isPermaLink="false">post/2018/01/29/Why-you-dont-need-microservices</guid>
+			<pubDate>Mon, 29 Jan 2018 00:00:00 GMT</pubDate>
+		</item>
 		<item>
 			<title>Why Do We Bother With Eventual Consistency?</title>
 			<link>post/2018/01/22/Why-do-we-need-eventual-consistency</link>
@@ -86,12 +92,6 @@
 			<pubDate>Sat, 23 Jul 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
-			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</title>
-			<link>post/2016/07/14/DDD-Aggregate-Decoded-3</link>
-			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-3</guid>
-			<pubDate>Thu, 14 Jul 2016 00:00:00 GMT</pubDate>
-		</item>
-		<item>
 			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 1)</title>
 			<link>post/2016/07/14/DDD-Aggregate-Decoded-1</link>
 			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-1</guid>
@@ -101,6 +101,12 @@
 			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 2)</title>
 			<link>post/2016/07/14/DDD-Aggregate-Decoded-2</link>
 			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-2</guid>
+			<pubDate>Thu, 14 Jul 2016 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</title>
+			<link>post/2016/07/14/DDD-Aggregate-Decoded-3</link>
+			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-3</guid>
 			<pubDate>Thu, 14 Jul 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
@@ -300,12 +306,6 @@
 			<link>post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx</link>
 			<guid isPermaLink="false">post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx</guid>
 			<pubDate>Sat, 17 May 2014 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>A Way To Provide Immediate Feedback In CQRS</title>
-			<link>post/2014/05/08/A-Way-To-Provide-Immediate-Feedback-With-CQRS-Commands.aspx</link>
-			<guid isPermaLink="false">post/2014/05/08/A-Way-To-Provide-Immediate-Feedback-With-CQRS-Commands.aspx</guid>
-			<pubDate>Thu, 08 May 2014 00:00:00 GMT</pubDate>
 		</item>
 	</channel>
 </rss>
