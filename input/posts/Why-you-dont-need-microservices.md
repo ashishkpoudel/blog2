@@ -5,7 +5,8 @@ Published : 2018-01-29
 
 Quite often these days, while reading job ads I see the "microservices" requirement, sometimes even for junior positions. Microservices have become such a buzzword (next to XML and JSON - I've seen them in the same enumeration, literally) that everyone thinks they're needed. It's like:"Oh, we have a monolith right now, a big ball of mud and we want to switch to microservices". 'Cuz obviously monolith = bad coupling, microservices = good design.
 
-In practice, the following image represents the reality. ![Monolith and microservices are both shit](https://image.slidesharecdn.com/micro-services-150905213111-lva1-app6891/95/micro-services-24-638.jpg?cb=1441537431).
+In practice, the following image represents the reality.
+![Monolith and microservices are both shit](https://image.slidesharecdn.com/micro-services-150905213111-lva1-app6891/95/micro-services-24-638.jpg?cb=1441537431).
 
 Sad but true.
 
@@ -16,6 +17,7 @@ That's one myth that needs busting: going distributed in any form (mS, 'old' SOA
 Few applications have the need to be a group of microservices from the beginning. Most apps can start as monoliths or a bulk of functionality as monolith and some need-to-scale functionality as microservice. But these are implementations details in the end.
 
 Let's look at the following architecture (taken from my DDD presentation at DevTeach 2016)
+![Main design](https://i.imgur.com/riqUfCC.png)
 
 At an abstract level the app is organised as components a.k.a vertical slices (that we can group further into UI, Domain and Application) that communicate in a decoupled manner by using a pub-sub approach. The 'rules' are simple: any functionality inside a component can send a command (that can be handled anywhere in the app - except UI) and every component has event handlers that will listen to events (usually Domain Events, but it depends) that are of interest to the model. Nothing new here and it actually resembles microservices.
 
@@ -24,6 +26,7 @@ But it's not. It's just how we **look** at things, identifying model boundaries,
 My point is here to show that a fancy high level architecture doesn't mean a complex implementation. As long as boundaries and their responsibilities are respected, you can go wild (as in simple :P ) with the implementation.
 
 Let's take a look at the UI.
+![UI](https://i.imgur.com/xiw0562.png)
 
 Easy to recognise a CQRS approach. Well, it's actually CQS but at this point it's just semantics. What matters is the UI doesn't handle commands at all, but it maintains its own read model to handle most if not all queries. Let's assume we're working on a simple app (one project) using with your favourite MVC framework. Since we don't handle commands i.e doing business logic in the UI (controller), we can put it into a nice service (class) in a different namespace, inject it in the controller, have the action invoke the method. Very easy and now that simple business logic is no longer part of the UI (from a design point of view). Yes, things change a bit if the command handler is in a different component hosted on its own server, but even then, the bulk of the use case code kinda stays the same, mostly the infrastructure bits need to change.
 
