@@ -10,7 +10,7 @@ In practice, the following image represents the reality.
 
 Sad but true.
 
-Personally, I'm a big fan of microservices(mS), but most people are missing the point: the value of mS lie in proper design, while the whole recipe is more of an implementation detail. But guess what? Proper design is required anyway, going distributed doesn't guarantee a _good design_. It guarantees, though, more complexity and higher costs.
+Personally, I'm a big fan of microservices(mS), but most people are missing the point: the value of mS lies in proper design, while the whole recipe is more of an implementation detail. But guess what? Proper design is required anyway, going distributed doesn't guarantee a _good design_. It guarantees, though, more complexity and higher costs.
 
 That's one myth that needs busting: going distributed in any form (mS, 'old' SOA, serverless) doesn't automatically mean maintainability and scalability i.e good design, while using a monolith shouldn't automatically imply bad design. Sure, a monolith has its limits, but with a well designed app you can extract easily the relevant parts that needs to scale and make them microservices.
 
@@ -24,7 +24,7 @@ At an abstract level the app is organised as components a.k.a vertical slices (t
 
 But it's not. It's just how we **look** at things, identifying model boundaries, UI/API functionality and how components communicate in the most decoupled manner. The main idea here is to **establish responsibilities and boundaries**. Do we really need a separate project for each component or a service bus? No, we can choose the easiest _implementation_ that respects the boundaries. I can 'enforce' boundaries by having each component in its own namespace (a soft boundary, but still a boundary) and the message bus can be an in-memory mediator (something like [MediatR](https://github.com/jbogard/MediatR) or equivalent in your stack).
 
-My point is here to show that a fancy high level architecture doesn't mean a complex implementation. As long as boundaries and their responsibilities are respected, you can go wild (as in simple :P ) with the implementation.
+My point here is to show that a fancy high level architecture doesn't mean a complex implementation. As long as boundaries and their responsibilities are respected, you can go wild (as in simple :P ) with the implementation.
 
 Let's take a look at the UI.
 
@@ -34,7 +34,7 @@ Easy to recognise a CQRS approach. Well, it's actually CQS but at this point it'
 
 In a way, this is our objective: when scaling an app we want to change anything business related as little as possible, working mainly on the infrastructure.
 
-What about that read model, is that a specific db? No, from a design point of view it's everything you need (data structures, db schema etc) to return app queries (read functionality). Sure, the UI is the 'owner' of that read model (which can be more than one), but the actual implementation should be, again, as simple as possible. This means using the same db schema that other components write to. You really need very good reasons to have a dedicated storage for your UI or any other component, as costs and complexity just increases.
+What about that read model, is that a specific db? No, from a design point of view it's everything you need (data structures, db schema etc) to return app queries (read functionality). Sure, the UI is the 'owner' of that read model (which can be more than one), but the actual implementation should be, again, as simple as possible. This means using the same db schema that other components write to. You really need very good reasons to have a dedicated storage for your UI or any other component, as costs and complexity just increase.
 
 For other components (Domain or not) things are similar, we can still have a specific model and apply CQRS at both application and persistence level, but in abstract terms it will still be a command or query model. We can consider the persistence as an abstraction, like some storage where business state exists, but we don't know details. The actual implementation can share the db at least for reading or for everything or each component can have their very own, isolated db. It depends on the scalability needs.
 
