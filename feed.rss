@@ -5,8 +5,14 @@
 		<link>http://blog.sapiensworks.com/</link>
 		<description />
 		<copyright>2018</copyright>
-		<pubDate>Wed, 31 Jan 2018 17:44:05 GMT</pubDate>
-		<lastBuildDate>Wed, 31 Jan 2018 17:44:05 GMT</lastBuildDate>
+		<pubDate>Mon, 19 Feb 2018 15:35:09 GMT</pubDate>
+		<lastBuildDate>Mon, 19 Feb 2018 15:35:09 GMT</lastBuildDate>
+		<item>
+			<title>Understanding The Mindset of Event Sourcing</title>
+			<link>post/2018/02/19/event-sourcing-mindset</link>
+			<guid isPermaLink="false">post/2018/02/19/event-sourcing-mindset</guid>
+			<pubDate>Mon, 19 Feb 2018 00:00:00 GMT</pubDate>
+		</item>
 		<item>
 			<title>Microservices - These Are Not The Droids You're Looking For</title>
 			<link>post/2018/01/29/Why-you-dont-need-microservices</link>
@@ -300,12 +306,6 @@
 			<link>post/2014/05/19/-What-is-the-best-way-to-do-this-What-is-the-best-design-pattern-for-this-problem.aspx</link>
 			<guid isPermaLink="false">post/2014/05/19/-What-is-the-best-way-to-do-this-What-is-the-best-design-pattern-for-this-problem.aspx</guid>
 			<pubDate>Mon, 19 May 2014 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>Strategies To Restore Domain Entities</title>
-			<link>post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx</link>
-			<guid isPermaLink="false">post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx</guid>
-			<pubDate>Sat, 17 May 2014 00:00:00 GMT</pubDate>
 		</item>
 	</channel>
 </rss>

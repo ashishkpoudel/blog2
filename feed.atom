@@ -4,7 +4,13 @@
 	<id>http://blog.sapiensworks.com/</id>
 	<title>SapiensWorks Articles</title>
 	<rights>2018</rights>
-	<updated>2018-01-31T17:44:05Z</updated>
+	<updated>2018-02-19T15:35:09Z</updated>
+	<entry>
+		<link href="post/2018/02/19/event-sourcing-mindset" />
+		<id>post/2018/02/19/event-sourcing-mindset</id>
+		<title>Understanding The Mindset of Event Sourcing</title>
+		<updated>2018-02-19T00:00:00Z</updated>
+	</entry>
 	<entry>
 		<link href="post/2018/01/29/Why-you-dont-need-microservices" />
 		<id>post/2018/01/29/Why-you-dont-need-microservices</id>
@@ -298,11 +304,5 @@
 		<id>post/2014/05/19/-What-is-the-best-way-to-do-this-What-is-the-best-design-pattern-for-this-problem.aspx</id>
 		<title>What is the best way to do this? What is the best design pattern for this problem?</title>
 		<updated>2014-05-19T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx" />
-		<id>post/2014/05/17/Strategies-To-Restore-Domain-Entities-.aspx</id>
-		<title>Strategies To Restore Domain Entities</title>
-		<updated>2014-05-17T00:00:00Z</updated>
 	</entry>
 </feed>
