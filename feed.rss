@@ -5,8 +5,14 @@
 		<link>http://blog.sapiensworks.com/</link>
 		<description />
 		<copyright>2018</copyright>
-		<pubDate>Mon, 19 Feb 2018 15:35:09 GMT</pubDate>
-		<lastBuildDate>Mon, 19 Feb 2018 15:35:09 GMT</lastBuildDate>
+		<pubDate>Wed, 21 Feb 2018 13:47:02 GMT</pubDate>
+		<lastBuildDate>Wed, 21 Feb 2018 13:47:02 GMT</lastBuildDate>
+		<item>
+			<title>Understanding Technical Debt For Non-Technical Stakeholders</title>
+			<link>post/2018/02/21/Explaining-technical-debt</link>
+			<guid isPermaLink="false">post/2018/02/21/Explaining-technical-debt</guid>
+			<pubDate>Wed, 21 Feb 2018 00:00:00 GMT</pubDate>
+		</item>
 		<item>
 			<title>Understanding The Mindset of Event Sourcing</title>
 			<link>post/2018/02/19/event-sourcing-mindset</link>
@@ -98,9 +104,9 @@
 			<pubDate>Sat, 23 Jul 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
-			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</title>
-			<link>post/2016/07/14/DDD-Aggregate-Decoded-3</link>
-			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-3</guid>
+			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 2)</title>
+			<link>post/2016/07/14/DDD-Aggregate-Decoded-2</link>
+			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-2</guid>
 			<pubDate>Thu, 14 Jul 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
@@ -110,9 +116,9 @@
 			<pubDate>Thu, 14 Jul 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
-			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 2)</title>
-			<link>post/2016/07/14/DDD-Aggregate-Decoded-2</link>
-			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-2</guid>
+			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</title>
+			<link>post/2016/07/14/DDD-Aggregate-Decoded-3</link>
+			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-3</guid>
 			<pubDate>Thu, 14 Jul 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
@@ -300,12 +306,6 @@
 			<link>post/2014/05/20/Is-OrderLine-an-Entity-or-A-Value-Object.aspx</link>
 			<guid isPermaLink="false">post/2014/05/20/Is-OrderLine-an-Entity-or-A-Value-Object.aspx</guid>
 			<pubDate>Tue, 20 May 2014 00:00:00 GMT</pubDate>
-		</item>
-		<item>
-			<title>What is the best way to do this? What is the best design pattern for this problem?</title>
-			<link>post/2014/05/19/-What-is-the-best-way-to-do-this-What-is-the-best-design-pattern-for-this-problem.aspx</link>
-			<guid isPermaLink="false">post/2014/05/19/-What-is-the-best-way-to-do-this-What-is-the-best-design-pattern-for-this-problem.aspx</guid>
-			<pubDate>Mon, 19 May 2014 00:00:00 GMT</pubDate>
 		</item>
 	</channel>
 </rss>

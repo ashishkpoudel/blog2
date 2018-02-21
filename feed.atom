@@ -4,7 +4,13 @@
 	<id>http://blog.sapiensworks.com/</id>
 	<title>SapiensWorks Articles</title>
 	<rights>2018</rights>
-	<updated>2018-02-19T15:35:09Z</updated>
+	<updated>2018-02-21T13:47:02Z</updated>
+	<entry>
+		<link href="post/2018/02/21/Explaining-technical-debt" />
+		<id>post/2018/02/21/Explaining-technical-debt</id>
+		<title>Understanding Technical Debt For Non-Technical Stakeholders</title>
+		<updated>2018-02-21T00:00:00Z</updated>
+	</entry>
 	<entry>
 		<link href="post/2018/02/19/event-sourcing-mindset" />
 		<id>post/2018/02/19/event-sourcing-mindset</id>
@@ -96,9 +102,9 @@
 		<updated>2016-07-23T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="post/2016/07/14/DDD-Aggregate-Decoded-3" />
-		<id>post/2016/07/14/DDD-Aggregate-Decoded-3</id>
-		<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</title>
+		<link href="post/2016/07/14/DDD-Aggregate-Decoded-2" />
+		<id>post/2016/07/14/DDD-Aggregate-Decoded-2</id>
+		<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 2)</title>
 		<updated>2016-07-14T00:00:00Z</updated>
 	</entry>
 	<entry>
@@ -108,9 +114,9 @@
 		<updated>2016-07-14T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="post/2016/07/14/DDD-Aggregate-Decoded-2" />
-		<id>post/2016/07/14/DDD-Aggregate-Decoded-2</id>
-		<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 2)</title>
+		<link href="post/2016/07/14/DDD-Aggregate-Decoded-3" />
+		<id>post/2016/07/14/DDD-Aggregate-Decoded-3</id>
+		<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</title>
 		<updated>2016-07-14T00:00:00Z</updated>
 	</entry>
 	<entry>
@@ -298,11 +304,5 @@
 		<id>post/2014/05/20/Is-OrderLine-an-Entity-or-A-Value-Object.aspx</id>
 		<title>Is OrderLine an Entity or A Value Object</title>
 		<updated>2014-05-20T00:00:00Z</updated>
-	</entry>
-	<entry>
-		<link href="post/2014/05/19/-What-is-the-best-way-to-do-this-What-is-the-best-design-pattern-for-this-problem.aspx" />
-		<id>post/2014/05/19/-What-is-the-best-way-to-do-this-What-is-the-best-design-pattern-for-this-problem.aspx</id>
-		<title>What is the best way to do this? What is the best design pattern for this problem?</title>
-		<updated>2014-05-19T00:00:00Z</updated>
 	</entry>
 </feed>
