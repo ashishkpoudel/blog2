@@ -5,8 +5,8 @@
 		<link>http://blog.sapiensworks.com/</link>
 		<description />
 		<copyright>2018</copyright>
-		<pubDate>Wed, 21 Feb 2018 13:47:02 GMT</pubDate>
-		<lastBuildDate>Wed, 21 Feb 2018 13:47:02 GMT</lastBuildDate>
+		<pubDate>Sun, 11 Mar 2018 23:47:15 GMT</pubDate>
+		<lastBuildDate>Sun, 11 Mar 2018 23:47:15 GMT</lastBuildDate>
 		<item>
 			<title>Understanding Technical Debt For Non-Technical Stakeholders</title>
 			<link>post/2018/02/21/Explaining-technical-debt</link>
@@ -104,12 +104,6 @@
 			<pubDate>Sat, 23 Jul 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
-			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 2)</title>
-			<link>post/2016/07/14/DDD-Aggregate-Decoded-2</link>
-			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-2</guid>
-			<pubDate>Thu, 14 Jul 2016 00:00:00 GMT</pubDate>
-		</item>
-		<item>
 			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 1)</title>
 			<link>post/2016/07/14/DDD-Aggregate-Decoded-1</link>
 			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-1</guid>
@@ -119,6 +113,12 @@
 			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</title>
 			<link>post/2016/07/14/DDD-Aggregate-Decoded-3</link>
 			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-3</guid>
+			<pubDate>Thu, 14 Jul 2016 00:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 2)</title>
+			<link>post/2016/07/14/DDD-Aggregate-Decoded-2</link>
+			<guid isPermaLink="false">post/2016/07/14/DDD-Aggregate-Decoded-2</guid>
 			<pubDate>Thu, 14 Jul 2016 00:00:00 GMT</pubDate>
 		</item>
 		<item>
