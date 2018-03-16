@@ -4,7 +4,7 @@
 	<id>http://blog.sapiensworks.com/</id>
 	<title>SapiensWorks Articles</title>
 	<rights>2018</rights>
-	<updated>2018-03-11T23:47:15Z</updated>
+	<updated>2018-03-16T21:33:23Z</updated>
 	<entry>
 		<link href="post/2018/02/21/Explaining-technical-debt" />
 		<id>post/2018/02/21/Explaining-technical-debt</id>
@@ -102,15 +102,15 @@
 		<updated>2016-07-23T00:00:00Z</updated>
 	</entry>
 	<entry>
-		<link href="post/2016/07/14/DDD-Aggregate-Decoded-1" />
-		<id>post/2016/07/14/DDD-Aggregate-Decoded-1</id>
-		<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 1)</title>
-		<updated>2016-07-14T00:00:00Z</updated>
-	</entry>
-	<entry>
 		<link href="post/2016/07/14/DDD-Aggregate-Decoded-3" />
 		<id>post/2016/07/14/DDD-Aggregate-Decoded-3</id>
 		<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 3)</title>
+		<updated>2016-07-14T00:00:00Z</updated>
+	</entry>
+	<entry>
+		<link href="post/2016/07/14/DDD-Aggregate-Decoded-1" />
+		<id>post/2016/07/14/DDD-Aggregate-Decoded-1</id>
+		<title>DDD Decoded - The Aggregate and Aggregate Root Explained (Part 1)</title>
 		<updated>2016-07-14T00:00:00Z</updated>
 	</entry>
 	<entry>
